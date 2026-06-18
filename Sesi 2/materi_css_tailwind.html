@@ -176,6 +176,7 @@
       overflow-x: auto;
       margin: .8rem 0;
       white-space: pre;
+      position: relative;
     }
     .code-block .sel   { color: #f472b6; } /* selector */
     .code-block .prop  { color: #60a5fa; } /* property */
@@ -185,6 +186,26 @@
     .code-block .attr  { color: #34d399; }
     .code-block .str   { color: #fbbf24; }
     .code-block .tw    { color: #a78bfa; } /* tailwind class */
+    
+    /* Copy Button */
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s, color 0.2s;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
 
     /* ============================================================
        INFO BOX
@@ -1288,5 +1309,33 @@
     <p style="margin-top:.35rem; font-size:.78rem;">File ini mencakup materi Sesi 9 (CSS) &amp; Sesi 10 (Framework CSS — Tailwind) beserta bonus materi tambahan.</p>
   </footer>
 
+  <script>
+    document.querySelectorAll('.code-block').forEach(function(codeBlock) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.innerText = '📋 Copy';
+      
+      codeBlock.appendChild(btn);
+      
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var tempNode = codeBlock.cloneNode(true);
+        var buttonInTemp = tempNode.querySelector('.copy-btn');
+        if (buttonInTemp) {
+          buttonInTemp.remove();
+        }
+        var textToCopy = tempNode.innerText;
+        
+        navigator.clipboard.writeText(textToCopy).then(function() {
+          btn.innerText = '✅ Copied!';
+          setTimeout(function() {
+            btn.innerText = '📋 Copy';
+          }, 2000);
+        }).catch(function(err) {
+          console.error('Failed to copy text: ', err);
+        });
+      });
+    });
+  </script>
 </body>
 </html>

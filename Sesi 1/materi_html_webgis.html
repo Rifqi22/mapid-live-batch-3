@@ -183,11 +183,32 @@
       line-height: 1.6;
       overflow-x: auto;
       margin: .8rem 0;
+      position: relative;
     }
     .code-block .tag    { color: #60a5fa; }  /* Tag HTML */
     .code-block .attr   { color: #34d399; }  /* Atribut */
     .code-block .val    { color: #fbbf24; }  /* Nilai atribut */
     .code-block .komen  { color: #94a3b8; font-style: italic; } /* Komentar */
+    
+    /* Copy Button */
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s, color 0.2s;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
 
     /* ---- Info box ---- */
     .info-box {
@@ -1478,5 +1499,33 @@
     ================================================================
   -->
 
+  <script>
+    document.querySelectorAll('.code-block').forEach(function(codeBlock) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.innerText = '📋 Copy';
+      
+      codeBlock.appendChild(btn);
+      
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var tempNode = codeBlock.cloneNode(true);
+        var buttonInTemp = tempNode.querySelector('.copy-btn');
+        if (buttonInTemp) {
+          buttonInTemp.remove();
+        }
+        var textToCopy = tempNode.innerText;
+        
+        navigator.clipboard.writeText(textToCopy).then(function() {
+          btn.innerText = '✅ Copied!';
+          setTimeout(function() {
+            btn.innerText = '📋 Copy';
+          }, 2000);
+        }).catch(function(err) {
+          console.error('Failed to copy text: ', err);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
