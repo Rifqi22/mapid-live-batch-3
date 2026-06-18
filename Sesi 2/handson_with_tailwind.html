@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WebGIS Transportasi DKI Jakarta — Hands-on CSS & Tailwind">
+  <meta name="author" content="Mochammad Rifqi Naufal Alfayyadh">
+  <title>WebGIS Transportasi DKI — Rifqi</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-['Inter',Arial,sans-serif] text-base leading-relaxed bg-slate-100 text-slate-800 box-border m-0 p-0">
+
+  <nav class="fixed top-0 inset-x-0 z-[1000] bg-slate-900 py-[0.85rem] px-6 flex justify-between items-center shadow-[0_2px_16px_rgba(0,0,0,0.3)]">
+
+    <a href="#home" class="font-['Poppins',sans-serif] font-extrabold text-[1.1rem] text-white tracking-[0.5px] no-underline">🗺️ WebGIS Rifqi</a>
+
+    <ul class="hidden md:flex gap-[0.3rem] list-none m-0 p-0">
+      <li><a href="#home" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">Beranda</a></li>
+      <li><a href="#about" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">Tentang</a></li>
+      <li><a href="#map" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">Peta</a></li>
+    </ul>
+
+  </nav>
+
+  <div class="h-[64px]"></div>
+
+  <div class="min-h-screen flex flex-col">
+
+    <section id="home" class="bg-gradient-to-br from-[#0f172a] via-[#1e3a5f] to-[#1a56db] text-white py-10 sm:py-20 px-4 text-center relative overflow-hidden">
+
+      <div class="absolute -top-[80px] -right-[80px] w-[320px] h-[320px] rounded-full bg-white/5 pointer-events-none"></div>
+
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+
+        <div class="inline-block bg-white/12 border border-white/25 text-blue-300 text-[0.8rem] font-semibold py-[0.3rem] px-4 rounded-full uppercase tracking-[1.5px] mb-[1.2rem]">MAPID Academy — WebGIS Bootcamp 2026</div>
+
+        <h1 class="text-[1.8rem] sm:text-[clamp(2rem,5vw,3.5rem)] font-['Poppins',sans-serif] font-extrabold mb-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.3)] leading-tight">WebGIS Transportasi<br>DKI Jakarta</h1>
+
+        <p class="text-[clamp(0.95rem,2vw,1.15rem)] opacity-85 max-w-[560px] mx-auto mt-4 mb-8 leading-[1.7]">
+          Platform peta interaktif untuk memvisualisasikan jaringan transportasi publik
+          di DKI Jakarta — Transjakarta, MRT, LRT, dan KRL.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-2 mb-10">
+          <span class="bg-white/10 border border-white/20 text-slate-200 text-[0.82rem] py-[0.3rem] px-[0.9rem] rounded-full">🚌 Transjakarta</span>
+          <span class="bg-white/10 border border-white/20 text-slate-200 text-[0.82rem] py-[0.3rem] px-[0.9rem] rounded-full">🚇 MRT Jakarta</span>
+          <span class="bg-white/10 border border-white/20 text-slate-200 text-[0.82rem] py-[0.3rem] px-[0.9rem] rounded-full">🚈 LRT Jakarta</span>
+          <span class="bg-white/10 border border-white/20 text-slate-200 text-[0.82rem] py-[0.3rem] px-[0.9rem] rounded-full">🚆 KRL Commuter</span>
+          <span class="bg-white/10 border border-white/20 text-slate-200 text-[0.82rem] py-[0.3rem] px-[0.9rem] rounded-full">📍 Peta Interaktif</span>
+        </div>
+
+        <a href="#map"
+           class="inline-block bg-white text-blue-700 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-50 transition mr-3">
+          🗺️ Lihat Peta
+        </a>
+        <a href="#about"
+           class="inline-block bg-transparent text-white border border-white border-opacity-40 px-6 py-3 rounded-full font-semibold hover:bg-white hover:bg-opacity-10 transition">
+          👤 Tentang Saya
+        </a>
+
+      </div>
+
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4 mt-12">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+          <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white">50</div>
+            <div class="text-blue-200 text-sm mt-1">Rute Transjakarta</div>
+          </div>
+
+          <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white">2</div>
+            <div class="text-blue-200 text-sm mt-1">Rute MRT</div>
+          </div>
+
+          <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white">1</div>
+            <div class="text-blue-200 text-sm mt-1">Rute LRT</div>
+          </div>
+
+          <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white">5</div>
+            <div class="text-blue-200 text-sm mt-1">Rute KRL</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4 mt-12">
+        <h2 class="text-white/90 text-[1.2rem] mb-4 font-['Poppins',sans-serif] font-bold leading-tight text-left">Daftar Transportasi</h2>
+        <div class="overflow-x-auto rounded-[10px]">
+          <table class="w-full border-collapse bg-white/5 text-[0.88rem] text-left">
+            <thead>
+              <tr class="bg-white/15 text-white">
+                <th class="py-3 px-4 font-semibold">No</th>
+                <th class="py-3 px-4 font-semibold">Kode</th>
+                <th class="py-3 px-4 font-semibold">Nama</th>
+                <th class="py-3 px-4 font-semibold">Rute</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-white/10 hover:bg-white/10 transition-colors">
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">1</td>
+                <td class="py-[0.65rem] px-4 text-blue-400 font-bold">TJ</td>
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">Transjakarta</td>
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">50</td>
+              </tr>
+              <tr class="border-b border-white/10 hover:bg-white/10 transition-colors">
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">2</td>
+                <td class="py-[0.65rem] px-4 text-blue-400 font-bold">MRT</td>
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">Mass Rapid Transit</td>
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">2</td>
+              </tr>
+              <tr class="border-b border-white/10 hover:bg-white/10 transition-colors">
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">3</td>
+                <td class="py-[0.65rem] px-4 text-blue-400 font-bold">LRT</td>
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">Light Rail Transit</td>
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">1</td>
+              </tr>
+              <tr class="border-b border-white/10 hover:bg-white/10 transition-colors">
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">4</td>
+                <td class="py-[0.65rem] px-4 text-blue-400 font-bold">KRL</td>
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">Kereta Rel Listrik</td>
+                <td class="py-[0.65rem] px-4 text-[#e2e8f0]">5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+        <div class="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-6 mt-12">
+
+          <div class="bg-white rounded-xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.06)] border border-slate-200 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] text-left">
+            <div class="text-3xl mb-[0.8rem]">🗺️</div>
+            <h3 class="text-[1.05rem] text-[#1e3a5f] mb-[0.4rem] font-['Poppins',sans-serif] font-bold leading-tight">Peta Interaktif</h3>
+            <p class="text-[0.88rem] text-slate-500 leading-relaxed">Visualisasi rute transportasi publik DKI Jakarta secara real-time menggunakan OpenStreetMap.</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.06)] border border-slate-200 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] text-left">
+            <div class="text-3xl mb-[0.8rem]">📊</div>
+            <h3 class="text-[1.05rem] text-[#1e3a5f] mb-[0.4rem] font-['Poppins',sans-serif] font-bold leading-tight">Data Spasial</h3>
+            <p class="text-[0.88rem] text-slate-500 leading-relaxed">Data GeoJSON jaringan transportasi yang dapat difilter berdasarkan jenis moda.</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.06)] border border-slate-200 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] text-left">
+            <div class="text-3xl mb-[0.8rem]">📱</div>
+            <h3 class="text-[1.05rem] text-[#1e3a5f] mb-[0.4rem] font-['Poppins',sans-serif] font-bold leading-tight">Responsif</h3>
+            <p class="text-[0.88rem] text-slate-500 leading-relaxed">Tampilan menyesuaikan otomatis di desktop, tablet, maupun smartphone.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <section id="about" class="bg-white py-10 sm:py-16 px-4">
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+
+        <div class="text-[1.75rem] text-[#1e3a5f] mb-2 capitalize font-['Poppins',sans-serif] font-bold leading-tight">Tentang Saya</div>
+        <div class="w-12 h-1 bg-[#1a56db] rounded-sm my-2 mb-6"></div>
+
+        <div class="flex flex-col md:flex-row gap-10 items-start">
+
+          <div class="flex-none w-full md:w-[260px]">
+            <div class="bg-gradient-to-br from-[#1e3a5f] to-[#1a56db] rounded-2xl py-8 px-6 text-center text-white md:sticky md:top-[80px]">
+              <div class="w-20 h-20 rounded-full bg-white/15 flex items-center justify-center text-3xl mx-auto mb-4 border-[3px] border-white/30">👤</div>
+              <div class="text-base font-bold mb-1 font-['Poppins',sans-serif]">Mochammad Rifqi Naufal Alfayyadh</div>
+              <div class="text-xs opacity-75 mb-[1.2rem]">Geographic Information Science</div>
+              <div class="flex flex-col gap-2">
+                <a href="tel:081911075017" class="bg-white/12 text-white text-xs py-[0.4rem] px-3 rounded-md no-underline transition-colors duration-200 hover:bg-white/25">📞 081911075017</a>
+                <a href="mailto:rifqinaufalfayyadh@gmail.com" class="bg-white/12 text-white text-xs py-[0.4rem] px-3 rounded-md no-underline transition-colors duration-200 hover:bg-white/25">✉️ Email Saya</a>
+                <a href="https://www.linkedin.com/in/mochammadrifqinaufalalfayyadh/" target="_blank" class="bg-white/12 text-white text-xs py-[0.4rem] px-3 rounded-md no-underline transition-colors duration-200 hover:bg-white/25">💼 LinkedIn</a>
+                <a href="https://github.com/Rifqi22/" target="_blank" class="bg-white/12 text-white text-xs py-[0.4rem] px-3 rounded-md no-underline transition-colors duration-200 hover:bg-white/25">🐙 GitHub</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-1">
+
+            <p class="text-slate-600 mb-6 leading-[1.7]">
+              I'm an undergraduate (5th semester) Geographic Information Science student from
+              <strong>Universitas Pendidikan Indonesia</strong>. I have great passion in the fields
+              of Geographic Information Systems (GIS), Remote Sensing, Web Development, Regional Mapping Surveys,
+              and Cartography. Currently upskilling in GIS, Web Development and Cartography.
+            </p>
+
+            <h3 class="text-base text-[#1e3a5f] mb-3 font-['Poppins',sans-serif] font-bold leading-tight">📋 Biodata</h3>
+            <ul class="list-none mb-6 p-0">
+              <li class="flex gap-3 py-[0.6rem] border-b border-slate-100 text-[0.9rem] items-start">
+                <span class="font-semibold text-slate-600 min-w-[100px] shrink-0">Nama</span>
+                <span class="text-slate-800">Mochammad Rifqi Naufal Alfayyadh</span>
+              </li>
+              <li class="flex gap-3 py-[0.6rem] border-b border-slate-100 text-[0.9rem] items-start">
+                <span class="font-semibold text-slate-600 min-w-[100px] shrink-0">Domisili</span>
+                <span class="text-slate-800">Bogor, Jawa Barat</span>
+              </li>
+              <li class="flex gap-3 py-[0.6rem] border-b border-slate-100 text-[0.9rem] items-start">
+                <span class="font-semibold text-slate-600 min-w-[100px] shrink-0">Status</span>
+                <span class="text-slate-800">Mahasiswa S1 — Universitas Pendidikan Indonesia</span>
+              </li>
+              <li class="flex gap-3 py-[0.6rem] border-b border-slate-100 text-[0.9rem] items-start">
+                <span class="font-semibold text-slate-600 min-w-[100px] shrink-0">IPK</span>
+                <span class="text-slate-800">3.74 / 4.00</span>
+              </li>
+            </ul>
+
+            <h3 class="text-base text-[#1e3a5f] mb-3 font-['Poppins',sans-serif] font-bold leading-tight">🎓 Pendidikan</h3>
+            <div class="relative pl-6 mb-6 before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-[#1a56db] before:to-slate-200">
+              <div class="relative mb-[1.2rem] pl-3 before:content-[''] before:absolute before:-left-[1.7rem] before:top-[0.4rem] before:w-[10px] before:h-[10px] before:rounded-full before:bg-[#1a56db] before:border-2 before:border-white before:shadow-[0_0_0_2px_#1a56db]">
+                <div class="text-[0.75rem] text-[#1a56db] font-semibold uppercase tracking-[0.5px]">2017 – 2020</div>
+                <div class="text-[0.95rem] font-bold text-slate-800 my-[0.1rem]">MAN 2 Kota Bogor</div>
+                <div class="text-[0.83rem] text-slate-500">Matematika dan IPA &bull; Nilai: 89.30/100</div>
+              </div>
+              <div class="relative mb-[1.2rem] pl-3 before:content-[''] before:absolute before:-left-[1.7rem] before:top-[0.4rem] before:w-[10px] before:h-[10px] before:rounded-full before:bg-[#1a56db] before:border-2 before:border-white before:shadow-[0_0_0_2px_#1a56db]">
+                <div class="text-[0.75rem] text-[#1a56db] font-semibold uppercase tracking-[0.5px]">2020 – Sekarang</div>
+                <div class="text-[0.95rem] font-bold text-slate-800 my-[0.1rem]">Universitas Pendidikan Indonesia</div>
+                <div class="text-[0.83rem] text-slate-500">S1 Ilmu Informasi Geografi &bull; IPK: 3.74/4.00</div>
+              </div>
+              <div class="relative mb-[1.2rem] pl-3 before:content-[''] before:absolute before:-left-[1.7rem] before:top-[0.4rem] before:w-[10px] before:h-[10px] before:rounded-full before:bg-[#1a56db] before:border-2 before:border-white before:shadow-[0_0_0_2px_#1a56db]">
+                <div class="text-[0.75rem] text-[#1a56db] font-semibold uppercase tracking-[0.5px]">Sep – Des 2022</div>
+                <div class="text-[0.95rem] font-bold text-slate-800 my-[0.1rem]">Universitas Gadjah Mada</div>
+                <div class="text-[0.83rem] text-slate-500">GIS — Program MBKM &bull; Nilai: 82.00/100</div>
+              </div>
+            </div>
+
+            <h3 class="text-base text-[#1e3a5f] mb-3 font-['Poppins',sans-serif] font-bold leading-tight">🛠️ Keahlian</h3>
+            <div class="mb-3">
+              <div class="text-[0.82rem] text-slate-500 mb-[0.4rem]">Pengolahan Peta & GIS</div>
+              <div class="flex flex-wrap gap-2 mt-3">
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">ArcGIS</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">QGIS</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">ArcGIS Pro</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">AutoCAD</span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="text-[0.82rem] text-slate-500 mb-[0.4rem]">Remote Sensing</div>
+              <div class="flex flex-wrap gap-2 mt-3">
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">Google Earth Engine</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">ENVI</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">SeaDas</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">SNAP</span>
+              </div>
+            </div>
+            <div class="mb-6">
+              <div class="text-[0.82rem] text-slate-500 mb-[0.4rem]">Web Development</div>
+              <div class="flex flex-wrap gap-2 mt-3">
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">HTML</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">CSS</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">JavaScript</span>
+                <span class="bg-blue-50 text-[#1a56db] border border-blue-200 text-[0.8rem] py-[0.3rem] px-3 rounded-full font-medium">Leaflet.js</span>
+              </div>
+            </div>
+
+            <h3 class="text-base text-[#1e3a5f] mb-3 font-['Poppins',sans-serif] font-bold leading-tight">📬 Formulir Kontak</h3>
+
+            <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+              <form action="#" method="post">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div class="mb-4">
+                    <label class="block text-[0.85rem] font-semibold text-slate-600 mb-[0.3rem]" for="nama">Nama</label>
+                    <input type="text" id="nama" name="nama" placeholder="Nama Anda" class="w-full py-[0.6rem] px-[0.9rem] border-[1.5px] border-slate-300 rounded-lg font-['Inter',sans-serif] text-[0.9rem] bg-slate-50 text-slate-800 transition-[border-color,box-shadow] duration-200 block mt-[0.3rem] focus:outline-none focus:border-[#1a56db] focus:ring-[3px] focus:ring-[#1a56db]/15 focus:bg-white">
+                  </div>
+                  <div class="mb-4">
+                    <label class="block text-[0.85rem] font-semibold text-slate-600 mb-[0.3rem]" for="nowa">No WhatsApp</label>
+                    <input type="tel" id="nowa" name="nowa" placeholder="+62 812 ..." class="w-full py-[0.6rem] px-[0.9rem] border-[1.5px] border-slate-300 rounded-lg font-['Inter',sans-serif] text-[0.9rem] bg-slate-50 text-slate-800 transition-[border-color,box-shadow] duration-200 block mt-[0.3rem] focus:outline-none focus:border-[#1a56db] focus:ring-[3px] focus:ring-[#1a56db]/15 focus:bg-white">
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label class="block text-[0.85rem] font-semibold text-slate-600 mb-[0.3rem]" for="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="email@domain.com" class="w-full py-[0.6rem] px-[0.9rem] border-[1.5px] border-slate-300 rounded-lg font-['Inter',sans-serif] text-[0.9rem] bg-slate-50 text-slate-800 transition-[border-color,box-shadow] duration-200 block mt-[0.3rem] focus:outline-none focus:border-[#1a56db] focus:ring-[3px] focus:ring-[#1a56db]/15 focus:bg-white">
+                </div>
+
+                <div class="mb-4">
+                  <label class="block text-[0.85rem] font-semibold text-slate-600 mb-[0.3rem]" for="komentar">Komentar / Pesan</label>
+                  <textarea id="komentar" name="komentar" rows="4" placeholder="Tulis pesan..." class="w-full py-[0.6rem] px-[0.9rem] border-[1.5px] border-slate-300 rounded-lg font-['Inter',sans-serif] text-[0.9rem] bg-slate-50 text-slate-800 transition-[border-color,box-shadow] duration-200 block mt-[0.3rem] focus:outline-none focus:border-[#1a56db] focus:ring-[3px] focus:ring-[#1a56db]/15 focus:bg-white"></textarea>
+                </div>
+
+                <button type="submit" class="bg-[#1a56db] text-white border-none py-[0.65rem] px-[1.8rem] rounded-lg text-[0.9rem] font-semibold font-['Inter',sans-serif] cursor-pointer transition-all duration-200 mt-2 hover:bg-blue-800 hover:-translate-y-[1px] active:translate-y-0">✉️ Kirim Pesan</button>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="map" class="bg-slate-50 py-10 sm:py-16 px-4">
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+
+        <div class="text-[1.75rem] text-[#1e3a5f] mb-2 capitalize font-['Poppins',sans-serif] font-bold leading-tight">Peta Transportasi</div>
+        <div class="w-12 h-1 bg-[#1a56db] rounded-sm my-2 mb-6"></div>
+
+        <p class="text-slate-500 text-[0.9rem] mb-4">
+          Peta interaktif jaringan transportasi publik DKI Jakarta.
+          Gunakan filter di bawah untuk memilih moda transportasi.
+        </p>
+
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-3 mt-4">
+          <div class="filter-chip active bg-white border-2 border-slate-200 rounded-lg py-[0.6rem] px-[0.9rem] text-center text-[0.85rem] font-semibold text-slate-600 cursor-pointer transition-all duration-200 hover:border-[#1a56db] hover:text-[#1a56db] hover:bg-blue-50 [&.active]:border-[#1a56db] [&.active]:bg-[#1a56db] [&.active]:text-white">🚌 Transjakarta</div>
+          <div class="filter-chip bg-white border-2 border-slate-200 rounded-lg py-[0.6rem] px-[0.9rem] text-center text-[0.85rem] font-semibold text-slate-600 cursor-pointer transition-all duration-200 hover:border-[#1a56db] hover:text-[#1a56db] hover:bg-blue-50 [&.active]:border-[#1a56db] [&.active]:bg-[#1a56db] [&.active]:text-white">🚇 MRT</div>
+          <div class="filter-chip bg-white border-2 border-slate-200 rounded-lg py-[0.6rem] px-[0.9rem] text-center text-[0.85rem] font-semibold text-slate-600 cursor-pointer transition-all duration-200 hover:border-[#1a56db] hover:text-[#1a56db] hover:bg-blue-50 [&.active]:border-[#1a56db] [&.active]:bg-[#1a56db] [&.active]:text-white">🚈 LRT</div>
+          <div class="filter-chip bg-white border-2 border-slate-200 rounded-lg py-[0.6rem] px-[0.9rem] text-center text-[0.85rem] font-semibold text-slate-600 cursor-pointer transition-all duration-200 hover:border-[#1a56db] hover:text-[#1a56db] hover:bg-blue-50 [&.active]:border-[#1a56db] [&.active]:bg-[#1a56db] [&.active]:text-white">🚆 KRL</div>
+        </div>
+
+        <div class="rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-slate-200 mt-6">
+          <iframe
+            src="https://www.openstreetmap.org/export/embed.html?bbox=106.6969%2C-6.3711%2C107.0011%2C-6.0855&layer=mapnik"
+            title="Peta DKI Jakarta — OpenStreetMap"
+            allowfullscreen
+            loading="lazy"
+            class="w-full h-[280px] md:h-[420px] block border-none"
+          ></iframe>
+        </div>
+
+        <p class="text-xs text-gray-400 mt-2 text-center">
+          Sumber peta: <a href="https://www.openstreetmap.org" target="_blank" class="text-blue-400 hover:underline">OpenStreetMap</a>
+          &copy; Contributors
+        </p>
+
+      </div>
+    </section>
+
+    <footer class="bg-slate-900 text-white/60 text-center py-6 px-4 text-[0.85rem] mt-auto">
+      <p>
+        v.1.0.0 &copy; Copyright 2026 &mdash;
+        <strong class="text-white/85 font-bold">Mochammad Rifqi Naufal Alfayyadh</strong>
+      </p>
+      <p class="mt-[0.3rem] text-[0.78rem]">
+        MAPID Academy — WebGIS Development Bootcamp 2026 &bull;
+        Dibangun dengan <span class="text-red-400">♥</span> menggunakan HTML, CSS & Tailwind CSS
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+    const chips = document.querySelectorAll('.filter-chip');
+
+    chips.forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        chips.forEach(function(c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

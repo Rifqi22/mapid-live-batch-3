@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<!-- ================================================================
+     HANDS-ON: CSS + TAILWIND CSS
+     MAPID Academy — WebGIS Development Bootcamp 2026
+     ================================================================
+     Materi yang diterapkan:
+     Sesi 9  — CSS (Anatomi, Selector, Margin/Padding, Satuan,
+                     Warna, Typography, Positioning, Layout Flexbox/Grid,
+                     Responsive / Media Query)
+     Sesi 10 — Framework CSS → Tailwind CSS via CDN (utility-first,
+                     responsive prefix, color palette)
+     ================================================================ -->
+
+<head>
+  <meta charset="UTF-8">
+  <!-- Viewport wajib untuk responsive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WebGIS Transportasi DKI Jakarta — Hands-on CSS & Tailwind">
+  <meta name="author" content="Mochammad Rifqi Naufal Alfayyadh">
+  <title>WebGIS Transportasi DKI — Rifqi</title>
+
+  <!-- ============================================================
+       TAILWIND CSS — via CDN (Play CDN, cara instalasi no.1 dari slide)
+       Sumber: https://tailwindcss.com/docs/installation/play-cdn
+       Tailwind = utility-first framework → styling langsung di class HTML
+       ============================================================ -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- ============================================================
+       GOOGLE FONTS (Typography — font-family dari materi CSS)
+       Pilih 2 font: Poppins (judul) + Inter (isi)
+       Sesuai tips layouting: "Pilih max 2 font (judul & isi)"
+       ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ============================================================
+       INTERNAL CSS — Sesi 9: Method to Use (b. Internal CSS)
+       Ditulis di dalam tag <style> pada <head>
+       ============================================================ -->
+  <style>
+
+    /* =============================================================
+       1. UNIVERSAL SELECTOR — berlaku ke semua elemen
+       selector: *
+    ============================================================= */
+    * {
+      box-sizing: border-box; /* ukuran elemen sudah termasuk padding & border */
+      margin: 0;
+      padding: 0;
+    }
+
+    /* =============================================================
+       2. ELEMENT SELECTOR — berdasarkan nama tag HTML
+       selector: html, body, h1, p, dst.
+    ============================================================= */
+    html {
+      /* font-size root = 16px (basis satuan rem) */
+      font-size: 16px;
+      scroll-behavior: smooth; /* scroll halus saat klik anchor link */
+    }
+
+    body {
+      /* font-family: Typography CSS — jenis huruf body */
+      font-family: 'Inter', Arial, sans-serif;
+      /* font-size: satuan rem → relatif terhadap root html (16px) */
+      font-size: 1rem;
+      /* line-height: jarak antar baris — nyaman dibaca 1.5–1.7 */
+      line-height: 1.6;
+      /* warna background menggunakan HEX code */
+      background-color: #f1f5f9;
+      color: #1e293b;
+    }
+
+    /* Heading menggunakan font Poppins */
+    h1, h2, h3, h4 {
+      font-family: 'Poppins', sans-serif;
+      /* font-weight: ketebalan teks */
+      font-weight: 700;
+      /* line-height lebih rapat untuk heading */
+      line-height: 1.2;
+    }
+
+    /* =============================================================
+       3. CLASS SELECTOR — diawali titik (.)
+       selector: .nama-class
+    ============================================================= */
+
+    /* Wrapper utama halaman */
+    .page-wrapper {
+      /* min-height: vh → relatif terhadap viewport height */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Container konten — membatasi lebar maksimal */
+    .container-custom {
+      /* width: % → relatif terhadap parent */
+      width: 90%;
+      /* max-width: px → ukuran absolut */
+      max-width: 1100px;
+      /* margin auto: center horizontal */
+      margin: 0 auto;
+      /* padding: px → jarak dalam elemen */
+      padding: 0 1rem;
+    }
+
+    /* =============================================================
+       4. ID SELECTOR — diawali pagar (#)
+       selector: #nama-id (unik, hanya 1 per halaman)
+    ============================================================= */
+    #home {
+      /* background: warna gradient (linear-gradient) */
+      background: linear-gradient(
+        135deg,
+        #0f172a 0%,       /* HEX: biru sangat gelap */
+        #1e3a5f 50%,      /* HEX: biru tua */
+        #1a56db 100%      /* HEX: biru cerah */
+      );
+      color: #ffffff;
+      /* padding: atas-bawah kiri-kanan (shorthand) */
+      padding: 5rem 1rem;
+      /* text-align: posisi teks */
+      text-align: center;
+      /* position relative: agar child bisa di-absolute-kan */
+      position: relative;
+      overflow: hidden;
+    }
+
+    #about {
+      background-color: #ffffff;
+      padding: 4rem 1rem;
+    }
+
+    #map {
+      background-color: #f8fafc;
+      padding: 4rem 1rem;
+    }
+
+    /* =============================================================
+       5. DESCENDANT SELECTOR (Turunan) — spasi antar selector
+       selector: nav a → semua <a> di dalam <nav>
+    ============================================================= */
+    nav a {
+      text-decoration: none;   /* text-decoration: hilangkan underline */
+      color: rgba(255, 255, 255, 0.85);
+      /* font-weight: semi-bold */
+      font-weight: 500;
+      /* font-size: satuan rem */
+      font-size: 0.95rem;
+      /* padding inline kiri-kanan */
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      /* transition: animasi perubahan properti CSS */
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* =============================================================
+       6. PSEUDO-CLASS SELECTOR — kondisi khusus elemen
+       selector: a:hover → saat mouse di atas link
+    ============================================================= */
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    /* =============================================================
+       7. CHILD SELECTOR (Anak Langsung) — tanda >
+       selector: section > h2 → h2 langsung di dalam section
+    ============================================================= */
+    section > .section-title {
+      font-size: 1.75rem;
+      color: #1e3a5f;
+      margin-bottom: 0.5rem;
+      /* text-transform: kapitalisasi */
+      text-transform: capitalize;
+    }
+
+    /* =============================================================
+       8. ADJACENT SIBLING SELECTOR — tanda +
+       selector: h1 + p → <p> langsung setelah <h1>
+    ============================================================= */
+    h1 + p {
+      /* margin-top: jarak luar atas */
+      margin-top: 1rem;
+      /* opacity: transparansi elemen (0=transparan, 1=solid) */
+      opacity: 0.85;
+    }
+
+    /* =============================================================
+       9. ATTRIBUTE SELECTOR — berdasarkan atribut elemen
+       selector: input[type="text"]
+    ============================================================= */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.9rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      /* background-color: warna RGB */
+      background-color: rgb(248, 250, 252);
+      color: #1e293b;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      /* display block agar mengisi lebar penuh */
+      display: block;
+      margin-top: 0.3rem;
+    }
+
+    /* Attribute selector + pseudo-class */
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #1a56db;
+      /* box-shadow: bayangan elemen — RGBA (warna + alpha/opacity) */
+      box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
+      background-color: #ffffff;
+    }
+
+    /* =============================================================
+       NAVBAR — POSITIONING: FIXED
+       position: fixed → elemen menempel di viewport, tidak ikut scroll
+    ============================================================= */
+    .navbar {
+      position: fixed;    /* keluar dari alur normal, menempel ke layar */
+      top: 0;             /* jarak dari atas viewport */
+      left: 0;
+      right: 0;
+      z-index: 1000;      /* z-index: lapisan tumpukan elemen (makin besar makin depan) */
+      background-color: #0f172a;
+      /* padding shorthand: atas-bawah | kiri-kanan */
+      padding: 0.85rem 1.5rem;
+      /* LAYOUT FLEXBOX — display: flex (1 dimensi) */
+      display: flex;
+      /* justify-content: distribusi ruang di sumbu utama (horizontal/row) */
+      justify-content: space-between;
+      /* align-items: posisi di sumbu silang (vertikal/column) */
+      align-items: center;
+      /* box-shadow: bayangan untuk kesan "mengambang" */
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #ffffff;
+      /* letter-spacing: jarak antar huruf */
+      letter-spacing: 0.5px;
+      text-decoration: none;
+    }
+
+    .navbar-links {
+      /* Flexbox: items sejajar horizontal */
+      display: flex;
+      /* gap: jarak antar flex items */
+      gap: 0.3rem;
+      /* list-style: hilangkan bullet point */
+      list-style: none;
+    }
+
+    /* Spacer agar konten tidak tertutup navbar fixed */
+    .navbar-spacer {
+      height: 64px;
+    }
+
+    /* =============================================================
+       HERO SECTION DECORATION
+       position: absolute → relatif ke parent yang punya position
+    ============================================================= */
+    .hero-decoration {
+      position: absolute; /* keluar dari alur normal */
+      top: -80px;         /* properti top/left/right/bottom aktif saat position bukan static */
+      right: -80px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+    }
+
+    /* =============================================================
+       HERO CONTENT
+    ============================================================= */
+    .hero-badge {
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #93c5fd;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.3rem 1rem;
+      border-radius: 20px;
+      /* text-transform: uppercase */
+      text-transform: uppercase;
+      /* letter-spacing: jarak huruf */
+      letter-spacing: 1.5px;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.5rem); /* clamp: min | ideal | max */
+      font-weight: 800;
+      margin-bottom: 1rem;
+      /* text-shadow: bayangan teks */
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      opacity: 0.8;
+      max-width: 560px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    /* =============================================================
+       PILL/TAG BADGES
+    ============================================================= */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;       /* wrap: item turun ke baris baru jika tidak muat */
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .pill {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e2e8f0;
+      font-size: 0.82rem;
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+    }
+
+    /* =============================================================
+       SCROLL DOWN INDICATOR
+       position: relative (tetap di alur normal, bisa di-offset)
+    ============================================================= */
+    .scroll-hint {
+      position: relative;
+      display: inline-block;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 2rem;
+    }
+
+    /* =============================================================
+       CARD GRID — LAYOUT GRID CSS (2 dimensi)
+       Cocok untuk: layout halaman, dashboard, galeri
+    ============================================================= */
+    .card-grid {
+      display: grid;
+      /* grid-template-columns: menentukan jumlah & lebar kolom */
+      /* repeat(auto-fit, minmax(260px, 1fr)):
+         auto-fit = kolom menyesuaikan ruang yang tersedia
+         minmax(260px, 1fr) = min 260px, max sisa ruang */
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      /* gap: jarak antar sel grid */
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    /* =============================================================
+       CARD COMPONENT
+    ============================================================= */
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      /* box-shadow: bayangan kotak */
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e2e8f0;
+      /* transition: animasi hover */
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      /* transform: perubahan posisi/skala/rotasi elemen */
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      color: #1e3a5f;
+      margin-bottom: 0.4rem;
+    }
+
+    .card p {
+      font-size: 0.88rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* =============================================================
+       SECTION DIVIDER
+    ============================================================= */
+    .section-divider {
+      width: 48px;
+      height: 4px;
+      /* background: warna menggunakan nama warna CSS */
+      background: #1a56db;
+      border-radius: 2px;
+      margin: 0.5rem 0 1.5rem;
+    }
+
+    /* =============================================================
+       ABOUT LAYOUT — FLEXBOX (1 dimensi)
+       Cocok untuk: card sejajar, centering, layout baris/kolom
+    ============================================================= */
+    .about-layout {
+      display: flex;
+      /* flex-direction: arah sumbu utama */
+      flex-direction: row;
+      /* gap: jarak antar flex items */
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    .about-left {
+      /* flex: 0 0 auto → tidak stretch, ikuti lebar konten */
+      flex: 0 0 260px;
+    }
+
+    .about-right {
+      /* flex: 1 → ambil sisa ruang yang tersedia */
+      flex: 1;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      background: linear-gradient(135deg, #1e3a5f, #1a56db);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: #ffffff;
+      /* position: sticky → tetap saat scroll, mirip fixed tapi relatif ke parent */
+      position: sticky;
+      top: 80px; /* jarak dari atas setelah navbar */
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .profile-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .profile-role {
+      font-size: 0.8rem;
+      opacity: 0.75;
+      margin-bottom: 1.2rem;
+    }
+
+    .profile-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .profile-links a {
+      background-color: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .profile-links a:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* =============================================================
+       INFO LIST (Biodata)
+    ============================================================= */
+    .info-list {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-list li {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.9rem;
+      align-items: flex-start;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #475569;
+      /* min-width: lebar minimum elemen */
+      min-width: 100px;
+      flex-shrink: 0;
+    }
+
+    .info-value {
+      color: #1e293b;
+    }
+
+    /* =============================================================
+       SKILL TAGS
+    ============================================================= */
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .skill-tag {
+      background-color: #eff6ff;
+      color: #1a56db;
+      border: 1px solid #bfdbfe;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    /* =============================================================
+       EDUCATION TIMELINE
+    ============================================================= */
+    .timeline {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Garis vertikal timeline menggunakan ::before (pseudo-element) */
+    .timeline::before {
+      content: '';
+      /* position absolute: relatif ke .timeline yang punya position: relative */
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #1a56db, #e2e8f0);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.2rem;
+      padding-left: 0.75rem;
+    }
+
+    /* Titik bulat di timeline menggunakan ::before */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.7rem;
+      top: 0.4rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #1a56db;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 0 2px #1a56db;
+    }
+
+    .timeline-year {
+      font-size: 0.75rem;
+      color: #1a56db;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .timeline-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0.1rem 0;
+    }
+
+    .timeline-subtitle {
+      font-size: 0.83rem;
+      color: #64748b;
+    }
+
+    /* =============================================================
+       FORM CONTACT
+    ============================================================= */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 0.3rem;
+    }
+
+    .btn-submit {
+      background-color: #1a56db;
+      color: #ffffff;
+      border: none;
+      padding: 0.65rem 1.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      /* transition: animasi tombol */
+      transition: background-color 0.2s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover {
+      background-color: #1e40af;
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* =============================================================
+       TABEL DATA
+    ============================================================= */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.88rem;
+    }
+
+    .data-table thead tr {
+      background-color: #1e3a5f;
+      color: #ffffff;
+    }
+
+    .data-table th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .data-table td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
+    }
+
+    /* Pseudo-class :nth-child → setiap baris genap */
+    .data-table tbody tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .data-table tbody tr:hover td {
+      background-color: #eff6ff;
+    }
+
+    /* =============================================================
+       MAP SECTION
+    ============================================================= */
+    .map-wrapper {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+      margin-top: 1.5rem;
+    }
+
+    .map-wrapper iframe {
+      /* width: % → relatif ke parent */
+      width: 100%;
+      /* height: px → ukuran absolut */
+      height: 420px;
+      display: block;
+      border: none;
+    }
+
+    /* Filter legend menggunakan Grid */
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .filter-chip {
+      background-color: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-chip:hover {
+      border-color: #1a56db;
+      color: #1a56db;
+      background-color: #eff6ff;
+    }
+
+    .filter-chip.active {
+      border-color: #1a56db;
+      background-color: #1a56db;
+      color: #ffffff;
+    }
+
+    /* =============================================================
+       FOOTER
+    ============================================================= */
+    footer {
+      background-color: #0f172a;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+      /* padding: rem → relatif ke root font-size */
+      padding: 1.5rem 1rem;
+      font-size: 0.85rem;
+      /* margin-top: auto → mendorong footer ke bawah (flex column) */
+      margin-top: auto;
+    }
+
+    footer a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* =============================================================
+       RESPONSIVE WEB DESIGN — MEDIA QUERY
+       @media (kondisi) { ... }
+       Breakpoint yang digunakan (mirip Tailwind):
+         Mobile  : max-width 576px
+         Tablet  : max-width 768px
+         Laptop  : max-width 992px
+    ============================================================= */
+
+    /* Tablet dan di bawah (max-width: 768px) */
+    @media (max-width: 768px) {
+
+      /* Navbar: sembunyikan link teks, tampilkan hanya logo */
+      .navbar-links {
+        display: none;
+      }
+
+      /* About: flexbox berubah jadi column (vertikal) */
+      .about-layout {
+        flex-direction: column;
+      }
+
+      /* Profile card: lebar penuh */
+      .about-left {
+        flex: 0 0 auto;
+        width: 100%;
+      }
+
+      /* Profile card: hilangkan sticky di mobile */
+      .profile-card {
+        position: static;
+      }
+
+      /* Peta: tinggi lebih pendek di mobile */
+      .map-wrapper iframe {
+        height: 280px;
+      }
+    }
+
+    /* Mobile (max-width: 576px) */
+    @media (max-width: 576px) {
+
+      /* Hero title lebih kecil di HP */
+      .hero-title {
+        font-size: 1.8rem;
+      }
+
+      /* Card grid: 1 kolom di mobile */
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Padding section lebih kecil */
+      #about, #map {
+        padding: 2.5rem 1rem;
+      }
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+       Menggunakan: position fixed, Flexbox, Descendant Selector
+  ============================================================ -->
+  <nav class="navbar">
+
+    <!-- Logo / Brand -->
+    <a href="#home" class="navbar-logo">🗺️ WebGIS Rifqi</a>
+
+    <!-- Navigation links -->
+    <!-- Tailwind classes: flex gap-1 list-none -->
+    <ul class="navbar-links">
+      <li><a href="#home">Beranda</a></li>
+      <li><a href="#about">Tentang</a></li>
+      <li><a href="#map">Peta</a></li>
+    </ul>
+
+  </nav>
+
+  <!-- Spacer untuk konten agar tidak tertutup navbar fixed -->
+  <div class="navbar-spacer"></div>
+
+  <!-- ============================================================
+       WRAPPER UTAMA
+       Menggunakan: Flexbox column → agar footer di bawah
+  ============================================================ -->
+  <div class="page-wrapper">
+
+    <!-- ==========================================================
+         SECTION HOME — ID Selector (#home)
+         Hero section dengan gradient background
+    ========================================================== -->
+    <section id="home">
+
+      <!-- Dekorasi lingkaran (position: absolute) -->
+      <div class="hero-decoration"></div>
+
+      <div class="container-custom">
+
+        <!-- Badge -->
+        <div class="hero-badge">MAPID Academy — WebGIS Bootcamp 2026</div>
+
+        <!-- Judul utama — h1 (penting untuk SEO) -->
+        <h1 class="hero-title">WebGIS Transportasi<br>DKI Jakarta</h1>
+
+        <!-- p langsung setelah h1 → kena adjacent sibling selector (h1 + p) -->
+        <p class="hero-subtitle">
+          Platform peta interaktif untuk memvisualisasikan jaringan transportasi publik
+          di DKI Jakarta — Transjakarta, MRT, LRT, dan KRL.
+        </p>
+
+        <!-- Pill / tag badges -->
+        <div class="pill-group">
+          <span class="pill">🚌 Transjakarta</span>
+          <span class="pill">🚇 MRT Jakarta</span>
+          <span class="pill">🚈 LRT Jakarta</span>
+          <span class="pill">🚆 KRL Commuter</span>
+          <span class="pill">📍 Peta Interaktif</span>
+        </div>
+
+        <!-- ======================================================
+             TAILWIND CSS — Komponen Button
+             Cara kerja Tailwind: styling langsung via utility class di HTML
+             Tidak perlu tulis CSS terpisah!
+
+             Penjelasan class Tailwind:
+             bg-white        → background-color: white
+             text-blue-700   → color: biru gelap
+             px-6            → padding kiri-kanan: 1.5rem
+             py-3            → padding atas-bawah: 0.75rem
+             rounded-full    → border-radius: 9999px (pil/oval)
+             font-semibold   → font-weight: 600
+             shadow-lg       → box-shadow besar
+             hover:bg-blue-50 → background berubah saat hover
+             transition      → animasi transisi
+             ====================================================== -->
+        <a href="#map"
+           class="inline-block bg-white text-blue-700 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-50 transition mr-3">
+          🗺️ Lihat Peta
+        </a>
+        <a href="#about"
+           class="inline-block bg-transparent text-white border border-white border-opacity-40 px-6 py-3 rounded-full font-semibold hover:bg-white hover:bg-opacity-10 transition">
+          👤 Tentang Saya
+        </a>
+
+      </div>
+
+      <!-- ========================================================
+           TAILWIND — INFO CARDS
+           Responsive Tailwind: md:grid-cols-4
+           Tanpa prefix     = berlaku semua ukuran (mobile first)
+           sm:              = min-width 640px
+           md:              = min-width 768px
+           lg:              = min-width 1024px
+
+           grid-cols-2      → 2 kolom (mobile)
+           md:grid-cols-4   → 4 kolom (tablet ke atas)
+      ======================================================== -->
+      <div class="container-custom" style="margin-top: 3rem;">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+          <!-- Kartu statistik dengan Tailwind -->
+          <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white">50</div>
+            <div class="text-blue-200 text-sm mt-1">Rute Transjakarta</div>
+          </div>
+
+          <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white">2</div>
+            <div class="text-blue-200 text-sm mt-1">Rute MRT</div>
+          </div>
+
+          <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white">1</div>
+            <div class="text-blue-200 text-sm mt-1">Rute LRT</div>
+          </div>
+
+          <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white">5</div>
+            <div class="text-blue-200 text-sm mt-1">Rute KRL</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Daftar Transportasi (tabel) -->
+      <div class="container-custom" style="margin-top: 3rem;">
+        <h2 style="color: rgba(255,255,255,0.9); font-size:1.2rem; margin-bottom:1rem;">Daftar Transportasi</h2>
+        <div style="overflow-x: auto; border-radius: 10px;">
+          <table class="data-table" style="background: rgba(255,255,255,0.05);">
+            <thead>
+              <tr style="background: rgba(255,255,255,0.15);">
+                <th>No</th>
+                <th>Kode</th>
+                <th>Nama</th>
+                <th>Rute</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:#e2e8f0;">1</td>
+                <td style="color:#60a5fa; font-weight:700;">TJ</td>
+                <td style="color:#e2e8f0;">Transjakarta</td>
+                <td style="color:#e2e8f0;">50</td>
+              </tr>
+              <tr>
+                <td style="color:#e2e8f0;">2</td>
+                <td style="color:#60a5fa; font-weight:700;">MRT</td>
+                <td style="color:#e2e8f0;">Mass Rapid Transit</td>
+                <td style="color:#e2e8f0;">2</td>
+              </tr>
+              <tr>
+                <td style="color:#e2e8f0;">3</td>
+                <td style="color:#60a5fa; font-weight:700;">LRT</td>
+                <td style="color:#e2e8f0;">Light Rail Transit</td>
+                <td style="color:#e2e8f0;">1</td>
+              </tr>
+              <tr>
+                <td style="color:#e2e8f0;">4</td>
+                <td style="color:#60a5fa; font-weight:700;">KRL</td>
+                <td style="color:#e2e8f0;">Kereta Rel Listrik</td>
+                <td style="color:#e2e8f0;">5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Feature Cards (CSS Grid) -->
+      <div class="container-custom">
+        <div class="card-grid" style="margin-top: 3rem;">
+
+          <div class="card">
+            <div class="card-icon">🗺️</div>
+            <h3>Peta Interaktif</h3>
+            <p>Visualisasi rute transportasi publik DKI Jakarta secara real-time menggunakan OpenStreetMap.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">📊</div>
+            <h3>Data Spasial</h3>
+            <p>Data GeoJSON jaringan transportasi yang dapat difilter berdasarkan jenis moda.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">📱</div>
+            <h3>Responsif</h3>
+            <p>Tampilan menyesuaikan otomatis di desktop, tablet, maupun smartphone.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================================
+         SECTION ABOUT — Flexbox Layout
+         Profile Rifqi lengkap dari CV
+    ========================================================== -->
+    <section id="about">
+      <div class="container-custom">
+
+        <div class="section-title">Tentang Saya</div>
+        <div class="section-divider"></div>
+
+        <!-- Layout Flexbox: profile card (kiri) + konten (kanan) -->
+        <div class="about-layout">
+
+          <!-- Kiri: Profile Card (position: sticky) -->
+          <div class="about-left">
+            <div class="profile-card">
+              <div class="profile-avatar">👤</div>
+              <div class="profile-name">Mochammad Rifqi Naufal Alfayyadh</div>
+              <div class="profile-role">Geographic Information Science</div>
+              <div class="profile-links">
+                <a href="tel:081911075017">📞 081911075017</a>
+                <a href="mailto:rifqinaufalfayyadh@gmail.com">✉️ Email Saya</a>
+                <a href="https://www.linkedin.com/in/mochammadrifqinaufalalfayyadh/" target="_blank">💼 LinkedIn</a>
+                <a href="https://github.com/Rifqi22/" target="_blank">🐙 GitHub</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kanan: Detail informasi -->
+          <div class="about-right">
+
+            <!-- Bio -->
+            <p style="color:#475569; margin-bottom:1.5rem; line-height:1.7;">
+              I'm an undergraduate (5th semester) Geographic Information Science student from
+              <strong>Universitas Pendidikan Indonesia</strong>. I have great passion in the fields
+              of Geographic Information Systems (GIS), Remote Sensing, Web Development, Regional Mapping Surveys,
+              and Cartography. Currently upskilling in GIS, Web Development and Cartography.
+            </p>
+
+            <!-- Biodata -->
+            <h3 style="font-size:1rem; color:#1e3a5f; margin-bottom:0.75rem;">📋 Biodata</h3>
+            <ul class="info-list">
+              <li>
+                <span class="info-label">Nama</span>
+                <span class="info-value">Mochammad Rifqi Naufal Alfayyadh</span>
+              </li>
+              <li>
+                <span class="info-label">Domisili</span>
+                <span class="info-value">Bogor, Jawa Barat</span>
+              </li>
+              <li>
+                <span class="info-label">Status</span>
+                <span class="info-value">Mahasiswa S1 — Universitas Pendidikan Indonesia</span>
+              </li>
+              <li>
+                <span class="info-label">IPK</span>
+                <span class="info-value">3.74 / 4.00</span>
+              </li>
+            </ul>
+
+            <!-- Pendidikan (Timeline) -->
+            <h3 style="font-size:1rem; color:#1e3a5f; margin-bottom:0.75rem;">🎓 Pendidikan</h3>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-year">2017 – 2020</div>
+                <div class="timeline-title">MAN 2 Kota Bogor</div>
+                <div class="timeline-subtitle">Matematika dan IPA &bull; Nilai: 89.30/100</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-year">2020 – Sekarang</div>
+                <div class="timeline-title">Universitas Pendidikan Indonesia</div>
+                <div class="timeline-subtitle">S1 Ilmu Informasi Geografi &bull; IPK: 3.74/4.00</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-year">Sep – Des 2022</div>
+                <div class="timeline-title">Universitas Gadjah Mada</div>
+                <div class="timeline-subtitle">GIS — Program MBKM &bull; Nilai: 82.00/100</div>
+              </div>
+            </div>
+
+            <!-- Keahlian / Skill -->
+            <h3 style="font-size:1rem; color:#1e3a5f; margin-bottom:0.5rem;">🛠️ Keahlian</h3>
+            <div style="margin-bottom:0.75rem;">
+              <div style="font-size:0.82rem; color:#64748b; margin-bottom:0.4rem;">Pengolahan Peta & GIS</div>
+              <div class="skill-tags">
+                <span class="skill-tag">ArcGIS</span>
+                <span class="skill-tag">QGIS</span>
+                <span class="skill-tag">ArcGIS Pro</span>
+                <span class="skill-tag">AutoCAD</span>
+              </div>
+            </div>
+            <div style="margin-bottom:0.75rem;">
+              <div style="font-size:0.82rem; color:#64748b; margin-bottom:0.4rem;">Remote Sensing</div>
+              <div class="skill-tags">
+                <span class="skill-tag">Google Earth Engine</span>
+                <span class="skill-tag">ENVI</span>
+                <span class="skill-tag">SeaDas</span>
+                <span class="skill-tag">SNAP</span>
+              </div>
+            </div>
+            <div style="margin-bottom:1.5rem;">
+              <div style="font-size:0.82rem; color:#64748b; margin-bottom:0.4rem;">Web Development</div>
+              <div class="skill-tags">
+                <span class="skill-tag">HTML</span>
+                <span class="skill-tag">CSS</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Leaflet.js</span>
+              </div>
+            </div>
+
+            <!-- ====================================================
+                 TAILWIND — Form Kontak
+                 Gabungan Vanilla CSS + Tailwind dalam 1 file
+            ==================================================== -->
+            <h3 style="font-size:1rem; color:#1e3a5f; margin-bottom:0.75rem;">📬 Formulir Kontak</h3>
+
+            <!-- Tailwind: bg-gray-50 p-6 rounded-xl border border-gray-200 -->
+            <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+              <form action="#" method="post">
+
+                <!-- Tailwind grid: 2 kolom di md, 1 kolom di mobile -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
+                  <div class="form-group">
+                    <label class="form-label" for="nama">Nama</label>
+                    <input type="text" id="nama" name="nama" placeholder="Nama Anda">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="nowa">No WhatsApp</label>
+                    <input type="tel" id="nowa" name="nowa" placeholder="+62 812 ...">
+                  </div>
+
+                </div>
+
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" for="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="email@domain.com">
+                </div>
+
+                <div class="form-group" style="margin-bottom:1rem;">
+                  <label class="form-label" for="komentar">Komentar / Pesan</label>
+                  <textarea id="komentar" name="komentar" rows="4"
+                    placeholder="Tulis pesan..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">✉️ Kirim Pesan</button>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         SECTION MAP — Peta Interaktif
+    ========================================================== -->
+    <section id="map">
+      <div class="container-custom">
+
+        <div class="section-title">Peta Transportasi</div>
+        <div class="section-divider"></div>
+
+        <p style="color:#64748b; font-size:0.9rem; margin-bottom:1rem;">
+          Peta interaktif jaringan transportasi publik DKI Jakarta.
+          Gunakan filter di bawah untuk memilih moda transportasi.
+        </p>
+
+        <!-- Filter chips -->
+        <div class="filter-grid">
+          <div class="filter-chip active">🚌 Transjakarta</div>
+          <div class="filter-chip">🚇 MRT</div>
+          <div class="filter-chip">🚈 LRT</div>
+          <div class="filter-chip">🚆 KRL</div>
+        </div>
+
+        <!-- Iframe peta OpenStreetMap -->
+        <div class="map-wrapper">
+          <iframe
+            src="https://www.openstreetmap.org/export/embed.html?bbox=106.6969%2C-6.3711%2C107.0011%2C-6.0855&layer=mapnik"
+            title="Peta DKI Jakarta — OpenStreetMap"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+
+        <!-- Tailwind: Keterangan di bawah peta -->
+        <p class="text-xs text-gray-400 mt-2 text-center">
+          Sumber peta: <a href="https://www.openstreetmap.org" target="_blank" class="text-blue-400 hover:underline">OpenStreetMap</a>
+          &copy; Contributors
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         FOOTER
+    ========================================================== -->
+    <footer>
+      <p>
+        v.1.0.0 &copy; Copyright 2026 &mdash;
+        <strong style="color:rgba(255,255,255,0.85);">Mochammad Rifqi Naufal Alfayyadh</strong>
+      </p>
+      <p style="margin-top:0.3rem; font-size:0.78rem;">
+        MAPID Academy — WebGIS Development Bootcamp 2026 &bull;
+        Dibangun dengan <span style="color:#f87171;">♥</span> menggunakan HTML, CSS & Tailwind CSS
+      </p>
+    </footer>
+
+  </div>
+  <!-- akhir .page-wrapper -->
+
+  <!-- ============================================================
+       TAILWIND: JavaScript interaksi filter chip
+       (Preview kecil JS — hanya untuk interaksi tombol filter)
+  ============================================================ -->
+  <script>
+    // Pilih semua filter chip
+    const chips = document.querySelectorAll('.filter-chip');
+
+    // Tambahkan event listener ke masing-masing chip
+    chips.forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        // Hapus class 'active' dari semua chip
+        chips.forEach(function(c) { c.classList.remove('active'); });
+        // Tambahkan class 'active' ke chip yang diklik
+        chip.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

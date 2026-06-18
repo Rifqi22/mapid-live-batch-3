@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<!--
+  ================================================================
+  MATERI CSS + TAILWIND CSS
+  MAPID Academy — WebGIS Development Bootcamp 2026
+  ================================================================
+  File ini mencakup seluruh materi dari Sesi 9 & 10:
+    Sesi 9  : CSS (Cascading Style Sheets)
+              - Pengenalan & Fungsi CSS
+              - Anatomi CSS
+              - 3 Cara Penulisan (Inline, Internal, External)
+              - Selector (Universal, Element, Class, ID, Attribute,
+                          Descendant, Child, Adjacent Sibling)
+              - Margin & Padding
+              - Satuan (px, em, rem, %, vh/vw)
+              - Warna (Name, HEX, RGB, RGBA, HSL)
+              - Typography
+              - Positioning (static, relative, absolute, fixed)
+              - Layout (Flexbox & Grid)
+              - Responsive / Media Query
+              + BONUS: Pseudo-class, Pseudo-element, Transition,
+                       Transform, Box Model, Z-index, CSS Variables,
+                       Overflow, Display
+    Sesi 10 : Framework CSS → Tailwind CSS
+              - Apa itu CSS Framework
+              - Perbandingan Vanilla CSS vs Bootstrap vs Tailwind
+              - Instalasi Tailwind (CDN)
+              - Utility class, Responsive prefix, Color palette
+              + BONUS: Hover modifier, Dark mode, Custom config hint
+  ================================================================
+-->
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Materi lengkap CSS & Tailwind untuk MAPID Academy WebGIS Development Bootcamp 2026">
+  <meta name="author" content="MAPID Academy">
+  <title>Materi CSS & Tailwind — MAPID Academy WebGIS Bootcamp 2026</title>
+
+  <!-- Tailwind CDN untuk demonstrasi di section Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Poppins (heading) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      background-color: #f8f9ff;
+      color: #1a1a2e;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.25;
+    }
+
+    /* ============================================================
+       CSS VARIABLES (BONUS MATERI TAMBAHAN)
+       Menyimpan nilai yang sering dipakai agar mudah diubah.
+       Didefinisikan di :root agar berlaku global.
+       Cara pakai: var(--nama-variabel)
+    ============================================================ */
+    :root {
+      --biru-utama:   #1a56db;
+      --biru-gelap:   #1e3a5f;
+      --biru-muda:    #eff6ff;
+      --hijau:        #0ea5e9;
+      --ungu:         #7c3aed;
+      --ungu-muda:    #f5f3ff;
+      --merah:        #ef4444;
+      --kuning:       #f59e0b;
+      --abu:          #64748b;
+      --putih:        #ffffff;
+      --border:       #e2e8f0;
+      --shadow-sm:    0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md:    0 4px 16px rgba(0,0,0,0.10);
+      --radius:       10px;
+      --radius-lg:    16px;
+    }
+
+    /* ============================================================
+       LAYOUT UTAMA
+    ============================================================ */
+    nav.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: linear-gradient(135deg, var(--biru-gelap), var(--biru-utama));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 56px;
+      box-shadow: var(--shadow-md);
+    }
+    nav.navbar .logo { color: var(--putih); font-weight: 800; font-size: 1.05rem; font-family: 'Poppins', sans-serif; }
+    nav.navbar .links { display: flex; gap: 0.2rem; }
+    nav.navbar a { color: rgba(255,255,255,0.82); text-decoration: none; font-size: 0.88rem; padding: 0.35rem 0.75rem; border-radius: 6px; transition: background 0.2s; }
+    nav.navbar a:hover { background: rgba(255,255,255,0.15); color: var(--putih); }
+
+    main { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* ============================================================
+       SECTION CARD
+    ============================================================ */
+    .section-card {
+      background: var(--putih);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 2rem 2.2rem;
+      margin-bottom: 2.5rem;
+      border-left: 5px solid var(--biru-utama);
+    }
+    .section-card.bonus  { border-left-color: var(--ungu); }
+    .section-card.green  { border-left-color: #10b981; }
+    .section-card.yellow { border-left-color: var(--kuning); }
+
+    /* ============================================================
+       HEADINGS
+    ============================================================ */
+    h1 { font-size: 2rem; color: var(--biru-gelap); margin-bottom: .4rem; }
+    h2 { font-size: 1.45rem; color: var(--biru-utama); margin: 1.5rem 0 .6rem; border-bottom: 2px solid var(--border); padding-bottom: .3rem; }
+    h3 { font-size: 1.05rem; color: var(--biru-gelap); margin: 1.2rem 0 .4rem; }
+
+    p { margin-bottom: .8rem; color: #334155; }
+
+    /* ============================================================
+       BADGE BONUS
+    ============================================================ */
+    .badge-bonus {
+      display: inline-block;
+      background: var(--ungu);
+      color: var(--putih);
+      font-size: .7rem;
+      padding: 2px 9px;
+      border-radius: 20px;
+      vertical-align: middle;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+    .badge-new {
+      display: inline-block;
+      background: #10b981;
+      color: var(--putih);
+      font-size: .7rem;
+      padding: 2px 9px;
+      border-radius: 20px;
+      vertical-align: middle;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       CODE BLOCK
+    ============================================================ */
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem 1.3rem;
+      font-family: 'Courier New', monospace;
+      font-size: .87rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: .8rem 0;
+      white-space: pre;
+    }
+    .code-block .sel   { color: #f472b6; } /* selector */
+    .code-block .prop  { color: #60a5fa; } /* property */
+    .code-block .val   { color: #fbbf24; } /* value */
+    .code-block .komen { color: #64748b; font-style: italic; }
+    .code-block .tag   { color: #60a5fa; }
+    .code-block .attr  { color: #34d399; }
+    .code-block .str   { color: #fbbf24; }
+    .code-block .tw    { color: #a78bfa; } /* tailwind class */
+
+    /* ============================================================
+       INFO BOX
+    ============================================================ */
+    .info-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: .9rem 1.1rem;
+      margin: .8rem 0;
+      font-size: .9rem;
+      color: #1e40af;
+    }
+    .info-box.warning { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .info-box.success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+    .info-box.purple  { background: var(--ungu-muda); border-color: #ddd6fe; color: #5b21b6; }
+
+    /* ============================================================
+       TABLE
+    ============================================================ */
+    table { width: 100%; border-collapse: collapse; margin: .8rem 0 1rem; font-size: .88rem; }
+    th { background: var(--biru-utama); color: var(--putih); padding: .6rem .9rem; text-align: left; }
+    td { padding: .55rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: #f1f5f9; }
+    tr:hover td { background: #e0f2fe; }
+
+    /* ============================================================
+       DEMO BOXES (untuk visualisasi konsep CSS)
+    ============================================================ */
+    .demo-area {
+      background: #f1f5f9;
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin: .8rem 0;
+    }
+
+    /* Demo Margin & Padding */
+    .demo-margin-wrap { background: #fde68a; padding: 1rem; border-radius: 6px; display: inline-block; }
+    .demo-margin-box  { background: #1a56db; color: #fff; padding: 1rem 1.5rem; border-radius: 4px; font-size: .85rem; text-align: center; }
+
+    /* Demo Box Model */
+    .demo-boxmodel {
+      width: 200px;
+      padding: 20px;
+      border: 4px solid #1a56db;
+      margin: 16px auto;
+      background: #eff6ff;
+      text-align: center;
+      font-size: .82rem;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    /* Demo Positioning */
+    .demo-position-wrap {
+      background: #f1f5f9;
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 1rem;
+      height: 130px;
+      position: relative;
+      margin: .8rem 0;
+      overflow: hidden;
+    }
+    .box-static   { background: #94a3b8; color: #fff; display: inline-block; padding: 6px 14px; font-size: .8rem; border-radius: 4px; margin: 4px; }
+    .box-relative { background: #1a56db; color: #fff; display: inline-block; padding: 6px 14px; font-size: .8rem; border-radius: 4px; position: relative; top: 16px; left: 8px; }
+    .box-absolute { background: #7c3aed; color: #fff; padding: 6px 14px; font-size: .8rem; border-radius: 4px; position: absolute; top: 8px; right: 8px; }
+    .box-fixed-demo { background: #ef4444; color: #fff; padding: 6px 14px; font-size: .8rem; border-radius: 4px; display: inline-block; margin: 4px; }
+
+    /* Demo Flexbox */
+    .demo-flex {
+      display: flex;
+      gap: 8px;
+      padding: 1rem;
+      background: #f1f5f9;
+      border-radius: 8px;
+      margin: .5rem 0;
+    }
+    .demo-flex.col     { flex-direction: column; }
+    .demo-flex.center  { justify-content: center; align-items: center; }
+    .demo-flex.between { justify-content: space-between; }
+    .flex-item {
+      background: var(--biru-utama);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: .82rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .flex-item.grow { flex: 1; }
+
+    /* Demo Grid */
+    .demo-grid {
+      display: grid;
+      gap: 8px;
+      margin: .5rem 0;
+    }
+    .demo-grid.col2 { grid-template-columns: 1fr 1fr; }
+    .demo-grid.col3 { grid-template-columns: 1fr 1fr 1fr; }
+    .demo-grid.col-mixed { grid-template-columns: 2fr 1fr; }
+    .grid-item {
+      background: var(--ungu);
+      color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: .82rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .grid-item.span2 { grid-column: span 2; background: #1e3a5f; }
+
+    /* Demo Warna */
+    .color-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: .5rem 0; }
+    .color-swatch {
+      width: 80px;
+      height: 56px;
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-end;
+      padding: 4px;
+      font-size: .68rem;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    /* Demo Typography */
+    .typo-demo > * { margin-bottom: .3rem; }
+
+    /* Demo Transition & Transform */
+    .demo-transition-box {
+      display: inline-block;
+      background: var(--biru-utama);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: .88rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s;
+    }
+    .demo-transition-box:hover {
+      background: var(--biru-gelap);
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 8px 20px rgba(26,86,219,0.3);
+    }
+
+    /* Demo Tailwind comparison */
+    .vanilla-btn {
+      background-color: #3b82f6;
+      color: #ffffff;
+      padding: 8px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--biru-gelap) 0%, var(--biru-utama) 60%, var(--hijau) 100%);
+      color: var(--putih);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    .hero h1 { color: var(--putih); font-size: 2.1rem; }
+    .hero p  { color: rgba(255,255,255,.85); }
+    .hero .pills { margin-top: 1rem; }
+    .hero .pills span {
+      display: inline-block;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: .8rem;
+      margin: 3px;
+    }
+
+    /* HR */
+    hr { border: none; border-top: 2px solid var(--border); margin: 1.5rem 0; }
+
+    /* Footer */
+    footer {
+      background: var(--biru-gelap);
+      color: rgba(255,255,255,.75);
+      text-align: center;
+      padding: 1.4rem 1rem;
+      font-size: .88rem;
+    }
+    footer a { color: #60a5fa; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      main { padding: 1rem .8rem 2rem; }
+      .section-card { padding: 1.2rem 1rem; }
+      nav.navbar .links { display: none; }
+      .demo-grid.col3 { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <span class="logo">🎨 MAPID Academy — Materi CSS & Tailwind</span>
+    <div class="links">
+      <a href="#css">CSS</a>
+      <a href="#anatomi">Anatomi</a>
+      <a href="#selector">Selector</a>
+      <a href="#box-model">Box Model</a>
+      <a href="#layout">Layout</a>
+      <a href="#responsive">Responsive</a>
+      <a href="#tailwind">Tailwind</a>
+      <a href="#bonus">🎁 Bonus</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <header class="hero">
+      <h1>🎨 Materi CSS & Tailwind CSS</h1>
+      <p>MAPID Academy &mdash; WebGIS Development Bootcamp 2026</p>
+      <p>Sesi 9 &amp; Sesi 10 &bull; Code the Map, Decode the Future</p>
+      <div class="pills">
+        <span>Pengenalan CSS</span>
+        <span>Selector</span>
+        <span>Box Model</span>
+        <span>Flexbox &amp; Grid</span>
+        <span>Responsive</span>
+        <span>Tailwind CSS</span>
+        <span>+ Bonus</span>
+      </div>
+    </header>
+
+
+    <!-- ===========================================================
+         SECTION 1 — PENGENALAN CSS
+    =========================================================== -->
+    <section class="section-card" id="css">
+      <h2>1. Pengenalan CSS</h2>
+
+      <p><strong>CSS</strong> (Cascading Style Sheets) adalah bahasa yang digunakan untuk mengatur tampilan dan format halaman web — seperti warna, font, tata letak, dan elemen visual lainnya.</p>
+
+      <h3>Fungsi CSS</h3>
+      <ul style="padding-left:1.5rem; margin-bottom:.8rem;">
+        <li>Mengatur <strong>warna</strong> teks dan background</li>
+        <li>Mengatur <strong>ukuran font</strong> dan jenis huruf</li>
+        <li>Mengatur <strong>jarak</strong> (margin, padding)</li>
+        <li>Mengatur <strong>posisi dan layout</strong> elemen</li>
+        <li>Membuat website lebih <strong>rapi dan menarik</strong></li>
+      </ul>
+
+      <h3>3 Cara Penulisan CSS</h3>
+      <table>
+        <thead><tr><th>Metode</th><th>Cara</th><th>Kapan Digunakan</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>a. Inline CSS</strong></td>
+            <td>Atribut <code>style=""</code> langsung pada tag HTML</td>
+            <td>Override cepat, satu elemen saja</td>
+          </tr>
+          <tr>
+            <td><strong>b. Internal CSS</strong></td>
+            <td>Tag <code>&lt;style&gt;</code> di dalam <code>&lt;head&gt;</code></td>
+            <td>File HTML kecil / belajar</td>
+          </tr>
+          <tr>
+            <td><strong>c. External CSS</strong></td>
+            <td>File <code>.css</code> terpisah, dihubungkan via <code>&lt;link&gt;</code></td>
+            <td>✅ Proyek besar, best practice</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="komen">/* a. Inline CSS — langsung di atribut style */</span>
+<span class="tag">&lt;section</span> <span class="attr">style</span>=<span class="str">"background-color: #dd5757; width: 500px; height: 150px"</span><span class="tag">&gt;&lt;/section&gt;</span>
+
+<span class="komen">/* b. Internal CSS — di dalam &lt;style&gt; pada &lt;head&gt; */</span>
+<span class="tag">&lt;style&gt;</span>
+  <span class="sel">section</span> {
+    <span class="prop">background-color</span>: <span class="val">#dd5757</span>;
+    <span class="prop">width</span>: <span class="val">500px</span>;
+    <span class="prop">height</span>: <span class="val">150px</span>;
+  }
+<span class="tag">&lt;/style&gt;</span>
+
+<span class="komen">/* c. External CSS — file style.css terpisah */</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">type</span>=<span class="str">"text/css"</span> <span class="attr">href</span>=<span class="str">"style.css"</span> <span class="tag">/&gt;</span></div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Prioritas (Cascading):</strong> Inline &gt; Internal &gt; External. Inline CSS akan selalu "menang" jika ada konflik. Gunakan External CSS untuk proyek nyata agar kode lebih terorganisir.
+      </div>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 2 — ANATOMI CSS
+    =========================================================== -->
+    <section class="section-card" id="anatomi">
+      <h2>2. Anatomi CSS</h2>
+
+      <p>Setiap aturan CSS memiliki struktur yang sama:</p>
+
+      <div class="code-block"><span class="sel">selector</span> { <span class="prop">property</span>: <span class="val">value</span>; }
+
+<span class="komen">/* Contoh nyata: */</span>
+<span class="sel">p</span> {
+  <span class="prop">background</span>: <span class="val">yellow</span>;   <span class="komen">/* property: nilai; */</span>
+  <span class="prop">color</span>: <span class="val">blue</span>;
+}</div>
+
+      <table>
+        <thead><tr><th>Istilah</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Selector</strong></td><td>Elemen HTML yang akan diberi gaya</td><td><code>p</code>, <code>.card</code>, <code>#hero</code></td></tr>
+          <tr><td><strong>{ }</strong></td><td>Pembuka &amp; penutup blok deklarasi</td><td><code>p { ... }</code></td></tr>
+          <tr><td><strong>Property</strong></td><td>Aspek tampilan yang ingin diubah</td><td><code>color</code>, <code>font-size</code></td></tr>
+          <tr><td><strong>Value</strong></td><td>Nilai dari property tersebut</td><td><code>blue</code>, <code>16px</code></td></tr>
+          <tr><td><strong>;</strong></td><td>Pemisah antar deklarasi — wajib jika ada lebih dari satu</td><td><code>color: red;</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 3 — SELECTOR
+    =========================================================== -->
+    <section class="section-card" id="selector">
+      <h2>3. Selector CSS</h2>
+      <p>Selector menentukan <em>elemen mana</em> yang akan dikenai gaya.</p>
+
+      <div class="code-block"><span class="komen">/* 1. Universal Selector — berlaku ke SEMUA elemen */</span>
+<span class="sel">*</span> {
+  <span class="prop">box-sizing</span>: <span class="val">border-box</span>;
+}
+
+<span class="komen">/* 2. Element Selector — berdasarkan nama tag */</span>
+<span class="sel">p</span> {
+  <span class="prop">font-size</span>: <span class="val">1rem</span>;
+}
+
+<span class="komen">/* 3. Class Selector (.) — diawali titik */</span>
+<span class="sel">.content</span> {
+  <span class="prop">width</span>: <span class="val">500px</span>;
+  <span class="prop">height</span>: <span class="val">100px</span>;
+}
+
+<span class="komen">/* 4. ID Selector (#) — diawali pagar, unik per halaman */</span>
+<span class="sel">#home</span> {
+  <span class="prop">background-color</span>: <span class="val">#dd5757</span>;
+}
+
+<span class="komen">/* 5. Attribute Selector — berdasarkan atribut HTML */</span>
+<span class="sel">input[type="text"]</span> {
+  <span class="prop">background-color</span>: <span class="val">#000000</span>;
+  <span class="prop">color</span>: <span class="val">#ffffff</span>;
+}
+
+<span class="komen">/* 6. Descendant Selector (spasi) — turunan elemen */</span>
+<span class="sel">nav a</span> {
+  <span class="prop">text-decoration</span>: <span class="val">none</span>;
+  <span class="prop">color</span>: <span class="val">#ff00ff</span>;
+}
+
+<span class="komen">/* 7. Child Selector (>) — anak LANGSUNG saja */</span>
+<span class="sel">section &gt; h2</span> {
+  <span class="prop">text-align</span>: <span class="val">center</span>;
+}
+
+<span class="komen">/* 8. Adjacent Sibling Selector (+) — elemen tepat setelah */</span>
+<span class="sel">h1 + p</span> {
+  <span class="prop">text-align</span>: <span class="val">center</span>;
+}
+
+<span class="komen">/* BONUS: Pseudo-class — kondisi elemen */</span>
+<span class="sel">a:hover</span>      { <span class="prop">color</span>: <span class="val">red</span>; }          <span class="komen">/* saat di-hover */</span>
+<span class="sel">li:nth-child(2)</span> { <span class="prop">color</span>: <span class="val">blue</span>; }      <span class="komen">/* anak ke-2 */</span>
+<span class="sel">input:focus</span>  { <span class="prop">border-color</span>: <span class="val">blue</span>; }   <span class="komen">/* saat aktif */</span>
+
+<span class="komen">/* BONUS: Pseudo-element — bagian tertentu dari elemen */</span>
+<span class="sel">p::first-line</span>  { <span class="prop">font-weight</span>: <span class="val">bold</span>; }    <span class="komen">/* baris pertama */</span>
+<span class="sel">p::before</span>      { <span class="prop">content</span>: <span class="val">"▶ "</span>; }        <span class="komen">/* sisipkan konten sebelum */</span>
+<span class="sel">p::after</span>       { <span class="prop">content</span>: <span class="val">" ✓"</span>; }</span>        <span class="komen">/* sisipkan konten setelah */</span></div>
+
+      <table>
+        <thead><tr><th>Selector</th><th>Sintaks</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td>Universal</td><td><code>*</code></td><td><code>* { box-sizing: border-box; }</code></td></tr>
+          <tr><td>Element</td><td><code>tag</code></td><td><code>p { font-size: 1rem; }</code></td></tr>
+          <tr><td>Class</td><td><code>.nama</code></td><td><code>.card { padding: 1rem; }</code></td></tr>
+          <tr><td>ID</td><td><code>#nama</code></td><td><code>#hero { background: blue; }</code></td></tr>
+          <tr><td>Attribute</td><td><code>[attr="val"]</code></td><td><code>input[type="text"] { ... }</code></td></tr>
+          <tr><td>Descendant</td><td><code>A B</code></td><td><code>nav a { color: white; }</code></td></tr>
+          <tr><td>Child</td><td><code>A &gt; B</code></td><td><code>section &gt; h2 { ... }</code></td></tr>
+          <tr><td>Sibling</td><td><code>A + B</code></td><td><code>h1 + p { ... }</code></td></tr>
+          <tr><td>Pseudo-class</td><td><code>:hover :focus :nth-child</code></td><td><code>a:hover { color: red; }</code></td></tr>
+          <tr><td>Pseudo-element</td><td><code>::before ::after</code></td><td><code>p::before { content: "▶ "; }</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 4 — BOX MODEL: MARGIN & PADDING
+    =========================================================== -->
+    <section class="section-card" id="box-model">
+      <h2>4. Box Model: Margin &amp; Padding</h2>
+
+      <p>Setiap elemen HTML adalah sebuah "kotak". Box Model terdiri dari 4 lapisan dari dalam ke luar:</p>
+
+      <!-- Visualisasi Box Model -->
+      <div class="demo-area" style="background:#fef9c3; text-align:center; padding:1.5rem;">
+        <div style="background:#fde68a; padding:1rem; border-radius:6px; display:inline-block; font-size:.8rem; color:#92400e;">
+          <strong>MARGIN</strong> — jarak luar antar elemen
+          <div style="background:#fed7aa; padding:.8rem; border-radius:4px; margin-top:.5rem;">
+            <strong>BORDER</strong> — garis batas elemen
+            <div style="background:#bbf7d0; padding:.8rem; border-radius:4px; margin-top:.5rem;">
+              <strong>PADDING</strong> — jarak dalam (konten ↔ border)
+              <div style="background:#bfdbfe; padding:.8rem; border-radius:4px; margin-top:.5rem; color:#1e40af;">
+                <strong>CONTENT</strong> — teks, gambar, dll.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="komen">/* Margin — jarak LUAR antar elemen */</span>
+<span class="sel">.kotak</span> {
+  <span class="prop">margin</span>: <span class="val">16px</span>;                   <span class="komen">/* semua sisi */</span>
+  <span class="prop">margin</span>: <span class="val">16px 8px</span>;              <span class="komen">/* atas-bawah | kiri-kanan */</span>
+  <span class="prop">margin</span>: <span class="val">10px 20px 10px 20px</span>;   <span class="komen">/* atas | kanan | bawah | kiri */</span>
+  <span class="prop">margin-top</span>: <span class="val">10px</span>;             <span class="komen">/* sisi tertentu */</span>
+  <span class="prop">margin</span>: <span class="val">0 auto</span>;               <span class="komen">/* center horizontal */</span>
+}
+
+<span class="komen">/* Padding — jarak DALAM (konten ke border) */</span>
+<span class="sel">.kotak</span> {
+  <span class="prop">padding</span>: <span class="val">16px</span>;                  <span class="komen">/* semua sisi */</span>
+  <span class="prop">padding</span>: <span class="val">12px 24px</span>;            <span class="komen">/* atas-bawah | kiri-kanan */</span>
+  <span class="prop">padding-left</span>: <span class="val">20px</span>;           <span class="komen">/* sisi tertentu */</span>
+}
+
+<span class="komen">/* Border — garis batas */</span>
+<span class="sel">.kotak</span> {
+  <span class="prop">border</span>: <span class="val">2px solid #1a56db</span>;    <span class="komen">/* tebal | gaya | warna */</span>
+  <span class="prop">border-radius</span>: <span class="val">8px</span>;           <span class="komen">/* sudut melengkung */</span>
+}</div>
+
+      <h3>Satuan pada CSS</h3>
+      <table>
+        <thead><tr><th>Satuan</th><th>Jenis</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td><code>px</code></td><td>Absolut</td><td>Ukuran tetap, tidak berubah</td><td><code>font-size: 16px</code></td></tr>
+          <tr><td><code>em</code></td><td>Relatif</td><td>Relatif terhadap font-size <em>parent</em></td><td><code>font-size: 2em</code> → 2× parent</td></tr>
+          <tr><td><code>rem</code></td><td>Relatif</td><td>Relatif terhadap font-size <em>root</em> (html = 16px)</td><td><code>font-size: 2rem</code> → 32px</td></tr>
+          <tr><td><code>%</code></td><td>Relatif</td><td>Relatif terhadap ukuran <em>parent</em></td><td><code>width: 50%</code></td></tr>
+          <tr><td><code>vw</code></td><td>Viewport</td><td>% dari <em>lebar</em> layar</td><td><code>width: 50vw</code> → setengah layar</td></tr>
+          <tr><td><code>vh</code></td><td>Viewport</td><td>% dari <em>tinggi</em> layar</td><td><code>height: 100vh</code> → full layar</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 5 — WARNA
+    =========================================================== -->
+    <section class="section-card" id="warna">
+      <h2>5. Warna pada CSS</h2>
+
+      <div class="code-block"><span class="komen">/* 1. Nama Warna — mudah diingat, terbatas (~140 nama) */</span>
+<span class="sel">.el</span> { <span class="prop">color</span>: <span class="val">red</span>; <span class="prop">background</span>: <span class="val">lightblue</span>; }
+
+<span class="komen">/* 2. HEX Code — format #RRGGBB */</span>
+<span class="sel">.el</span> { <span class="prop">color</span>: <span class="val">#FF0000</span>; }        <span class="komen">/* merah */</span>
+<span class="sel">.el</span> { <span class="prop">color</span>: <span class="val">#00FF00</span>; }        <span class="komen">/* hijau */</span>
+<span class="sel">.el</span> { <span class="prop">color</span>: <span class="val">#0000FF</span>; }        <span class="komen">/* biru */</span>
+<span class="sel">.el</span> { <span class="prop">color</span>: <span class="val">#FFF</span>; }           <span class="komen">/* shorthand: #FFF = #FFFFFF */</span>
+
+<span class="komen">/* 3. RGB — Red Green Blue, nilai 0–255 */</span>
+<span class="sel">.el</span> { <span class="prop">color</span>: <span class="val">rgb(255, 0, 0)</span>; }   <span class="komen">/* merah */</span>
+
+<span class="komen">/* 4. RGBA — RGB + Alpha (0=transparan, 1=solid) */</span>
+<span class="sel">.el</span> { <span class="prop">background</span>: <span class="val">rgba(255, 0, 0, 0.5)</span>; } <span class="komen">/* merah 50% transparan */</span>
+
+<span class="komen">/* 5. HSL — Hue (0–360°) Saturation Lightness */</span>
+<span class="sel">.el</span> { <span class="prop">color</span>: <span class="val">hsl(0, 100%, 50%)</span>; }       <span class="komen">/* merah terang */</span>
+
+<span class="komen">/* 6. Gradient */</span>
+<span class="sel">.el</span> { <span class="prop">background</span>: <span class="val">linear-gradient(135deg, #1e3a5f, #1a56db)</span>; }</div>
+
+      <!-- Swatches visualisasi -->
+      <h3>Contoh Warna</h3>
+      <div class="color-row">
+        <div class="color-swatch" style="background:#ef4444;">#ef4444</div>
+        <div class="color-swatch" style="background:#f97316;">#f97316</div>
+        <div class="color-swatch" style="background:#f59e0b;">#f59e0b</div>
+        <div class="color-swatch" style="background:#22c55e;">#22c55e</div>
+        <div class="color-swatch" style="background:#0ea5e9;">#0ea5e9</div>
+        <div class="color-swatch" style="background:#1a56db;">#1a56db</div>
+        <div class="color-swatch" style="background:#7c3aed;">#7c3aed</div>
+        <div class="color-swatch" style="background:#1e293b;">#1e293b</div>
+        <div class="color-swatch" style="background:rgba(26,86,219,0.4); border:1px solid #bfdbfe;"><span style="color:#1e3a5f;">rgba .4</span></div>
+        <div class="color-swatch" style="background:linear-gradient(135deg,#1e3a5f,#1a56db);">gradient</div>
+      </div>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 6 — TYPOGRAPHY
+    =========================================================== -->
+    <section class="section-card" id="typography">
+      <h2>6. Typography pada CSS</h2>
+
+      <div class="code-block"><span class="sel">.teks</span> {
+  <span class="komen">/* 1. font-family — jenis huruf, fallback dipisah koma */</span>
+  <span class="prop">font-family</span>: <span class="val">'Poppins', Arial, sans-serif</span>;
+
+  <span class="komen">/* 2. font-size — ukuran teks */</span>
+  <span class="prop">font-size</span>: <span class="val">1rem</span>;          <span class="komen">/* = 16px (default root) */</span>
+
+  <span class="komen">/* 3. font-weight — ketebalan */</span>
+  <span class="prop">font-weight</span>: <span class="val">bold</span>;         <span class="komen">/* atau angka: 100–900 */</span>
+
+  <span class="komen">/* 4. font-style — gaya tulisan */</span>
+  <span class="prop">font-style</span>: <span class="val">italic</span>;
+
+  <span class="komen">/* 5. text-decoration — efek garis */</span>
+  <span class="prop">text-decoration</span>: <span class="val">underline</span>;   <span class="komen">/* none | underline | line-through */</span>
+
+  <span class="komen">/* 6. text-transform — kapitalisasi */</span>
+  <span class="prop">text-transform</span>: <span class="val">uppercase</span>;   <span class="komen">/* uppercase | lowercase | capitalize */</span>
+
+  <span class="komen">/* 7. line-height — jarak antar baris (1.5–1.7 ideal) */</span>
+  <span class="prop">line-height</span>: <span class="val">1.6</span>;
+
+  <span class="komen">/* 8. letter-spacing — jarak antar huruf */</span>
+  <span class="prop">letter-spacing</span>: <span class="val">1px</span>;
+
+  <span class="komen">/* 9. text-align — posisi teks */</span>
+  <span class="prop">text-align</span>: <span class="val">center</span>;          <span class="komen">/* left | right | center | justify */</span>
+
+  <span class="komen">/* 10. color — warna teks */</span>
+  <span class="prop">color</span>: <span class="val">#1e293b</span>;
+}</div>
+
+      <!-- Demo typography -->
+      <div class="demo-area typo-demo">
+        <p style="font-size:2rem; font-weight:800; font-family:'Poppins',sans-serif; color:#1e3a5f;">font-size: 2rem, weight: 800</p>
+        <p style="font-size:1.2rem; font-weight:600; color:#1a56db;">font-size: 1.2rem, weight: 600</p>
+        <p style="font-size:1rem; font-style:italic; color:#64748b;">font-style: italic</p>
+        <p style="font-size:.9rem; text-decoration:underline; color:#7c3aed;">text-decoration: underline</p>
+        <p style="font-size:.85rem; text-transform:uppercase; letter-spacing:3px; color:#475569;">text-transform: uppercase + letter-spacing: 3px</p>
+        <p style="font-size:.9rem; line-height:2; background:#eff6ff; padding:.5rem; border-radius:6px;">line-height: 2 — teks dengan jarak baris lebih lebar, lebih nyaman dibaca untuk paragraf panjang.</p>
+      </div>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 7 — POSITIONING
+    =========================================================== -->
+    <section class="section-card" id="positioning">
+      <h2>7. Positioning CSS</h2>
+
+      <table>
+        <thead><tr><th>Nilai</th><th>Penjelasan</th><th>Kapan Digunakan</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>static</code></td>
+            <td>Default. Ikuti alur dokumen. <code>top/left/right/bottom</code> tidak berfungsi.</td>
+            <td>Semua elemen secara default</td>
+          </tr>
+          <tr>
+            <td><code>relative</code></td>
+            <td>Tetap di alur normal. Bisa digeser dengan <code>top/left</code> relatif ke posisi aslinya.</td>
+            <td>Parent untuk child absolute, offset kecil</td>
+          </tr>
+          <tr>
+            <td><code>absolute</code></td>
+            <td>Keluar dari alur. Posisi relatif ke parent terdekat yang punya <code>position: relative/absolute/fixed</code>.</td>
+            <td>Badge, tooltip, overlay, dekorasi</td>
+          </tr>
+          <tr>
+            <td><code>fixed</code></td>
+            <td>Keluar dari alur. Menempel di viewport, tidak ikut scroll.</td>
+            <td>Navbar, tombol back-to-top, chat bubble</td>
+          </tr>
+          <tr>
+            <td><code>sticky</code></td>
+            <td>Ikut scroll sampai batas tertentu, lalu menempel (kombinasi relative + fixed).</td>
+            <td>Sidebar sticky, header tabel</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="sel">.parent</span> {
+  <span class="prop">position</span>: <span class="val">relative</span>;   <span class="komen">/* diperlukan agar child absolute menempel di sini */</span>
+}
+
+<span class="sel">.child-absolute</span> {
+  <span class="prop">position</span>: <span class="val">absolute</span>;
+  <span class="prop">top</span>: <span class="val">10px</span>;
+  <span class="prop">right</span>: <span class="val">10px</span>;
+}
+
+<span class="sel">.navbar</span> {
+  <span class="prop">position</span>: <span class="val">fixed</span>;   <span class="komen">/* menempel di layar, tidak ikut scroll */</span>
+  <span class="prop">top</span>: <span class="val">0</span>;
+  <span class="prop">left</span>: <span class="val">0</span>;
+  <span class="prop">width</span>: <span class="val">100%</span>;
+  <span class="prop">z-index</span>: <span class="val">1000</span>;     <span class="komen">/* z-index: lapisan tumpukan, makin besar = makin depan */</span>
+}
+
+<span class="sel">.sidebar</span> {
+  <span class="prop">position</span>: <span class="val">sticky</span>;  <span class="komen">/* ikut scroll sampai top: 80px, lalu menempel */</span>
+  <span class="prop">top</span>: <span class="val">80px</span>;
+}</div>
+
+      <!-- Demo visual positioning -->
+      <div class="demo-position-wrap">
+        <span class="box-static">static (default)</span>
+        <span class="box-relative">relative (geser 16px bawah+8px kanan)</span>
+        <span class="box-absolute">absolute (top:8 right:8)</span>
+      </div>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 8 — LAYOUT: FLEXBOX & GRID
+    =========================================================== -->
+    <section class="section-card" id="layout">
+      <h2>8. Layout CSS — Flexbox &amp; Grid</h2>
+
+      <!-- FLEXBOX -->
+      <h3>A. Flexbox (1 Dimensi)</h3>
+      <p>Flexbox mengatur layout dalam <strong>satu arah</strong>: horizontal (row) atau vertikal (column). Cocok untuk navbar, card sejajar, centering.</p>
+
+      <div class="code-block"><span class="sel">.container</span> {
+  <span class="prop">display</span>: <span class="val">flex</span>;
+
+  <span class="komen">/* Arah sumbu utama */</span>
+  <span class="prop">flex-direction</span>: <span class="val">row</span>;          <span class="komen">/* row (default) | column | row-reverse */</span>
+
+  <span class="komen">/* Distribusi ruang di sumbu utama */</span>
+  <span class="prop">justify-content</span>: <span class="val">center</span>;      <span class="komen">/* flex-start | flex-end | center | space-between | space-around */</span>
+
+  <span class="komen">/* Posisi di sumbu silang */</span>
+  <span class="prop">align-items</span>: <span class="val">center</span>;          <span class="komen">/* flex-start | flex-end | center | stretch */</span>
+
+  <span class="komen">/* Jarak antar item */</span>
+  <span class="prop">gap</span>: <span class="val">1rem</span>;
+
+  <span class="komen">/* Wrap ke baris baru jika tidak muat */</span>
+  <span class="prop">flex-wrap</span>: <span class="val">wrap</span>;
+}
+
+<span class="komen">/* Properti pada flex item */</span>
+<span class="sel">.item</span> {
+  <span class="prop">flex</span>: <span class="val">1</span>;         <span class="komen">/* ambil sisa ruang secara merata */</span>
+  <span class="prop">flex</span>: <span class="val">0 0 200px</span>; <span class="komen">/* grow shrink basis — lebar tetap 200px */</span>
+}</div>
+
+      <!-- Demo Flexbox row -->
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.3rem;">Demo: <code>flex-direction: row</code>, <code>justify-content: space-between</code></p>
+      <div class="demo-flex between">
+        <div class="flex-item">Item 1</div>
+        <div class="flex-item">Item 2</div>
+        <div class="flex-item">Item 3</div>
+      </div>
+
+      <!-- Demo Flexbox center -->
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.3rem;">Demo: <code>justify-content: center</code>, <code>align-items: center</code></p>
+      <div class="demo-flex center" style="height:80px;">
+        <div class="flex-item">Tengah!</div>
+      </div>
+
+      <!-- Demo flex: 1 -->
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.3rem;">Demo: item kiri <code>flex: 0 0 120px</code>, item kanan <code>flex: 1</code> (ambil sisa)</p>
+      <div class="demo-flex">
+        <div class="flex-item" style="flex: 0 0 120px;">120px</div>
+        <div class="flex-item grow">flex: 1 (mengisi sisa)</div>
+      </div>
+
+      <hr>
+
+      <!-- GRID -->
+      <h3>B. CSS Grid (2 Dimensi)</h3>
+      <p>Grid mengatur layout dalam <strong>dua arah sekaligus</strong>: baris (row) dan kolom (column). Cocok untuk layout halaman, dashboard, galeri.</p>
+
+      <div class="code-block"><span class="sel">.container</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+
+  <span class="komen">/* Mendefinisikan kolom */</span>
+  <span class="prop">grid-template-columns</span>: <span class="val">200px 200px</span>;         <span class="komen">/* 2 kolom fixed */</span>
+  <span class="prop">grid-template-columns</span>: <span class="val">1fr 1fr 1fr</span>;          <span class="komen">/* 3 kolom sama lebar */</span>
+  <span class="prop">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>;       <span class="komen">/* shorthand repeat */</span>
+  <span class="prop">grid-template-columns</span>: <span class="val">2fr 1fr</span>;              <span class="komen">/* kiri 2x lebih lebar */</span>
+  <span class="prop">grid-template-columns</span>: <span class="val">repeat(auto-fit, minmax(260px, 1fr))</span>; <span class="komen">/* responsive otomatis! */</span>
+
+  <span class="komen">/* Mendefinisikan baris */</span>
+  <span class="prop">grid-template-rows</span>: <span class="val">200px 200px</span>;
+
+  <span class="komen">/* Jarak antar sel */</span>
+  <span class="prop">gap</span>: <span class="val">1rem</span>;
+  <span class="prop">column-gap</span>: <span class="val">1rem</span>;
+  <span class="prop">row-gap</span>: <span class="val">.5rem</span>;
+}
+
+<span class="komen">/* Item span (menggabungkan kolom/baris) */</span>
+<span class="sel">.item-lebar</span> {
+  <span class="prop">grid-column</span>: <span class="val">span 2</span>;   <span class="komen">/* menempati 2 kolom */</span>
+  <span class="prop">grid-row</span>: <span class="val">span 2</span>;      <span class="komen">/* menempati 2 baris */</span>
+}</div>
+
+      <!-- Demo Grid 3 kolom -->
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.3rem;">Demo: <code>grid-template-columns: 1fr 1fr 1fr</code></p>
+      <div class="demo-grid col3">
+        <div class="grid-item">Kolom 1</div>
+        <div class="grid-item">Kolom 2</div>
+        <div class="grid-item">Kolom 3</div>
+        <div class="grid-item">Kolom 1</div>
+        <div class="grid-item">Kolom 2</div>
+        <div class="grid-item">Kolom 3</div>
+      </div>
+
+      <!-- Demo Grid span -->
+      <p style="font-size:.82rem; color:#64748b; margin:.8rem 0 .3rem;">Demo: <code>grid-column: span 2</code></p>
+      <div class="demo-grid col2">
+        <div class="grid-item span2">grid-column: span 2 (lebar penuh)</div>
+        <div class="grid-item">Kolom 1</div>
+        <div class="grid-item">Kolom 2</div>
+      </div>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 9 — RESPONSIVE WEB DESIGN
+    =========================================================== -->
+    <section class="section-card" id="responsive">
+      <h2>9. Responsive Web Design</h2>
+
+      <p><strong>Responsive</strong> = tampilan website menyesuaikan otomatis di semua ukuran layar (Desktop | Tablet | Mobile).</p>
+
+      <h3>Step 1: Meta Viewport (WAJIB)</h3>
+      <div class="code-block"><span class="komen">&lt;!-- Wajib ada di &lt;head&gt; untuk membuat website responsif --&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="str">"viewport"</span> <span class="attr">content</span>=<span class="str">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span></div>
+
+      <h3>Step 2: Media Query (Inti Responsive)</h3>
+      <div class="code-block"><span class="komen">/* Breakpoint umum yang digunakan */</span>
+
+<span class="komen">/* Mobile (max-width: 576px) */</span>
+<span class="sel">@media (max-width: 576px)</span> {
+  <span class="sel">body</span> { <span class="prop">font-size</span>: <span class="val">14px</span>; }
+  <span class="sel">.card-grid</span> { <span class="prop">grid-template-columns</span>: <span class="val">1fr</span>; }  <span class="komen">/* 1 kolom di HP */</span>
+}
+
+<span class="komen">/* Tablet (max-width: 768px) */</span>
+<span class="sel">@media (max-width: 768px)</span> {
+  <span class="sel">body</span> { <span class="prop">background-color</span>: <span class="val">lightblue</span>; }
+  <span class="sel">.navbar-links</span> { <span class="prop">display</span>: <span class="val">none</span>; }        <span class="komen">/* sembunyikan link di tablet */</span>
+  <span class="sel">.layout</span> { <span class="prop">flex-direction</span>: <span class="val">column</span>; }      <span class="komen">/* flexbox jadi vertikal */</span>
+}
+
+<span class="komen">/* Laptop (max-width: 992px) */</span>
+<span class="sel">@media (max-width: 992px)</span> {
+  <span class="sel">.sidebar</span> { <span class="prop">width</span>: <span class="val">240px</span>; }
+}
+
+<span class="komen">/* min-width: mobile-first approach */</span>
+<span class="sel">@media (min-width: 768px)</span> {
+  <span class="sel">.card-grid</span> { <span class="prop">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>; }
+}</div>
+
+      <table>
+        <thead><tr><th>Nama</th><th>Breakpoint</th><th>Perangkat</th></tr></thead>
+        <tbody>
+          <tr><td>Mobile</td><td><code>max-width: 576px</code></td><td>Smartphone</td></tr>
+          <tr><td>Tablet</td><td><code>max-width: 768px</code></td><td>Tablet, iPad</td></tr>
+          <tr><td>Laptop</td><td><code>max-width: 992px</code></td><td>Laptop kecil</td></tr>
+          <tr><td>Desktop</td><td><code>max-width: 1200px</code></td><td>Desktop</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box success">
+        ✅ <strong>Tips Mobile First:</strong> Desain untuk layar kecil dulu tanpa media query, lalu tambahkan <code>@media (min-width: ...)</code> untuk layar lebih besar. Ini membuat CSS lebih ringan dan terorganisir.
+      </div>
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 10 — TAILWIND CSS
+    =========================================================== -->
+    <section class="section-card" id="tailwind" style="border-left-color: #7c3aed;">
+      <h2>10. Framework CSS — Tailwind CSS</h2>
+
+      <p><strong>CSS Framework</strong> adalah kumpulan file CSS (dan kadang JavaScript) yang menyediakan sistem layout, komponen siap pakai, dan utility class. Tujuannya mempercepat pembuatan tampilan dan menjaga konsistensi desain.</p>
+
+      <h3>Perbandingan: Vanilla CSS vs Bootstrap vs Tailwind</h3>
+      <table>
+        <thead><tr><th>Aspek</th><th>Vanilla CSS</th><th>Bootstrap</th><th>Tailwind</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Cara kerja</strong></td>
+            <td>Tulis CSS sendiri dari nol</td>
+            <td>Pakai class komponen siap pakai</td>
+            <td>Susun utility class di HTML</td>
+          </tr>
+          <tr>
+            <td><strong>Kecepatan</strong></td>
+            <td>⭐⭐ Lebih lama</td>
+            <td>⭐⭐⭐⭐ Sangat cepat</td>
+            <td>⭐⭐⭐⭐ Lebih cepat</td>
+          </tr>
+          <tr>
+            <td><strong>Kendali</strong></td>
+            <td>✅ Penuh</td>
+            <td>❌ Terbatas</td>
+            <td>✅ Tinggi</td>
+          </tr>
+          <tr>
+            <td><strong>Pemula</strong></td>
+            <td>❌ Perlu belajar CSS dulu</td>
+            <td>✅ Sangat ramah</td>
+            <td>⚠️ Harus paham CSS</td>
+          </tr>
+          <tr>
+            <td><strong>Kustomisasi</strong></td>
+            <td>✅ Bebas</td>
+            <td>⚠️ Terbatas</td>
+            <td>✅ Sangat tinggi</td>
+          </tr>
+          <tr>
+            <td><strong>Ukuran output</strong></td>
+            <td>✅ Optimal</td>
+            <td>❌ CSS banyak tidak terpakai</td>
+            <td>✅ Hanya yang dipakai</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Instalasi Tailwind — via CDN (Cara Paling Mudah)</h3>
+      <div class="code-block"><span class="komen">&lt;!-- Tambahkan di dalam &lt;head&gt; --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.tailwindcss.com"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="komen">&lt;!-- Selesai! Langsung bisa pakai class Tailwind --&gt;</span></div>
+
+      <div class="info-box purple">
+        📦 <strong>Cara lain:</strong> Install via NPM (<code>npm install tailwindcss</code>) untuk proyek produksi. CDN cocok untuk belajar dan prototyping.
+        Dokumentasi: <a href="https://tailwindcss.com/docs/installation/play-cdn" target="_blank" style="color:#7c3aed;">tailwindcss.com/docs/installation/play-cdn</a>
+      </div>
+
+      <h3>Utility Class — Cara Kerja Tailwind</h3>
+      <p>Di Tailwind, styling dilakukan langsung di atribut <code>class</code> HTML menggunakan class-class kecil (utility).</p>
+
+      <div class="code-block"><span class="komen">&lt;!-- Vanilla CSS: 2 file (HTML + CSS) --&gt;</span>
+<span class="komen">&lt;!-- index.html --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn"</span><span class="tag">&gt;</span>Click Me<span class="tag">&lt;/button&gt;</span>
+<span class="komen">&lt;!-- style.css --&gt;</span>
+<span class="sel">.btn</span> {
+  <span class="prop">background-color</span>: <span class="val">blue</span>;
+  <span class="prop">color</span>: <span class="val">white</span>;
+  <span class="prop">padding</span>: <span class="val">10px 16px</span>;
+  <span class="prop">border-radius</span>: <span class="val">8px</span>;
+}
+
+<span class="komen">&lt;!-- Tailwind: 1 file, class langsung di HTML --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-blue-500 text-white px-4 py-2 rounded-lg</span>"</span><span class="tag">&gt;</span>Click Me<span class="tag">&lt;/button&gt;</span></div>
+
+      <h3>Kelas-kelas Penting Tailwind</h3>
+      <table>
+        <thead><tr><th>Kategori</th><th>Contoh Class</th><th>CSS yang dihasilkan</th></tr></thead>
+        <tbody>
+          <tr><td>Background</td><td><code>bg-blue-500</code></td><td><code>background-color: #3b82f6</code></td></tr>
+          <tr><td>Text Color</td><td><code>text-white</code></td><td><code>color: #ffffff</code></td></tr>
+          <tr><td>Padding</td><td><code>px-4 py-2</code></td><td><code>padding: 8px 16px</code></td></tr>
+          <tr><td>Margin</td><td><code>mt-4 mx-auto</code></td><td><code>margin-top: 1rem; margin: 0 auto</code></td></tr>
+          <tr><td>Font Size</td><td><code>text-xl text-2xl</code></td><td><code>font-size: 1.25rem / 1.5rem</code></td></tr>
+          <tr><td>Font Weight</td><td><code>font-bold font-semibold</code></td><td><code>font-weight: 700 / 600</code></td></tr>
+          <tr><td>Border Radius</td><td><code>rounded rounded-full</code></td><td><code>border-radius: 4px / 9999px</code></td></tr>
+          <tr><td>Shadow</td><td><code>shadow shadow-lg</code></td><td><code>box-shadow: ...</code></td></tr>
+          <tr><td>Flexbox</td><td><code>flex items-center justify-between gap-4</code></td><td><code>display: flex; align-items: center; ...</code></td></tr>
+          <tr><td>Grid</td><td><code>grid grid-cols-3 gap-4</code></td><td><code>display: grid; grid-template-columns: repeat(3, 1fr)</code></td></tr>
+          <tr><td>Width</td><td><code>w-full w-1/2</code></td><td><code>width: 100% / 50%</code></td></tr>
+          <tr><td>Height</td><td><code>h-screen h-64</code></td><td><code>height: 100vh / 16rem</code></td></tr>
+          <tr><td>Display</td><td><code>block hidden inline-block</code></td><td><code>display: block / none / inline-block</code></td></tr>
+          <tr><td>Position</td><td><code>relative absolute fixed sticky</code></td><td><code>position: ...</code></td></tr>
+          <tr><td>Z-index</td><td><code>z-10 z-50</code></td><td><code>z-index: 10 / 50</code></td></tr>
+          <tr><td>Overflow</td><td><code>overflow-hidden overflow-x-auto</code></td><td><code>overflow: hidden / auto</code></td></tr>
+          <tr><td>Hover</td><td><code>hover:bg-blue-700 hover:text-white</code></td><td><code>:hover { background-color: #1d4ed8 }</code></td></tr>
+          <tr><td>Transition</td><td><code>transition duration-300 ease-in-out</code></td><td><code>transition: all 300ms ease-in-out</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Responsive di Tailwind</h3>
+      <p>Tailwind menggunakan <strong>prefix</strong> sebelum class untuk responsive. Pendekatan Tailwind adalah <strong>mobile-first</strong> (tanpa prefix = berlaku semua ukuran).</p>
+
+      <div class="code-block"><span class="komen">&lt;!-- Responsive Tailwind: prefix:class --&gt;</span>
+<span class="tag">&lt;h1</span> <span class="attr">class</span>=<span class="str">"<span class="tw">text-base md:text-2xl lg:text-4xl</span>"</span><span class="tag">&gt;</span>Hello World<span class="tag">&lt;/h1&gt;</span>
+<span class="komen">&lt;!-- text-base   = semua ukuran (mobile) → font-size: 1rem   --&gt;</span>
+<span class="komen">&lt;!-- md:text-2xl = ≥768px (tablet)       → font-size: 1.5rem --&gt;</span>
+<span class="komen">&lt;!-- lg:text-4xl = ≥1024px (desktop)     → font-size: 2.25rem --&gt;</span>
+
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="tw">grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4</span>"</span><span class="tag">&gt;</span>
+<span class="komen">&lt;!-- 1 kolom di HP, 2 kolom di tablet, 4 kolom di desktop --&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="str">"<span class="tw">flex justify-between items-center bg-gray-900 p-4</span>"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="str">"<span class="tw">flex gap-6 max-md:hidden</span>"</span><span class="tag">&gt;</span>
+    <span class="komen">&lt;!-- max-md:hidden = tersembunyi di bawah 768px --&gt;</span>
+  <span class="tag">&lt;/ul&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></div>
+
+      <table>
+        <thead><tr><th>Prefix</th><th>Minimum Width</th><th>Setara @media</th></tr></thead>
+        <tbody>
+          <tr><td><em>(tanpa prefix)</em></td><td>0px — semua ukuran</td><td>Mobile first (default)</td></tr>
+          <tr><td><code>sm:</code></td><td>640px</td><td><code>@media (min-width: 640px)</code></td></tr>
+          <tr><td><code>md:</code></td><td>768px</td><td><code>@media (min-width: 768px)</code></td></tr>
+          <tr><td><code>lg:</code></td><td>1024px</td><td><code>@media (min-width: 1024px)</code></td></tr>
+          <tr><td><code>xl:</code></td><td>1280px</td><td><code>@media (min-width: 1280px)</code></td></tr>
+          <tr><td><code>2xl:</code></td><td>1536px</td><td><code>@media (min-width: 1536px)</code></td></tr>
+        </tbody>
+      </table>
+
+      <!-- Demo Tailwind nyata -->
+      <h3>Demo Komponen Tailwind</h3>
+
+      <!-- Card Tailwind -->
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 mb-4 max-w-sm">
+        <div class="bg-gradient-to-r from-blue-600 to-sky-400 h-24 flex items-center justify-center">
+          <span class="text-white text-3xl">🗺️</span>
+        </div>
+        <div class="p-5">
+          <h3 class="text-lg font-bold text-gray-800 mb-1">WebGIS Transportasi</h3>
+          <p class="text-sm text-gray-500 mb-4">Peta interaktif jaringan transportasi publik DKI Jakarta berbasis Leaflet.js.</p>
+          <a href="#" class="inline-block bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition">Lihat Peta →</a>
+        </div>
+      </div>
+
+      <!-- Navbar Tailwind -->
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.4rem;">Demo Navbar dengan Tailwind:</p>
+      <nav class="flex justify-between items-center bg-gray-900 px-6 py-3 rounded-xl mb-4">
+        <span class="text-white font-bold text-sm">🗺️ WebGIS</span>
+        <ul class="flex gap-4 list-none">
+          <li><a href="#" class="text-gray-300 hover:text-white text-sm transition">Home</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white text-sm transition">About</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white text-sm transition">Map</a></li>
+        </ul>
+      </nav>
+
+      <!-- Stats grid Tailwind -->
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.4rem;">Demo Grid Stats Responsive:</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-2">
+        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-center">
+          <div class="text-2xl font-bold text-blue-700">50</div>
+          <div class="text-xs text-blue-500 mt-1">Rute TJ</div>
+        </div>
+        <div class="bg-purple-50 border border-purple-100 rounded-xl p-4 text-center">
+          <div class="text-2xl font-bold text-purple-700">2</div>
+          <div class="text-xs text-purple-500 mt-1">Rute MRT</div>
+        </div>
+        <div class="bg-green-50 border border-green-100 rounded-xl p-4 text-center">
+          <div class="text-2xl font-bold text-green-700">1</div>
+          <div class="text-xs text-green-500 mt-1">Rute LRT</div>
+        </div>
+        <div class="bg-yellow-50 border border-yellow-100 rounded-xl p-4 text-center">
+          <div class="text-2xl font-bold text-yellow-700">5</div>
+          <div class="text-xs text-yellow-500 mt-1">Rute KRL</div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 11 — MATERI TAMBAHAN (BONUS)
+    =========================================================== -->
+    <section class="section-card bonus" id="bonus">
+      <h2>11. Materi Tambahan Penting <span class="badge-bonus">Bonus</span></h2>
+
+      <!-- 11.1 CSS Variables -->
+      <h3>11.1 CSS Variables (Custom Properties) <span class="badge-bonus">Bonus</span></h3>
+      <p>Menyimpan nilai yang sering diulang agar mudah diubah dari satu tempat.</p>
+      <div class="code-block"><span class="komen">/* Definisikan di :root agar berlaku global */</span>
+<span class="sel">:root</span> {
+  <span class="prop">--warna-utama</span>: <span class="val">#1a56db</span>;
+  <span class="prop">--font-body</span>: <span class="val">'Inter', sans-serif</span>;
+  <span class="prop">--radius</span>: <span class="val">10px</span>;
+}
+
+<span class="komen">/* Cara pakai: var(--nama-variabel) */</span>
+<span class="sel">.tombol</span> {
+  <span class="prop">background-color</span>: <span class="val">var(--warna-utama)</span>;
+  <span class="prop">font-family</span>: <span class="val">var(--font-body)</span>;
+  <span class="prop">border-radius</span>: <span class="val">var(--radius)</span>;
+}</div>
+
+      <!-- 11.2 Transition & Transform -->
+      <h3>11.2 Transition &amp; Transform <span class="badge-bonus">Bonus</span></h3>
+      <p>Membuat elemen bergerak/berubah dengan animasi halus.</p>
+      <div class="code-block"><span class="sel">.tombol</span> {
+  <span class="prop">background-color</span>: <span class="val">#1a56db</span>;
+  <span class="komen">/* transition: property | durasi | timing-function */</span>
+  <span class="prop">transition</span>: <span class="val">background-color 0.3s ease, transform 0.2s ease</span>;
+}
+
+<span class="sel">.tombol:hover</span> {
+  <span class="prop">background-color</span>: <span class="val">#1e3a5f</span>;
+  <span class="komen">/* transform: geser, skala, rotasi */</span>
+  <span class="prop">transform</span>: <span class="val">translateY(-3px)</span>;  <span class="komen">/* geser 3px ke atas */</span>
+  <span class="prop">transform</span>: <span class="val">scale(1.05)</span>;       <span class="komen">/* perbesar 5% */</span>
+  <span class="prop">transform</span>: <span class="val">rotate(45deg)</span>;     <span class="komen">/* putar 45 derajat */</span>
+}</div>
+      <div class="demo-area">
+        <div class="demo-transition-box">🎯 Hover saya! (transition + transform)</div>
+      </div>
+
+      <!-- 11.3 Display -->
+      <h3>11.3 Properti Display <span class="badge-bonus">Bonus</span></h3>
+      <div class="code-block"><span class="sel">.el</span> { <span class="prop">display</span>: <span class="val">block</span>; }         <span class="komen">/* full lebar, mulai baris baru (div, p, h1) */</span>
+<span class="sel">.el</span> { <span class="prop">display</span>: <span class="val">inline</span>; }        <span class="komen">/* sebesar konten, tidak mulai baris baru (span, a) */</span>
+<span class="sel">.el</span> { <span class="prop">display</span>: <span class="val">inline-block</span>; } <span class="komen">/* seperti inline tapi bisa set width/height */</span>
+<span class="sel">.el</span> { <span class="prop">display</span>: <span class="val">flex</span>; }          <span class="komen">/* flexbox container */</span>
+<span class="sel">.el</span> { <span class="prop">display</span>: <span class="val">grid</span>; }          <span class="komen">/* grid container */</span>
+<span class="sel">.el</span> { <span class="prop">display</span>: <span class="val">none</span>; }          <span class="komen">/* sembunyikan elemen (tidak ada di layout) */</span></div>
+
+      <!-- 11.4 Overflow -->
+      <h3>11.4 Overflow <span class="badge-bonus">Bonus</span></h3>
+      <div class="code-block"><span class="sel">.el</span> { <span class="prop">overflow</span>: <span class="val">visible</span>; }   <span class="komen">/* konten melebihi ukuran tetap tampil (default) */</span>
+<span class="sel">.el</span> { <span class="prop">overflow</span>: <span class="val">hidden</span>; }    <span class="komen">/* konten yang keluar disembunyikan */</span>
+<span class="sel">.el</span> { <span class="prop">overflow</span>: <span class="val">scroll</span>; }    <span class="komen">/* selalu tampilkan scrollbar */</span>
+<span class="sel">.el</span> { <span class="prop">overflow</span>: <span class="val">auto</span>; }      <span class="komen">/* scrollbar hanya muncul jika dibutuhkan */</span>
+<span class="sel">.el</span> { <span class="prop">overflow-x</span>: <span class="val">auto</span>; }    <span class="komen">/* scroll horizontal saja (tabel responsif) */</span></div>
+
+      <!-- 11.5 Background -->
+      <h3>11.5 Background Lengkap <span class="badge-bonus">Bonus</span></h3>
+      <div class="code-block"><span class="sel">.el</span> {
+  <span class="prop">background-color</span>: <span class="val">#1a56db</span>;
+  <span class="prop">background-image</span>: <span class="val">url('gambar.jpg')</span>;
+  <span class="prop">background-size</span>: <span class="val">cover</span>;      <span class="komen">/* cover | contain | 100% */</span>
+  <span class="prop">background-position</span>: <span class="val">center</span>;
+  <span class="prop">background-repeat</span>: <span class="val">no-repeat</span>;
+
+  <span class="komen">/* Gradient */</span>
+  <span class="prop">background</span>: <span class="val">linear-gradient(135deg, #1e3a5f, #1a56db)</span>;
+  <span class="prop">background</span>: <span class="val">radial-gradient(circle, #1a56db, #1e3a5f)</span>;
+
+  <span class="komen">/* Gambar + overlay gelap (teknik umum di WebGIS hero) */</span>
+  <span class="prop">background</span>: <span class="val">linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('peta.jpg')</span>;
+  <span class="prop">background-size</span>: <span class="val">cover</span>;
+}</div>
+
+      <!-- 11.6 Tips Layouting -->
+      <h3>11.6 Tips Layouting dengan CSS <span class="badge-new">Tips</span></h3>
+      <ol style="padding-left:1.5rem; margin-bottom:.8rem;">
+        <li style="margin-bottom:.5rem;"><strong>Mulai dari Wireframe:</strong> Buat layout pakai kotak sederhana dengan warna gonjreng (merah/biru/hijau). Fokus pada struktur dulu, bukan desain.</li>
+        <li style="margin-bottom:.5rem;"><strong>Warna Gonjreng Sementara:</strong> Tujuannya biar batas layout langsung kelihatan. Jangan takut hasilnya jelek, ini cuma tahap awal.</li>
+        <li style="margin-bottom:.5rem;"><strong>Ganti dengan Color Palette:</strong> Setelah layout rapi, cari palette serasi di <a href="https://coolors.co" target="_blank">coolors.co</a> atau <a href="https://colorhunt.co" target="_blank">colorhunt.co</a>.</li>
+        <li style="margin-bottom:.5rem;"><strong>Gunakan Grid &amp; Flexbox:</strong> Flexbox → baris/kolom sederhana. Grid → layout besar 2 dimensi.</li>
+        <li style="margin-bottom:.5rem;"><strong>Mobile First:</strong> Desain untuk HP dulu, lalu tambahkan media query untuk tablet &amp; desktop.</li>
+        <li><strong>Tipografi:</strong> Pakai max 2 font. Hierarchy ukuran: H1 &gt; H2 &gt; body &gt; caption. Line-height 1.5–1.7.</li>
+      </ol>
+
+      <!-- 11.7 Referensi -->
+      <h3>11.7 Referensi Belajar CSS &amp; Tailwind <span class="badge-new">Links</span></h3>
+      <table>
+        <thead><tr><th>Resource</th><th>Link</th><th>Untuk</th></tr></thead>
+        <tbody>
+          <tr><td>W3Schools CSS</td><td><a href="https://www.w3schools.com/css/" target="_blank">w3schools.com/css</a></td><td>Referensi property CSS lengkap</td></tr>
+          <tr><td>MDN Web Docs</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank">developer.mozilla.org</a></td><td>Dokumentasi resmi CSS</td></tr>
+          <tr><td>Flexbox Guide</td><td><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">css-tricks.com/flexbox</a></td><td>Panduan Flexbox visual</td></tr>
+          <tr><td>Flexbox Labs</td><td><a href="https://flexboxlabs.netlify.app" target="_blank">flexboxlabs.netlify.app</a></td><td>Latihan Flexbox interaktif</td></tr>
+          <tr><td>CSS Grid Generator</td><td><a href="https://cssgridgenerator.io" target="_blank">cssgridgenerator.io</a></td><td>Generate kode Grid visual</td></tr>
+          <tr><td>Color Hunt</td><td><a href="https://colorhunt.co" target="_blank">colorhunt.co</a></td><td>Palette warna siap pakai</td></tr>
+          <tr><td>Coolors</td><td><a href="https://coolors.co" target="_blank">coolors.co</a></td><td>Generator palette warna</td></tr>
+          <tr><td>Tailwind Docs</td><td><a href="https://tailwindcss.com/docs" target="_blank">tailwindcss.com/docs</a></td><td>Dokumentasi resmi Tailwind</td></tr>
+          <tr><td>Bootstrap Docs</td><td><a href="https://getbootstrap.com/docs/5.3/components/" target="_blank">getbootstrap.com/docs</a></td><td>Komponen Bootstrap</td></tr>
+        </tbody>
+      </table>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 <strong style="color:rgba(255,255,255,.9);">MAPID Academy</strong> — WebGIS Development Bootcamp &nbsp;|&nbsp; <em>Code the Map, Decode the Future</em></p>
+    <p style="margin-top:.35rem; font-size:.78rem;">File ini mencakup materi Sesi 9 (CSS) &amp; Sesi 10 (Framework CSS — Tailwind) beserta bonus materi tambahan.</p>
+  </footer>
+
+</body>
+</html>

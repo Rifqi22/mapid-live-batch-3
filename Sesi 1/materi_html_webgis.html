@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<!-- 
+  ================================================================
+  MATERI HTML - MAPID Academy WebGIS Development Bootcamp 2026
+  ================================================================
+  File ini mencakup seluruh materi dari Sesi 8:
+    1. Pengetahuan Dasar Website
+    2. Pengenalan HTML
+    3. Kerangka / Struktur HTML
+    4. Semua Tag HTML yang diajarkan
+    5. Atribut HTML
+    6. Semantik HTML
+    7. BONUS: Materi tambahan (Meta Tag, Link, Image, Anchor, Select, Video/Audio, dll.)
+  ================================================================
+-->
+
+<!-- Tag <html> adalah elemen utama pembungkus seluruh dokumen HTML -->
+<!-- Atribut lang="id" memberitahu browser bahwa bahasa halaman ini adalah Bahasa Indonesia -->
+<html lang="id">
+
+<!-- ============================================================
+     BAGIAN <head>
+     Berisi informasi pendukung/metadata yang TIDAK ditampilkan
+     langsung ke pengguna, seperti judul, encoding, viewport, dll.
+     ============================================================ -->
+<head>
+
+  <!-- 
+    META CHARSET
+    Menentukan encoding karakter yang digunakan.
+    UTF-8 mendukung hampir semua karakter di dunia termasuk huruf latin,
+    Arab, Jepang, emoji, dsb. Selalu taruh di baris pertama dalam <head>.
+  -->
+  <meta charset="UTF-8">
+
+  <!-- 
+    META VIEWPORT (MATERI TAMBAHAN - PENTING!)
+    Mengatur tampilan di perangkat mobile.
+    - width=device-width : lebar halaman mengikuti lebar layar perangkat
+    - initial-scale=1.0  : zoom awal adalah 100% (tidak diperbesar/perkecil)
+    Tanpa tag ini, website akan terlihat sangat kecil di HP.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 
+    META DESCRIPTION (MATERI TAMBAHAN - PENTING UNTUK SEO!)
+    Deskripsi singkat halaman yang muncul di hasil pencarian Google.
+    Idealnya 150-160 karakter.
+  -->
+  <meta name="description" content="Materi lengkap HTML untuk MAPID Academy WebGIS Development Bootcamp 2026">
+
+  <!-- 
+    META AUTHOR (MATERI TAMBAHAN)
+    Mendeklarasikan pembuat/penulis halaman.
+  -->
+  <meta name="author" content="MAPID Academy">
+
+  <!-- 
+    TAG <title>
+    Judul halaman yang muncul di tab browser dan hasil pencarian.
+    Penting untuk SEO - usahakan deskriptif dan mengandung keyword utama.
+  -->
+  <title>Materi HTML - MAPID Academy WebGIS Bootcamp 2026</title>
+
+  <!-- 
+    TAG <style> (MATERI TAMBAHAN - CSS INTERNAL)
+    Cara menulis CSS langsung di dalam file HTML.
+    Ada 3 cara menyisipkan CSS:
+      1. Inline   : langsung di atribut style="" pada elemen
+      2. Internal : di dalam tag <style> di <head> ini
+      3. External : file .css terpisah dihubungkan via <link>
+    CSS internal cocok untuk file kecil / belajar. 
+    Untuk proyek besar, gunakan file .css terpisah (external).
+  -->
+  <style>
+    /* ---- Reset & Base ---- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #1a1a2e;
+      background-color: #f8f9ff;
+    }
+
+    /* ---- Warna tema MAPID ---- */
+    :root {
+      --biru-mapid: #1a56db;
+      --biru-gelap: #1e3a5f;
+      --hijau-mapid: #0ea5e9;
+      --ungu: #7c3aed;
+      --abu: #64748b;
+      --putih: #ffffff;
+      --kuning: #f59e0b;
+    }
+
+    /* ---- Navbar ---- */
+    nav.navbar {
+      background: linear-gradient(135deg, var(--biru-gelap), var(--biru-mapid));
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    nav.navbar .logo {
+      color: var(--putih);
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 1px;
+    }
+    nav.navbar a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      margin-left: 1.4rem;
+      font-size: 0.92rem;
+      transition: color 0.2s;
+    }
+    nav.navbar a:hover { color: var(--putih); text-decoration: underline; }
+
+    /* ---- Layout ---- */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    /* ---- Section cards ---- */
+    .section-card {
+      background: var(--putih);
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(26,86,219,0.07);
+      padding: 2rem 2.2rem;
+      margin-bottom: 2.5rem;
+      border-left: 5px solid var(--biru-mapid);
+    }
+    .section-card.bonus {
+      border-left-color: var(--ungu);
+    }
+
+    /* ---- Headings ---- */
+    h1 { font-size: 2rem; color: var(--biru-gelap); margin-bottom: .4rem; }
+    h2 { font-size: 1.45rem; color: var(--biru-mapid); margin: 1.5rem 0 .6rem; border-bottom: 2px solid #e2e8f0; padding-bottom: .3rem; }
+    h3 { font-size: 1.1rem; color: var(--biru-gelap); margin: 1.2rem 0 .4rem; }
+    h4 { font-size: .98rem; color: var(--abu); margin: 1rem 0 .3rem; }
+    h5 { font-size: .9rem; color: #94a3b8; margin: .8rem 0 .2rem; }
+    h6 { font-size: .82rem; color: #94a3b8; margin: .6rem 0 .2rem; }
+
+    /* ---- Paragraf & teks ---- */
+    p { margin-bottom: .8rem; color: #334155; }
+
+    /* ---- Badge materi tambahan ---- */
+    .badge-bonus {
+      display: inline-block;
+      background: var(--ungu);
+      color: var(--putih);
+      font-size: .72rem;
+      padding: 2px 9px;
+      border-radius: 20px;
+      vertical-align: middle;
+      margin-left: 6px;
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+
+    /* ---- Code block ---- */
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem 1.3rem;
+      font-family: 'Courier New', monospace;
+      font-size: .88rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: .8rem 0;
+    }
+    .code-block .tag    { color: #60a5fa; }  /* Tag HTML */
+    .code-block .attr   { color: #34d399; }  /* Atribut */
+    .code-block .val    { color: #fbbf24; }  /* Nilai atribut */
+    .code-block .komen  { color: #94a3b8; font-style: italic; } /* Komentar */
+
+    /* ---- Info box ---- */
+    .info-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: .9rem 1.1rem;
+      margin: .8rem 0;
+      font-size: .9rem;
+      color: #1e40af;
+    }
+    .info-box.warning {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #92400e;
+    }
+    .info-box.success {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #166534;
+    }
+
+    /* ---- Tabel ---- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: .8rem 0 1rem;
+      font-size: .88rem;
+    }
+    th {
+      background: var(--biru-mapid);
+      color: var(--putih);
+      padding: .6rem .9rem;
+      text-align: left;
+    }
+    td {
+      padding: .55rem .9rem;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #f1f5f9; }
+    tr:hover td { background: #e0f2fe; }
+
+    /* ---- List ---- */
+    ul, ol { padding-left: 1.5rem; margin-bottom: .8rem; }
+    li { margin-bottom: .25rem; }
+
+    /* ---- Form ---- */
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; font-weight: 600; margin-bottom: .3rem; color: var(--biru-gelap); font-size: .9rem; }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="date"],
+    input[type="time"],
+    input[type="search"],
+    input[type="color"],
+    input[type="range"],
+    select,
+    textarea {
+      width: 100%;
+      padding: .5rem .75rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: .9rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      background: #fff;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--biru-mapid);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+    }
+    input[type="submit"], input[type="reset"], input[type="button"],
+    button {
+      background: var(--biru-mapid);
+      color: var(--putih);
+      border: none;
+      padding: .55rem 1.4rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: .92rem;
+      font-weight: 600;
+      margin-right: .5rem;
+      transition: background 0.2s;
+    }
+    input[type="reset"] { background: var(--abu); }
+    input[type="button"] { background: var(--ungu); }
+    input[type="submit"]:hover { background: var(--biru-gelap); }
+
+    /* ---- HR ---- */
+    hr { border: none; border-top: 2px solid #e2e8f0; margin: 1.5rem 0; }
+
+    /* ---- Image ---- */
+    img { max-width: 100%; border-radius: 8px; }
+
+    /* ---- Footer ---- */
+    footer {
+      background: var(--biru-gelap);
+      color: rgba(255,255,255,0.75);
+      text-align: center;
+      padding: 1.4rem 1rem;
+      font-size: .88rem;
+    }
+    footer a { color: var(--hijau-mapid); }
+
+    /* ---- Divider label ---- */
+    .divider-label {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      color: var(--abu);
+      font-size: .82rem;
+      margin: 1rem 0;
+    }
+    .divider-label::before, .divider-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    /* ---- Hero section ---- */
+    .hero {
+      background: linear-gradient(135deg, var(--biru-gelap) 0%, var(--biru-mapid) 60%, var(--hijau-mapid) 100%);
+      color: var(--putih);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    .hero h1 { color: var(--putih); font-size: 2.2rem; }
+    .hero p { color: rgba(255,255,255,0.85); font-size: 1rem; }
+    .hero .tag-pills { margin-top: 1rem; }
+    .hero .tag-pills span {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: .82rem;
+      margin: 3px;
+    }
+
+    /* ---- Select element ---- */
+    select { cursor: pointer; }
+
+    /* ---- Progress (materi tambahan) ---- */
+    progress { width: 100%; height: 14px; border-radius: 7px; margin-bottom: .5rem; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+      main { padding: 1rem .8rem 2rem; }
+      .section-card { padding: 1.2rem 1rem; }
+      nav.navbar .links { display: none; }
+    }
+  </style>
+
+</head>
+
+<!-- ============================================================
+     BAGIAN <body>
+     Semua konten yang TAMPIL ke pengguna ditulis di sini.
+     ============================================================ -->
+<body>
+
+  <!-- ============================================================
+       TAG <nav> — NAVBAR / MENU NAVIGASI
+       Semantic HTML: <nav> menandai bagian navigasi utama.
+       ============================================================ -->
+  <nav class="navbar">
+    <!-- Logo / nama website -->
+    <span class="logo">🗺️ MAPID Academy — HTML Materi</span>
+
+    <!-- 
+      Kumpulan link navigasi.
+      Tag <a> (anchor) digunakan untuk membuat tautan/link.
+      - href="#id"    : navigasi ke bagian tertentu di halaman yang sama (anchor dalam halaman)
+      - href="url"    : navigasi ke halaman/website lain
+      - target="_blank" : buka di tab baru
+    -->
+    <div class="links">
+      <a href="#dasar-web">Dasar Web</a>
+      <a href="#html">HTML</a>
+      <a href="#struktur">Struktur</a>
+      <a href="#tag-text">Tag Text</a>
+      <a href="#tag-table">Tabel</a>
+      <a href="#tag-list">List</a>
+      <a href="#tag-form">Form</a>
+      <a href="#semantik">Semantik</a>
+      <a href="#bonus">🎁 Bonus</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       TAG <main> — KONTEN UTAMA HALAMAN
+       Semantic HTML: <main> membungkus konten utama (1 per halaman).
+       ============================================================ -->
+  <main>
+
+    <!-- ---- HERO SECTION ---- -->
+    <!-- 
+      Tag <header> di dalam <main> bisa digunakan sebagai header konten.
+      Bukan hanya header halaman — <header> bisa digunakan di dalam section/article juga.
+    -->
+    <header class="hero">
+      <h1>📄 Materi HTML Lengkap</h1>
+      <p>MAPID Academy &mdash; WebGIS Development Bootcamp 2026</p>
+      <p>Sesi 8 &bull; Code the Map, Decode the Future</p>
+      <div class="tag-pills">
+        <span>Pengetahuan Dasar Web</span>
+        <span>Struktur HTML</span>
+        <span>Tag & Atribut</span>
+        <span>Semantik HTML</span>
+        <span>+ Materi Bonus</span>
+      </div>
+    </header>
+
+    <!-- ===========================================================
+         SECTION 1 — PENGETAHUAN DASAR WEBSITE
+         =========================================================== -->
+    <section class="section-card" id="dasar-web">
+
+      <!-- 
+        Tag <h2> adalah heading level 2.
+        Hierarki heading: h1 (paling penting) → h2 → h3 → h4 → h5 → h6
+        Gunakan secara berurutan, jangan skip dari h1 langsung ke h4.
+      -->
+      <h2>1. Pengetahuan Dasar Website</h2>
+
+      <!-- 
+        Tag <p> digunakan untuk paragraf teks biasa.
+        Browser otomatis memberi jarak atas-bawah antar paragraf.
+      -->
+      <p>Sebelum belajar HTML, penting untuk memahami konsep-konsep dasar ekosistem web berikut ini:</p>
+
+      <!-- Tabel pengetahuan dasar web -->
+      <!-- 
+        Struktur tabel HTML:
+        <table>        : wadah utama tabel
+          <thead>      : bagian header tabel
+            <tr>       : satu baris
+              <th>     : sel header (tebal, biasanya centered)
+          <tbody>      : bagian isi/data tabel
+            <tr>       : satu baris
+              <td>     : sel data biasa
+      -->
+      <table>
+        <thead>
+          <tr>
+            <th>Istilah</th>
+            <th>Penjelasan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Internet</strong></td>
+            <td>Komunikasi antara dua komputer atau lebih menggunakan jaringan kabel/wifi untuk bertukar data.</td>
+          </tr>
+          <tr>
+            <td><strong>Web</strong></td>
+            <td>Kumpulan informasi di internet berupa teks, gambar, audio, video, dll.</td>
+          </tr>
+          <tr>
+            <td><strong>Web Server</strong></td>
+            <td>Komputer/aplikasi yang menyimpan dan mengirimkan isi website ke pengguna ketika diminta.</td>
+          </tr>
+          <tr>
+            <td><strong>Web Browser</strong></td>
+            <td>Aplikasi untuk mengakses dan menampilkan website (Chrome, Firefox, Edge, Safari).</td>
+          </tr>
+          <tr>
+            <td><strong>IP Address</strong></td>
+            <td>Alamat unik setiap perangkat di internet. Contoh: <code>8.8.8.8</code></td>
+          </tr>
+          <tr>
+            <td><strong>Port</strong></td>
+            <td>Jalur komunikasi pada IP Address. Contoh: HTTP = port 80, HTTPS = port 443.</td>
+          </tr>
+          <tr>
+            <td><strong>Domain</strong></td>
+            <td>Nama mudah diingat pengganti IP Address. Contoh: <code>8.8.8.8</code> → <code>google.com</code></td>
+          </tr>
+          <tr>
+            <td><strong>Repository / Repo</strong></td>
+            <td>Tempat penyimpanan project berisi kode, aset, dan riwayat perubahan (Git, GitHub).</td>
+          </tr>
+          <tr>
+            <td><strong>GIT</strong></td>
+            <td>Version control system untuk mengelola perubahan kode dari waktu ke waktu.</td>
+          </tr>
+          <tr>
+            <td><strong>Deploy</strong></td>
+            <td>Proses mengirimkan aplikasi dari lokal ke server agar bisa diakses pengguna via internet.</td>
+          </tr>
+          <tr>
+            <td><strong>Code / Text Editor</strong></td>
+            <td>Aplikasi untuk menulis dan mengedit kode (VS Code, Sublime Text, Notepad++).</td>
+          </tr>
+          <tr>
+            <td><strong>Localhost</strong></td>
+            <td>Alamat untuk menjalankan aplikasi di komputer sendiri sebelum dipublikasikan (<code>127.0.0.1</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Live Server</strong></td>
+            <td>Fitur VS Code untuk menjalankan website lokal yang otomatis refresh saat kode diubah.</td>
+          </tr>
+          <tr>
+            <td><strong>Terminal</strong></td>
+            <td>Jendela perintah teks untuk menjalankan perintah sistem atau tools developer.</td>
+          </tr>
+          <tr>
+            <td><strong>Komentar</strong></td>
+            <td>Teks penanda pada kode yang tidak dieksekusi browser. Di HTML: <code>&lt;!-- komentar --&gt;</code></td>
+          </tr>
+          <tr>
+            <td><strong>Module</strong></td>
+            <td>File/unit kode yang bisa diimpor dan digunakan di tempat lain.</td>
+          </tr>
+          <tr>
+            <td><strong>Library</strong></td>
+            <td>Kumpulan kode/fungsi siap pakai untuk mempermudah pengembangan (misal: Leaflet.js untuk peta).</td>
+          </tr>
+          <tr>
+            <td><strong>Framework</strong></td>
+            <td>Kerangka kerja lengkap yang mengatur cara kode ditulis dan dijalankan (misal: Bootstrap, React).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ---- 3 Bahasa Utama Web ---- -->
+      <h3>Tiga Bahasa Utama Pembuatan Website</h3>
+      <!-- 
+        Tag <ul> (Unordered List): daftar tidak berurutan, ditandai bulatan (•)
+        Tag <ol> (Ordered List)  : daftar berurutan, ditandai angka atau huruf
+        Tag <li> (List Item)     : satu item di dalam <ul> atau <ol>
+      -->
+      <ul>
+        <li><strong>HTML</strong> — Struktur/kerangka halaman (skeleton)</li>
+        <li><strong>CSS</strong> — Tampilan/desain halaman (skin)</li>
+        <li><strong>JavaScript</strong> — Interaksi &amp; logika (brain)</li>
+      </ul>
+
+      <!-- 
+        Analogi populer: 
+        HTML = tulang/rangka, CSS = penampilan/pakaian, JS = otak/otot
+      -->
+      <div class="info-box">
+        💡 <strong>Analogi:</strong> HTML adalah <em>tulang (skeleton)</em>, CSS adalah <em>kulit &amp; pakaian (skin)</em>, dan JavaScript adalah <em>otak (brain)</em> dari sebuah website.
+      </div>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 2 — PENGENALAN HTML
+         =========================================================== -->
+    <section class="section-card" id="html">
+
+      <h2>2. Pengenalan HTML</h2>
+
+      <!-- 
+        Tag <strong> : teks tebal yang memiliki makna semantik (PENTING untuk SEO & screen reader).
+        Tag <b>      : teks tebal hanya untuk tampilan, tidak ada makna semantik.
+        Disarankan menggunakan <strong> daripada <b> pada penulisan modern.
+      -->
+      <p><strong>HTML</strong> (HyperText Markup Language) adalah bahasa standar untuk membuat dan menyusun halaman website. HTML <em>bukan bahasa pemrograman</em>, melainkan bahasa markup yang memberi tanda (tag) pada konten agar browser tahu cara menampilkannya.</p>
+
+      <h3>Fungsi HTML dalam Website</h3>
+      <ol>
+        <li>Membuat <strong>struktur halaman</strong> (header, body, footer)</li>
+        <li><strong>Menampilkan konten</strong> (teks, gambar, video, audio)</li>
+        <li>Menyediakan <strong>navigasi</strong> melalui link (anchor)</li>
+        <li>Menjadi <strong>fondasi utama</strong> yang dikombinasikan dengan CSS dan JavaScript</li>
+      </ol>
+
+      <h3>Pengetahuan Dasar HTML: Element, Tag, Attribute</h3>
+      <table>
+        <thead>
+          <tr><th>Konsep</th><th>Pengertian</th><th>Contoh</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Element</strong></td>
+            <td>Keseluruhan bagian HTML: tag pembuka + isi + tag penutup</td>
+            <td><code>&lt;p&gt;Teks&lt;/p&gt;</code></td>
+          </tr>
+          <tr>
+            <td><strong>Tag</strong></td>
+            <td>Penanda awal (&lt;tag&gt;) dan akhir (&lt;/tag&gt;) elemen</td>
+            <td><code>&lt;h1&gt; ... &lt;/h1&gt;</code></td>
+          </tr>
+          <tr>
+            <td><strong>Attribute</strong></td>
+            <td>Informasi tambahan di dalam tag pembuka (nama="nilai")</td>
+            <td><code>&lt;a href="url"&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Aturan Penulisan HTML</h3>
+      <ul>
+        <li>Tag <strong>tidak case-sensitive</strong>, tapi <strong>sangat disarankan huruf kecil semua</strong> (<code>&lt;div&gt;</code> bukan <code>&lt;DIV&gt;</code>).</li>
+        <li>Tag harus ditulis benar: ada <strong>opening tag</strong> dan <strong>closing tag</strong>.</li>
+        <li>Nilai atribut harus diapit <strong>tanda petik</strong> (<code>""</code> atau <code>''</code>).</li>
+        <li>Elemen harus <strong>tersusun rapi (Nesting)</strong> — tidak boleh saling tumpang tindih. Benar: <code>&lt;i&gt;&lt;b&gt;teks&lt;/b&gt;&lt;/i&gt;</code> | Salah: <code>&lt;i&gt;&lt;b&gt;teks&lt;/i&gt;&lt;/b&gt;</code></li>
+        <li>Gunakan elemen <strong>sesuai fungsinya</strong> (Semantic HTML).</li>
+      </ul>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 3 — STRUKTUR HTML
+         =========================================================== -->
+    <section class="section-card" id="struktur">
+
+      <h2>3. Struktur HTML</h2>
+      <p>Setiap file HTML yang valid harus memiliki struktur berikut:</p>
+
+      <!-- 
+        Di sini kita menampilkan kode sebagai teks biasa menggunakan <pre> dan <code>.
+        <pre>  : mempertahankan spasi dan baris baru (preformatted text)
+        <code> : menandai teks sebagai kode pemrograman (monospace font)
+        Karena kita tidak bisa menulis < > langsung di HTML content,
+        gunakan HTML entities:
+          &lt;  = <
+          &gt;  = >
+          &amp; = &
+      -->
+      <div class="code-block">
+<span class="komentar">&lt;!-- Deklarasi DOCTYPE: memberitahu browser ini adalah dokumen HTML5 --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"id"</span><span class="tag">&gt;</span>          <span class="komentar">&lt;!-- Elemen root pembungkus semua HTML --&gt;</span>
+
+  <span class="tag">&lt;head&gt;</span>                       <span class="komentar">&lt;!-- Metadata, tidak tampil ke pengguna --&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Judul Halaman<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+
+  <span class="tag">&lt;body&gt;</span>                       <span class="komentar">&lt;!-- Konten utama yang tampil ke pengguna --&gt;</span>
+
+    <span class="komentar">&lt;!-- Semua konten ditulis di sini --&gt;</span>
+
+  <span class="tag">&lt;/body&gt;</span>
+
+<span class="tag">&lt;/html&gt;</span>
+      </div>
+
+      <table>
+        <thead><tr><th>Tag</th><th>Fungsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Deklarasi HTML5 — harus selalu ada di baris pertama</td></tr>
+          <tr><td><code>&lt;html&gt;</code></td><td>Elemen utama pembungkus seluruh isi dokumen</td></tr>
+          <tr><td><code>&lt;head&gt;</code></td><td>Metadata: judul, encoding, viewport, link CSS, script</td></tr>
+          <tr><td><code>&lt;title&gt;</code></td><td>Judul halaman di tab browser &amp; hasil pencarian</td></tr>
+          <tr><td><code>&lt;body&gt;</code></td><td>Konten yang ditampilkan ke pengguna</td></tr>
+        </tbody>
+      </table>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 4 — TAG HTML TEXT
+         =========================================================== -->
+    <section class="section-card" id="tag-text">
+
+      <h2>4. Tag HTML Text</h2>
+
+      <!-- ---- Heading h1-h6 ---- -->
+      <h3>Heading &mdash; &lt;h1&gt; sampai &lt;h6&gt;</h3>
+      <p><code>&lt;h1&gt;</code> adalah judul utama halaman. Penting untuk <strong>SEO</strong> — mesin pencari membaca <code>&lt;h1&gt;</code> untuk memahami topik. <code>&lt;h2&gt;–&lt;h6&gt;</code> digunakan untuk subjudul dan sub-subjudul.</p>
+
+      <!-- Contoh tampilan semua level heading -->
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:1rem; margin:.8rem 0;">
+        <h1 style="margin:0 0 4px; font-size:2rem;">h1 — Judul Utama (1x per halaman)</h1>
+        <h2 style="margin:0 0 4px; font-size:1.5rem; color:#334155; border:none;">h2 — Judul Bagian Besar</h2>
+        <h3 style="margin:0 0 4px; font-size:1.2rem; color:#475569;">h3 — Sub Bagian</h3>
+        <h4 style="margin:0 0 4px; font-size:1rem; color:#64748b;">h4 — Sub-sub Bagian</h4>
+        <h5 style="margin:0 0 4px; font-size:.9rem; color:#94a3b8;">h5 — Level 5</h5>
+        <h6 style="margin:0; font-size:.82rem; color:#94a3b8;">h6 — Level 6 (paling kecil)</h6>
+      </div>
+
+      <!-- ---- Paragraph ---- -->
+      <h3>Paragraf &mdash; &lt;p&gt;</h3>
+      <p>Tag <code>&lt;p&gt;</code> digunakan untuk menulis paragraf teks. Browser otomatis menambahkan jarak (margin) di atas dan bawah paragraf.</p>
+      <p>Ini adalah paragraf kedua. Perhatikan ada jarak dengan paragraf di atasnya.</p>
+
+      <!-- ---- Line Break ---- -->
+      <h3>Line Break &mdash; &lt;br&gt;</h3>
+      <p>Tag <code>&lt;br&gt;</code> memaksa baris baru tanpa membuat paragraf baru.<br>
+      Teks ini berada di baris kedua menggunakan &lt;br&gt;.<br>
+      Dan ini baris ketiga.</p>
+
+      <!-- ---- Horizontal Rule ---- -->
+      <h3>Horizontal Rule &mdash; &lt;hr&gt;</h3>
+      <p>Tag <code>&lt;hr&gt;</code> menambahkan garis pemisah horizontal antar bagian konten.</p>
+      <!-- Contoh garis pemisah -->
+      <hr>
+      <p>Teks di bawah garis pemisah &lt;hr&gt;.</p>
+
+      <!-- ---- Text Style ---- -->
+      <h3>Tag Text Style</h3>
+
+      <!-- 
+        Perbandingan <b>/<i> vs <strong>/<em>:
+        - <b> dan <i>      : hanya mengubah tampilan, tidak ada makna semantik
+        - <strong> dan <em>: memiliki makna semantik, lebih baik untuk SEO dan aksesibilitas
+        Gunakan <strong> dan <em> pada penulisan modern.
+      -->
+      <table>
+        <thead>
+          <tr><th>Tag</th><th>Tampilan</th><th>Semantik</th><th>Rekomendasi</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;b&gt;</code></td>
+            <td><b>Teks Tebal</b></td>
+            <td>❌ Tidak</td>
+            <td>⚠️ Kurang disarankan</td>
+          </tr>
+          <tr>
+            <td><code>&lt;strong&gt;</code></td>
+            <td><strong>Teks Tebal Penting</strong></td>
+            <td>✅ Ya (penting)</td>
+            <td>✅ Disarankan</td>
+          </tr>
+          <tr>
+            <td><code>&lt;i&gt;</code></td>
+            <td><i>Teks Miring</i></td>
+            <td>❌ Tidak</td>
+            <td>⚠️ Kurang disarankan</td>
+          </tr>
+          <tr>
+            <td><code>&lt;em&gt;</code></td>
+            <td><em>Teks Miring Berpenekanan</em></td>
+            <td>✅ Ya (penekanan)</td>
+            <td>✅ Disarankan</td>
+          </tr>
+          <tr>
+            <td><code>&lt;u&gt;</code></td>
+            <td><u>Teks Bergaris Bawah</u></td>
+            <td>✅ Annotation</td>
+            <td>✅ Boleh digunakan</td>
+          </tr>
+          <tr>
+            <td><code>&lt;s&gt;</code></td>
+            <td><s>Teks Dicoret</s></td>
+            <td>✅ Tidak relevan</td>
+            <td>✅ Boleh digunakan</td>
+          </tr>
+          <tr>
+            <td><code>&lt;mark&gt;</code></td>
+            <td><mark>Teks Di-highlight</mark></td>
+            <td>✅ Ya (ditandai)</td>
+            <td>✅ Disarankan</td>
+          </tr>
+          <tr>
+            <td><code>&lt;small&gt;</code></td>
+            <td><small>Teks Kecil (catatan kaki)</small></td>
+            <td>✅ Side note</td>
+            <td>✅ Boleh digunakan</td>
+          </tr>
+          <tr>
+            <td><code>&lt;code&gt;</code></td>
+            <td><code>kode_program()</code></td>
+            <td>✅ Ya (kode)</td>
+            <td>✅ Disarankan untuk kode</td>
+          </tr>
+          <tr>
+            <td><code>&lt;sub&gt;</code> / <code>&lt;sup&gt;</code></td>
+            <td>H<sub>2</sub>O &nbsp; E=mc<sup>2</sup></td>
+            <td>✅ Subscript/Superscript</td>
+            <td>✅ Gunakan sesuai konteks</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 5 — TAG HTML TABLE
+         =========================================================== -->
+    <section class="section-card" id="tag-table">
+
+      <h2>5. Tag HTML Table</h2>
+      <p>Tabel digunakan untuk menampilkan data dalam bentuk <strong>baris dan kolom</strong>.</p>
+
+      <h3>Anatomi Tabel HTML</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Tag</th>
+            <th>Fungsi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>&lt;table&gt;</code></td><td>Wadah/pembungkus seluruh tabel</td></tr>
+          <tr><td><code>&lt;thead&gt;</code></td><td>Bagian header tabel (membungkus baris judul kolom)</td></tr>
+          <tr><td><code>&lt;tbody&gt;</code></td><td>Bagian isi/data utama tabel</td></tr>
+          <tr><td><code>&lt;tfoot&gt;</code></td><td>Bagian footer tabel (total, catatan, dll.)</td></tr>
+          <tr><td><code>&lt;tr&gt;</code></td><td>Table Row — satu baris dalam tabel</td></tr>
+          <tr><td><code>&lt;th&gt;</code></td><td>Table Header — sel judul kolom (tebal &amp; centered)</td></tr>
+          <tr><td><code>&lt;td&gt;</code></td><td>Table Data — sel isi data biasa</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Contoh Tabel: Data Transportasi DKI Jakarta</h3>
+      <!-- 
+        Contoh tabel dengan thead, tbody, dan tfoot.
+        Atribut colspan="angka" : menggabungkan beberapa kolom menjadi satu sel.
+        Atribut rowspan="angka" : menggabungkan beberapa baris menjadi satu sel.
+      -->
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Kode</th>
+            <th>Nama Transportasi</th>
+            <th>Jumlah Rute</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>TJ</td>
+            <td>Transjakarta</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>MRT</td>
+            <td>Mass Rapid Transit</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>LRT</td>
+            <td>Light Rail Transit</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>KRL</td>
+            <td>Kereta Rel Listrik</td>
+            <td>5</td>
+          </tr>
+        </tbody>
+        <!-- 
+          <tfoot> digunakan untuk baris penutup tabel (misal total, catatan).
+          colspan="3" menggabungkan 3 kolom pertama menjadi satu sel.
+        -->
+        <tfoot>
+          <tr>
+            <td colspan="3" style="text-align:right; font-weight:600;">Total Rute:</td>
+            <td><strong>58</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="info-box">
+        💡 <strong>Atribut Khusus Tabel:</strong><br>
+        &bull; <code>colspan="n"</code> — sel menyatu secara horizontal (n kolom)<br>
+        &bull; <code>rowspan="n"</code> — sel menyatu secara vertikal (n baris)
+      </div>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 6 — TAG HTML LIST
+         =========================================================== -->
+    <section class="section-card" id="tag-list">
+
+      <h2>6. Tag HTML List</h2>
+
+      <!-- 
+        Ada 3 jenis list di HTML:
+        1. <ul>  — Unordered List (tidak berurutan, simbol bulatan/kotak)
+        2. <ol>  — Ordered List (berurutan, angka/huruf/romawi)
+        3. <dl>  — Description List (pasangan istilah dan definisi) [BONUS]
+        Setiap item list ditulis menggunakan tag <li> (List Item).
+      -->
+
+      <h3>Unordered List — &lt;ul&gt;</h3>
+      <p>Daftar tanpa urutan, biasanya menggunakan tanda bulatan (•).</p>
+      <!-- Contoh nested list: list di dalam list -->
+      <ul>
+        <li>HTML — Struktur Halaman</li>
+        <li>CSS — Tampilan &amp; Desain</li>
+        <li>JavaScript — Interaksi &amp; Logika
+          <!-- 
+            Nested list: list di dalam <li>.
+            Indentasi bertambah secara otomatis.
+          -->
+          <ul>
+            <li>DOM Manipulation</li>
+            <li>Event Handling</li>
+            <li>Fetch API</li>
+          </ul>
+        </li>
+        <li>WebGIS — Visualisasi Peta</li>
+      </ul>
+
+      <h3>Ordered List — &lt;ol&gt;</h3>
+      <p>Daftar berurutan. Secara default menggunakan angka (1, 2, 3...).</p>
+      <!-- 
+        Atribut <ol>:
+        - type="1"  : angka (default)
+        - type="A"  : huruf besar (A, B, C)
+        - type="a"  : huruf kecil (a, b, c)
+        - type="I"  : romawi besar (I, II, III)
+        - type="i"  : romawi kecil (i, ii, iii)
+        - start="n" : mulai dari angka n
+        - reversed  : urutan terbalik
+      -->
+      <ol>
+        <li>Pelajari HTML — struktur dasar</li>
+        <li>Pelajari CSS — tampilan &amp; layout</li>
+        <li>Pelajari JavaScript — interaksi</li>
+        <li>Pelajari Library Peta (Leaflet.js / MapLibre)</li>
+        <li>Bangun WebGIS pertama Anda!</li>
+      </ol>
+
+      <!-- Contoh ol dengan type huruf -->
+      <p>Contoh <code>type="A"</code>:</p>
+      <ol type="A">
+        <li>Home Page</li>
+        <li>About Page</li>
+        <li>Map Page</li>
+      </ol>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 7 — TAG HTML FORM & INPUT
+         =========================================================== -->
+    <section class="section-card" id="tag-form">
+
+      <h2>7. Tag HTML Form &amp; Input</h2>
+      <p>Form digunakan untuk mengumpulkan input data dari pengguna.</p>
+
+      <!-- 
+        Tag <form>:
+        - action="url"   : ke mana data dikirim saat submit
+        - method="get"   : data dikirim via URL (terlihat, cocok untuk search)
+        - method="post"  : data dikirim di body HTTP (aman untuk data sensitif)
+      -->
+      <form action="#" method="post">
+
+        <!-- ---- Text ---- -->
+        <div class="form-group">
+          <!-- 
+            <label for="id"> dikaitkan ke <input id="id"> 
+            Ketika label diklik, input otomatis aktif/fokus.
+          -->
+          <label for="nama">Nama Lengkap <code>&lt;input type="text"&gt;</code></label>
+          <!-- 
+            Atribut input penting:
+            - id        : penghubung dengan <label for="">
+            - name      : kunci data yang dikirim ke server
+            - placeholder: teks petunjuk saat input kosong
+            - required  : wajib diisi sebelum submit
+            - value     : nilai default
+            - maxlength : maksimal karakter
+            - readonly  : hanya bisa dibaca, tidak bisa diubah
+            - disabled  : dinonaktifkan
+          -->
+          <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap Anda" required>
+        </div>
+
+        <!-- ---- Email ---- -->
+        <div class="form-group">
+          <label for="email">Email <code>&lt;input type="email"&gt;</code></label>
+          <input type="email" id="email" name="email" placeholder="contoh@email.com" required>
+        </div>
+
+        <!-- ---- Password ---- -->
+        <div class="form-group">
+          <label for="password">Password <code>&lt;input type="password"&gt;</code></label>
+          <input type="password" id="password" name="password" placeholder="Minimal 8 karakter" minlength="8">
+        </div>
+
+        <!-- ---- Number ---- -->
+        <div class="form-group">
+          <label for="umur">Umur <code>&lt;input type="number"&gt;</code></label>
+          <input type="number" id="umur" name="umur" min="1" max="120" placeholder="25">
+        </div>
+
+        <!-- ---- Tel ---- -->
+        <div class="form-group">
+          <label for="notelp">Nomor Telepon <code>&lt;input type="tel"&gt;</code></label>
+          <input type="tel" id="notelp" name="notelp" placeholder="+62 812 3456 7890">
+        </div>
+
+        <!-- ---- URL ---- -->
+        <div class="form-group">
+          <label for="website">Website <code>&lt;input type="url"&gt;</code></label>
+          <input type="url" id="website" name="website" placeholder="https://mapid.co.id">
+        </div>
+
+        <!-- ---- Date ---- -->
+        <div class="form-group">
+          <label for="tanggal">Tanggal <code>&lt;input type="date"&gt;</code></label>
+          <input type="date" id="tanggal" name="tanggal">
+        </div>
+
+        <!-- ---- Time ---- -->
+        <div class="form-group">
+          <label for="waktu">Waktu <code>&lt;input type="time"&gt;</code></label>
+          <input type="time" id="waktu" name="waktu">
+        </div>
+
+        <!-- ---- Radio ---- -->
+        <div class="form-group">
+          <label>Jenis Kelamin <code>&lt;input type="radio"&gt;</code></label>
+          <br>
+          <!-- 
+            Radio button: semua option dengan name yang sama = satu grup.
+            Hanya bisa pilih satu. Atribut value = nilai yang dikirim ke server.
+          -->
+          <input type="radio" id="laki" name="gender" value="laki-laki">
+          <label for="laki" style="display:inline; font-weight:normal; margin-right:1rem;">Laki-laki</label>
+          <input type="radio" id="perempuan" name="gender" value="perempuan">
+          <label for="perempuan" style="display:inline; font-weight:normal;">Perempuan</label>
+        </div>
+
+        <!-- ---- Checkbox ---- -->
+        <div class="form-group">
+          <label>Teknologi yang dikuasai <code>&lt;input type="checkbox"&gt;</code></label>
+          <br>
+          <!-- 
+            Checkbox: bisa pilih lebih dari satu.
+            Atribut checked = dipilih secara default.
+          -->
+          <input type="checkbox" id="chkhtml" name="teknologi" value="html" checked>
+          <label for="chkhtml" style="display:inline; font-weight:normal; margin-right:1rem;">HTML</label>
+          <input type="checkbox" id="chkcss" name="teknologi" value="css">
+          <label for="chkcss" style="display:inline; font-weight:normal; margin-right:1rem;">CSS</label>
+          <input type="checkbox" id="chkjs" name="teknologi" value="javascript">
+          <label for="chkjs" style="display:inline; font-weight:normal;">JavaScript</label>
+        </div>
+
+        <!-- ---- File ---- -->
+        <div class="form-group">
+          <label for="foto">Upload Foto <code>&lt;input type="file"&gt;</code></label>
+          <!-- accept membatasi tipe file yang bisa diupload -->
+          <input type="file" id="foto" name="foto" accept="image/*">
+        </div>
+
+        <!-- ---- Color ---- -->
+        <div class="form-group">
+          <label for="warna">Pilih Warna Favorit <code>&lt;input type="color"&gt;</code></label>
+          <input type="color" id="warna" name="warna" value="#1a56db" style="width:60px; height:38px; padding:2px;">
+        </div>
+
+        <!-- ---- Range ---- -->
+        <div class="form-group">
+          <label for="skala">Skala Kepuasan (1-10) <code>&lt;input type="range"&gt;</code></label>
+          <input type="range" id="skala" name="skala" min="1" max="10" value="7">
+        </div>
+
+        <!-- ---- Search ---- -->
+        <div class="form-group">
+          <label for="cari">Cari Lokasi <code>&lt;input type="search"&gt;</code></label>
+          <input type="search" id="cari" name="cari" placeholder="Cari nama lokasi...">
+        </div>
+
+        <!-- ---- Textarea ---- -->
+        <div class="form-group">
+          <label for="komentar">Komentar <code>&lt;textarea&gt;</code></label>
+          <!-- 
+            <textarea> untuk teks panjang multi-baris.
+            - rows : tinggi (jumlah baris tampilan)
+            - cols : lebar (jumlah karakter per baris)
+            Teks default ditulis di antara tag pembuka dan penutup.
+          -->
+          <textarea id="komentar" name="komentar" rows="4" placeholder="Tuliskan komentar atau pertanyaan Anda..."></textarea>
+        </div>
+
+        <!-- 
+          BONUS: Tag <select> untuk dropdown (lihat Section Bonus).
+          Diletakkan di sini agar form lengkap.
+        -->
+        <div class="form-group">
+          <label for="kota">Kota Asal <code>&lt;select&gt;</code> <span class="badge-bonus">Bonus</span></label>
+          <!-- 
+            <select> membuat dropdown pilihan.
+            <option> adalah setiap pilihan di dalam dropdown.
+            <optgroup> mengelompokkan beberapa option.
+            Atribut selected : pilihan default.
+          -->
+          <select id="kota" name="kota">
+            <option value="">-- Pilih Kota --</option>
+            <optgroup label="Jawa">
+              <option value="jakarta" selected>Jakarta</option>
+              <option value="bandung">Bandung</option>
+              <option value="surabaya">Surabaya</option>
+              <option value="yogyakarta">Yogyakarta</option>
+            </optgroup>
+            <optgroup label="Sumatera">
+              <option value="medan">Medan</option>
+              <option value="palembang">Palembang</option>
+            </optgroup>
+            <optgroup label="Kalimantan">
+              <option value="balikpapan">Balikpapan</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- 
+          Input hidden: data tersembunyi, tidak tampil ke pengguna
+          tapi dikirim ke server saat form di-submit.
+          Biasa digunakan untuk menyimpan ID atau token.
+        -->
+        <input type="hidden" name="source" value="mapid-academy-form">
+
+        <!-- Tombol aksi form -->
+        <div class="form-group">
+          <!-- submit: kirim data form -->
+          <input type="submit" value="Kirim Data">
+          <!-- reset: kembalikan semua input ke nilai awal -->
+          <input type="reset" value="Reset">
+          <!-- button: tombol biasa tanpa aksi default -->
+          <input type="button" value="Tombol Biasa" onclick="alert('Tombol ditekan!')">
+        </div>
+
+      </form>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 8 — TAG HTML KELOMPOK (CONTAINER)
+         =========================================================== -->
+    <section class="section-card" id="semantik">
+
+      <h2>8. Tag HTML Kelompok (Container) &amp; Semantik HTML</h2>
+      <p>Tag kelompok mengelompokkan konten agar struktur lebih jelas, rapi, mudah dibaca, dan ramah SEO serta aksesibilitas.</p>
+
+      <table>
+        <thead>
+          <tr><th>Tag</th><th>Fungsi Utama</th><th>Semantik</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>&lt;header&gt;</code></td><td>Bagian atas / judul halaman atau seksi</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;nav&gt;</code></td><td>Menu navigasi</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;main&gt;</code></td><td>Konten utama halaman (1x per halaman)</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;section&gt;</code></td><td>Bagian konten berdasarkan topik/tema</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;article&gt;</code></td><td>Konten mandiri (blog post, berita, komentar)</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;aside&gt;</code></td><td>Konten sampingan / sidebar</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;figure&gt;</code></td><td>Gambar / ilustrasi dengan keterangan</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;figcaption&gt;</code></td><td>Keterangan/caption dari &lt;figure&gt;</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;footer&gt;</code></td><td>Bagian bawah/penutup halaman atau seksi</td><td>✅ Ya</td></tr>
+          <tr><td><code>&lt;div&gt;</code></td><td>Wadah umum untuk layout (tidak semantik)</td><td>❌ Tidak</td></tr>
+          <tr><td><code>&lt;span&gt;</code></td><td>Wadah inline, untuk styling teks per bagian</td><td>❌ Tidak</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Atribut HTML Penting</h3>
+      <table>
+        <thead>
+          <tr><th>Atribut</th><th>Digunakan di Tag</th><th>Fungsi</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>id</code></td><td>Semua elemen</td><td>Memberi identitas unik pada elemen (1 id per halaman)</td></tr>
+          <tr><td><code>class</code></td><td>Semua elemen</td><td>Memberi nama grup untuk styling CSS / JavaScript</td></tr>
+          <tr><td><code>style</code></td><td>Semua elemen</td><td>CSS inline langsung pada elemen</td></tr>
+          <tr><td><code>href</code></td><td><code>&lt;a&gt;</code></td><td>Alamat tujuan link</td></tr>
+          <tr><td><code>src</code></td><td><code>&lt;img&gt;, &lt;script&gt;, &lt;iframe&gt;</code></td><td>Sumber/path file</td></tr>
+          <tr><td><code>alt</code></td><td><code>&lt;img&gt;</code></td><td>Teks alternatif jika gambar gagal dimuat (penting untuk SEO &amp; aksesibilitas)</td></tr>
+          <tr><td><code>target</code></td><td><code>&lt;a&gt;</code></td><td><code>_blank</code>=tab baru, <code>_self</code>=tab sama (default)</td></tr>
+          <tr><td><code>title</code></td><td>Semua elemen</td><td>Tooltip saat elemen di-hover</td></tr>
+          <tr><td><code>data-*</code></td><td>Semua elemen</td><td>Menyimpan data custom (mis: data-id="123")</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box success">
+        ✅ <strong>Mengapa Semantik HTML penting?</strong><br>
+        1. <strong>SEO</strong>: Mesin pencari lebih mudah memahami struktur konten.<br>
+        2. <strong>Aksesibilitas</strong>: Screen reader membantu pengguna dengan disabilitas navigasi.<br>
+        3. <strong>Keterbacaan Kode</strong>: Lebih mudah dipahami oleh developer lain.
+      </div>
+
+    </section>
+
+
+    <!-- ===========================================================
+         SECTION 9 — MATERI TAMBAHAN (BONUS)
+         =========================================================== -->
+    <section class="section-card bonus" id="bonus">
+
+      <h2>9. Materi Tambahan Penting <span class="badge-bonus">Bonus</span></h2>
+      <p>Materi-materi berikut tidak tercakup di slide utama, namun sangat penting untuk dipelajari dalam pengembangan WebGIS.</p>
+
+      <!-- ---- 9.1 Link / Anchor ---- -->
+      <h3>9.1 Tag Link — &lt;a&gt; (Anchor) <span class="badge-bonus">Bonus</span></h3>
+      <p>Tag <code>&lt;a&gt;</code> digunakan untuk membuat hyperlink — tautan ke halaman lain, bagian halaman yang sama, file, email, atau telepon.</p>
+
+      <div class="code-block">
+<span class="komentar">&lt;!-- Link ke halaman lain (buka di tab baru) --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://mapid.co.id"</span> <span class="attr">target</span>=<span class="val">"_blank"</span><span class="tag">&gt;</span>Kunjungi MAPID<span class="tag">&lt;/a&gt;</span>
+
+<span class="komentar">&lt;!-- Link ke bagian di halaman yang sama (anchor in-page) --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#bagian-peta"</span><span class="tag">&gt;</span>Lihat Peta<span class="tag">&lt;/a&gt;</span>
+
+<span class="komentar">&lt;!-- Link email (membuka aplikasi email) --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"mailto:info@mapid.co.id"</span><span class="tag">&gt;</span>Kirim Email<span class="tag">&lt;/a&gt;</span>
+
+<span class="komentar">&lt;!-- Link telepon (berguna di mobile) --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"tel:+6281234567890"</span><span class="tag">&gt;</span>Hubungi Kami<span class="tag">&lt;/a&gt;</span>
+
+<span class="komentar">&lt;!-- Link download file --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"peta.pdf"</span> <span class="attr">download</span><span class="tag">&gt;</span>Download Peta PDF<span class="tag">&lt;/a&gt;</span>
+      </div>
+
+      <p>Contoh link aktif:
+        <a href="https://mapid.co.id" target="_blank" title="Buka website MAPID di tab baru">🌐 Website MAPID</a> &nbsp;|&nbsp;
+        <a href="#dasar-web">↑ Kembali ke Atas</a>
+      </p>
+
+      <!-- ---- 9.2 Image ---- -->
+      <h3>9.2 Tag Gambar — &lt;img&gt; <span class="badge-bonus">Bonus</span></h3>
+      <p>Tag <code>&lt;img&gt;</code> digunakan untuk menampilkan gambar. Ini adalah <strong>void element</strong> — tidak perlu tag penutup.</p>
+
+      <div class="code-block">
+<span class="komentar">&lt;!-- Gambar dari internet (URL) --&gt;</span>
+<span class="tag">&lt;img</span>
+  <span class="attr">src</span>=<span class="val">"https://via.placeholder.com/400x200"</span>
+  <span class="attr">alt</span>=<span class="val">"Deskripsi gambar untuk aksesibilitas &amp; SEO"</span>
+  <span class="attr">width</span>=<span class="val">"400"</span>
+  <span class="attr">height</span>=<span class="val">"200"</span>
+  <span class="attr">title</span>=<span class="val">"Tooltip saat di-hover"</span>
+<span class="tag">&gt;</span>
+
+<span class="komentar">&lt;!-- Gambar lokal --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"assets/peta-jakarta.png"</span> <span class="attr">alt</span>=<span class="val">"Peta Jakarta"</span><span class="tag">&gt;</span>
+
+<span class="komentar">&lt;!-- figure + figcaption: gambar dengan keterangan (semantik) --&gt;</span>
+<span class="tag">&lt;figure&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"peta.jpg"</span> <span class="attr">alt</span>=<span class="val">"Peta Transportasi DKI"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;figcaption&gt;</span>Gambar 1. Peta Transportasi DKI Jakarta 2026<span class="tag">&lt;/figcaption&gt;</span>
+<span class="tag">&lt;/figure&gt;</span>
+      </div>
+
+      <!-- Contoh gambar dengan OpenStreetMap tile sebagai placeholder peta -->
+      <figure style="margin:.8rem 0; text-align:center;">
+        <img
+          src="https://tile.openstreetmap.org/11/1619/1016.png"
+          alt="Tile peta OpenStreetMap wilayah Jakarta"
+          width="256"
+          height="256"
+          style="border:2px solid #e2e8f0; border-radius:8px;"
+        >
+        <figcaption style="font-size:.83rem; color:#64748b; margin-top:.3rem;">
+          Contoh tile peta OpenStreetMap (sumber data WebGIS)
+        </figcaption>
+      </figure>
+
+      <!-- ---- 9.3 Iframe ---- -->
+      <h3>9.3 Tag Embed / Iframe — &lt;iframe&gt; <span class="badge-bonus">Bonus — Sangat Penting untuk WebGIS!</span></h3>
+      <p>Tag <code>&lt;iframe&gt;</code> menyisipkan konten dari halaman lain (peta, video YouTube, Google Maps, dll.) langsung ke dalam halaman kita.</p>
+
+      <div class="code-block">
+<span class="komentar">&lt;!-- Menyisipkan peta dari MAPID (contoh umum) --&gt;</span>
+<span class="tag">&lt;iframe</span>
+  <span class="attr">src</span>=<span class="val">"https://mapid.co.id/map/embed/ID_PETA"</span>
+  <span class="attr">width</span>=<span class="val">"100%"</span>
+  <span class="attr">height</span>=<span class="val">"400"</span>
+  <span class="attr">style</span>=<span class="val">"border:0;"</span>
+  <span class="attr">allowfullscreen</span>
+  <span class="attr">loading</span>=<span class="val">"lazy"</span>
+  <span class="attr">title</span>=<span class="val">"Peta WebGIS"</span>
+<span class="tag">&gt;&lt;/iframe&gt;</span>
+
+<span class="komentar">&lt;!-- Menyisipkan Google Maps --&gt;</span>
+<span class="tag">&lt;iframe</span>
+  <span class="attr">src</span>=<span class="val">"https://www.google.com/maps/embed?pb=..."</span>
+  <span class="attr">width</span>=<span class="val">"600"</span>
+  <span class="attr">height</span>=<span class="val">"450"</span>
+  <span class="attr">style</span>=<span class="val">"border:0;"</span>
+  <span class="attr">allowfullscreen</span>
+  <span class="attr">loading</span>=<span class="val">"lazy"</span>
+<span class="tag">&gt;&lt;/iframe&gt;</span>
+      </div>
+
+      <!-- Contoh iframe OpenStreetMap nyata -->
+      <div style="margin:.8rem 0;">
+        <p><strong>Contoh Iframe Peta OpenStreetMap — Jakarta:</strong></p>
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=106.6969%2C-6.3711%2C107.0011%2C-6.0855&amp;layer=mapnik"
+          width="100%"
+          height="300"
+          style="border:1px solid #e2e8f0; border-radius:8px;"
+          allowfullscreen
+          loading="lazy"
+          title="Peta OpenStreetMap Jakarta"
+        ></iframe>
+        <p style="font-size:.82rem; color:#64748b; margin-top:.3rem;">
+          ↑ Peta interaktif OpenStreetMap area DKI Jakarta (embedded via &lt;iframe&gt;)
+        </p>
+      </div>
+
+      <!-- ---- 9.4 Video & Audio ---- -->
+      <h3>9.4 Tag Video &amp; Audio <span class="badge-bonus">Bonus</span></h3>
+      <p>HTML5 memiliki tag native untuk menampilkan video dan audio tanpa plugin tambahan.</p>
+
+      <div class="code-block">
+<span class="komentar">&lt;!-- Tag Video --&gt;</span>
+<span class="tag">&lt;video</span> <span class="attr">width</span>=<span class="val">"640"</span> <span class="attr">height</span>=<span class="val">"360"</span> <span class="attr">controls</span> <span class="attr">poster</span>=<span class="val">"thumbnail.jpg"</span><span class="tag">&gt;</span>
+  <span class="komentar">&lt;!-- &lt;source&gt; untuk berbagai format agar kompatibel di semua browser --&gt;</span>
+  <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="val">"video.mp4"</span> <span class="attr">type</span>=<span class="val">"video/mp4"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="val">"video.webm"</span> <span class="attr">type</span>=<span class="val">"video/webm"</span><span class="tag">&gt;</span>
+  Browser Anda tidak mendukung tag video.
+<span class="tag">&lt;/video&gt;</span>
+
+<span class="komentar">&lt;!-- Tag Audio --&gt;</span>
+<span class="tag">&lt;audio</span> <span class="attr">controls</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="val">"audio.mp3"</span> <span class="attr">type</span>=<span class="val">"audio/mpeg"</span><span class="tag">&gt;</span>
+  Browser Anda tidak mendukung tag audio.
+<span class="tag">&lt;/audio&gt;</span>
+      </div>
+
+      <div class="info-box">
+        📌 <strong>Atribut video/audio:</strong><br>
+        &bull; <code>controls</code> : tampilkan tombol play/pause/volume<br>
+        &bull; <code>autoplay</code> : putar otomatis (perlu <code>muted</code> di banyak browser)<br>
+        &bull; <code>loop</code> : putar berulang<br>
+        &bull; <code>muted</code> : mulai dalam keadaan bisu<br>
+        &bull; <code>poster</code> : gambar thumbnail sebelum video diputar (khusus video)
+      </div>
+
+      <!-- ---- 9.5 Meta Tags SEO ---- -->
+      <h3>9.5 Meta Tags Penting di &lt;head&gt; <span class="badge-bonus">Bonus — SEO &amp; Responsif</span></h3>
+      <p>Meta tag memberikan informasi tentang halaman ke browser, mesin pencari, dan media sosial.</p>
+
+      <div class="code-block">
+<span class="tag">&lt;head&gt;</span>
+  <span class="komentar">&lt;!-- Encoding karakter (wajib ada) --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+
+  <span class="komentar">&lt;!-- Responsif di mobile (wajib ada) --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+
+  <span class="komentar">&lt;!-- Deskripsi untuk Google (150-160 karakter) --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"description"</span> <span class="attr">content</span>=<span class="val">"WebGIS peta transportasi DKI Jakarta"</span><span class="tag">&gt;</span>
+
+  <span class="komentar">&lt;!-- Open Graph: tampilan saat link dibagikan ke media sosial --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:title"</span> <span class="attr">content</span>=<span class="val">"WebGIS Transportasi Jakarta"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:description"</span> <span class="attr">content</span>=<span class="val">"Peta interaktif transportasi DKI"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">property</span>=<span class="val">"og:image"</span> <span class="attr">content</span>=<span class="val">"thumbnail.jpg"</span><span class="tag">&gt;</span>
+
+  <span class="komentar">&lt;!-- Menghubungkan file CSS eksternal --&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+
+  <span class="komentar">&lt;!-- Favicon (ikon kecil di tab browser) --&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"icon"</span> <span class="attr">type</span>=<span class="val">"image/png"</span> <span class="attr">href</span>=<span class="val">"favicon.png"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+      </div>
+
+      <!-- ---- 9.6 Description List ---- -->
+      <h3>9.6 Description List — &lt;dl&gt; <span class="badge-bonus">Bonus</span></h3>
+      <p>Jenis list ketiga yang sering terlupakan. Cocok untuk pasangan istilah-definisi, seperti glossary.</p>
+
+      <div class="code-block">
+<span class="tag">&lt;dl&gt;</span>
+  <span class="tag">&lt;dt&gt;</span>WebGIS<span class="tag">&lt;/dt&gt;</span>              <span class="komentar">&lt;!-- dt = Description Term (istilah) --&gt;</span>
+  <span class="tag">&lt;dd&gt;</span>Sistem Informasi Geografis berbasis web<span class="tag">&lt;/dd&gt;</span>  <span class="komentar">&lt;!-- dd = Description Data (definisi) --&gt;</span>
+
+  <span class="tag">&lt;dt&gt;</span>GeoJSON<span class="tag">&lt;/dt&gt;</span>
+  <span class="tag">&lt;dd&gt;</span>Format data geografis berbasis JSON untuk menyimpan fitur spasial<span class="tag">&lt;/dd&gt;</span>
+<span class="tag">&lt;/dl&gt;</span>
+      </div>
+
+      <!-- Contoh dl nyata -->
+      <dl style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:1rem;">
+        <dt style="font-weight:700; color:var(--biru-gelap);">WebGIS</dt>
+        <dd style="margin-left:1.5rem; margin-bottom:.5rem; color:#334155;">Sistem Informasi Geografis berbasis web yang memungkinkan visualisasi dan analisis data spasial melalui browser.</dd>
+        <dt style="font-weight:700; color:var(--biru-gelap);">GeoJSON</dt>
+        <dd style="margin-left:1.5rem; color:#334155;">Format data geografis berbasis JSON untuk menyimpan fitur spasial seperti titik, garis, dan poligon.</dd>
+      </dl>
+
+      <!-- ---- 9.7 Script ---- -->
+      <h3>9.7 Menyisipkan JavaScript — &lt;script&gt; <span class="badge-bonus">Bonus</span></h3>
+      <p>Tag <code>&lt;script&gt;</code> menyisipkan kode JavaScript ke halaman HTML.</p>
+
+      <div class="code-block">
+<span class="komentar">&lt;!-- JavaScript Internal (langsung di HTML) --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  console.log("Halo dari JavaScript!");
+  alert("WebGIS siap dibangun!");
+<span class="tag">&lt;/script&gt;</span>
+
+<span class="komentar">&lt;!-- JavaScript Eksternal (file .js terpisah) --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"script.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="komentar">&lt;!-- Menyisipkan library Leaflet.js (CDN) untuk peta --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+      </div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Best Practice:</strong> Tempatkan tag <code>&lt;script&gt;</code> di bagian bawah <code>&lt;body&gt;</code> (sebelum <code>&lt;/body&gt;</code>) agar halaman tampil lebih cepat dan tidak memblokir rendering HTML. Atau gunakan atribut <code>defer</code> pada tag script di <code>&lt;head&gt;</code>.
+      </div>
+
+      <!-- ---- 9.8 Ringkasan Tag Penting ---- -->
+      <h3>9.8 Ringkasan: Tag HTML yang Wajib Dikuasai untuk WebGIS</h3>
+      <table>
+        <thead>
+          <tr><th>Kategori</th><th>Tag</th><th>Kegunaan di WebGIS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Struktur</td><td><code>html, head, body, title, meta</code></td><td>Fondasi setiap halaman</td></tr>
+          <tr><td>Semantik</td><td><code>header, nav, main, section, footer</code></td><td>Layout aplikasi WebGIS</td></tr>
+          <tr><td>Teks</td><td><code>h1-h6, p, strong, em, br, hr</code></td><td>Konten &amp; judul peta</td></tr>
+          <tr><td>Tautan</td><td><code>a</code></td><td>Navigasi antar halaman</td></tr>
+          <tr><td>Gambar</td><td><code>img, figure, figcaption</code></td><td>Legenda, logo, thumbnail peta</td></tr>
+          <tr><td>Peta</td><td><code>iframe, div</code></td><td>Kontainer peta &amp; embed peta</td></tr>
+          <tr><td>Data</td><td><code>table, thead, tbody, tr, th, td</code></td><td>Tabel atribut data spasial</td></tr>
+          <tr><td>Input</td><td><code>form, input, select, textarea</code></td><td>Filter, pencarian, upload data</td></tr>
+          <tr><td>List</td><td><code>ul, ol, dl, li</code></td><td>Legenda layer peta</td></tr>
+          <tr><td>Script</td><td><code>script</code></td><td>Memuat Leaflet.js / MapLibre</td></tr>
+        </tbody>
+      </table>
+
+    </section>
+
+  </main>
+  <!-- akhir tag <main> -->
+
+
+  <!-- ============================================================
+       TAG <footer> — BAGIAN BAWAH / PENUTUP HALAMAN
+       Semantic HTML: <footer> menandai bagian penutup/bawah.
+       Biasanya berisi copyright, link sosial media, kontak.
+       ============================================================ -->
+  <footer>
+    <p>
+      &copy; 2026 <strong>MAPID Academy</strong> &mdash; WebGIS Development Bootcamp &nbsp;|&nbsp;
+      <em>Code the Map, Decode the Future</em>
+    </p>
+    <p style="margin-top:.4rem; font-size:.8rem;">
+      File ini dibuat sebagai referensi belajar HTML &mdash; mencakup materi Sesi 8 beserta materi tambahan (link, image, iframe, video, meta SEO, description list, script).
+    </p>
+    <p style="margin-top:.3rem; font-size:.8rem;">
+      Referensi belajar: <a href="https://developer.mozilla.org/id/docs/Web/HTML" target="_blank">MDN Web Docs HTML</a> &nbsp;|&nbsp;
+      <a href="https://www.w3schools.com/html/" target="_blank">W3Schools HTML</a>
+    </p>
+  </footer>
+
+  <!-- 
+    ================================================================
+    RINGKASAN MATERI TAMBAHAN (BONUS) YANG DITAMBAHKAN:
+    ================================================================
+    Berikut materi yang tidak ada di slide tapi penting dipelajari:
+
+    1. META VIEWPORT  : Wajib agar website responsif di perangkat mobile.
+    2. META SEO       : description, og:title, og:image untuk tampilan di Google & sosmed.
+    3. TAG <a>        : Link/anchor dengan berbagai atribut (target, download, href: mailto/tel).
+    4. TAG <img>      : Menampilkan gambar dengan alt, width, height.
+    5. <figure> + <figcaption> : Gambar semantik dengan keterangan.
+    6. TAG <iframe>   : Sangat penting untuk WebGIS! Menyisipkan peta interaktif.
+    7. TAG <video> & <audio> : Media HTML5 tanpa plugin.
+    8. TAG <dl>, <dt>, <dd> : Description list untuk glossary/kamus istilah.
+    9. TAG <script>   : Menyisipkan JavaScript / library peta (Leaflet.js).
+    10. TAG <select>  : Dropdown pilihan (digunakan di form filter peta).
+    11. TAG <tfoot>   : Footer tabel untuk total/catatan.
+    12. colspan/rowspan : Menggabungkan sel tabel.
+    13. Atribut data-* : Menyimpan data custom pada elemen.
+    14. HTML Entities  : &lt; &gt; &amp; &copy; &mdash; dst.
+    ================================================================
+  -->
+
+</body>
+</html>
