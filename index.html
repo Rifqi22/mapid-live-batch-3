@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="E-Learning WebGIS Portal - Belajar HTML, CSS, dan Tailwind CSS untuk WebGIS">
+  <meta name="author" content="Mochammad Rifqi Naufal Alfayyadh">
+  <title>E-Learning WebGIS Portal — Rifqi</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-['Inter',Arial,sans-serif] text-base leading-relaxed bg-slate-50 text-slate-800 box-border m-0 p-0 flex flex-col min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 inset-x-0 z-[1000] bg-slate-900 py-[0.85rem] px-6 flex justify-between items-center shadow-[0_2px_16px_rgba(0,0,0,0.3)]">
+    <a href="#" class="font-['Poppins',sans-serif] font-extrabold text-[1.1rem] text-white tracking-[0.5px] no-underline">MAPID ACADEMY BATCH 3 </a>
+    <ul class="flex gap-[0.3rem] list-none m-0 p-0">
+      <li><a href="#" class="text-white font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 bg-white/15">Home</a></li>
+      <li><a href="https://github.com/Rifqi22/mapid-live-batch-3" target="_blank" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <!-- Spacer to offset fixed navbar -->
+  <div class="h-[64px]"></div>
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-[#0f172a] via-[#1e3a5f] to-[#1a56db] text-white py-12 sm:py-24 px-4 text-center relative overflow-hidden flex-none">
+    <div class="absolute -top-[80px] -right-[80px] w-[320px] h-[320px] rounded-full bg-white/5 pointer-events-none"></div>
+    <div class="absolute -bottom-[80px] -left-[80px] w-[320px] h-[320px] rounded-full bg-white/5 pointer-events-none"></div>
+
+    <div class="w-[90%] max-w-[1100px] mx-auto px-4 relative z-10">
+      <div class="inline-block bg-white/12 border border-white/25 text-blue-300 text-[0.8rem] font-semibold py-[0.3rem] px-4 rounded-full uppercase tracking-[1.5px] mb-[1.2rem]">
+        WebGIS Bootcamp Batch 3
+      </div>
+      <h1 class="text-[2rem] sm:text-[clamp(2rem,5vw,3.5rem)] font-['Poppins',sans-serif] font-extrabold mb-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.3)] leading-tight">
+        E-Learning WebGIS Portal
+      </h1>
+      <p class="text-[clamp(0.95rem,2vw,1.15rem)] opacity-85 max-w-[650px] mx-auto mt-4 mb-8 leading-[1.7]">
+        Platform pembelajaran mandiri untuk mempelajari konsep dasar HTML, styling menggunakan CSS dan Tailwind CSS, serta penerapannya dalam pengembangan Web interaktif.
+      </p>
+      <div class="flex justify-center gap-4">
+        <a href="#materi" class="bg-white text-blue-700 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-50 transition-all duration-200 transform hover:-translate-y-0.5">
+          📚 Mulai Belajar
+        </a>
+        <a href="#hands-on" class="bg-transparent text-white border border-white border-opacity-40 px-6 py-3 rounded-full font-semibold hover:bg-white hover:bg-opacity-10 transition-all duration-200">
+          🛠️ Hasil Praktek
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="flex-1 w-[90%] max-w-[1100px] mx-auto px-4 py-12">
+    
+    <!-- Section 1: Materi Pembelajaran -->
+    <section id="materi" class="mb-16">
+      <div class="flex items-center gap-3 mb-2">
+        <h2 class="text-[1.75rem] text-[#1e3a5f] font-['Poppins',sans-serif] font-bold leading-tight">Materi Pembelajaran</h2>
+      </div>
+      <div class="w-12 h-1 bg-[#1a56db] rounded-sm mb-8"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Card Materi 1 -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-slate-200/80 hover:border-blue-400/50 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex flex-col justify-between">
+          <div>
+            <div class="w-20 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4 font-bold border border-blue-100">
+              HTML
+            </div>
+            <h3 class="text-xl text-[#1e3a5f] font-['Poppins',sans-serif] font-bold mb-2">Materi 1: HTML</h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+              Pelajari dasar-dasar sintaks HTML, struktur halaman web, tag semantik, serta bagaimana mengintegrasikan peta interaktif menggunakan elemen iframe.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md font-medium">Struktur HTML</span>
+              <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md font-medium">Tag Semantik</span>
+              <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md font-medium">Iframe Map</span>
+            </div>
+          </div>
+          <a href="Sesi 1/materi_html_webgis.html" class="inline-flex items-center justify-center bg-[#1a56db] text-white py-3 px-6 rounded-xl text-sm font-semibold hover:bg-blue-800 transition-colors duration-200">
+            Buka Materi HTML &rarr;
+          </a>
+        </div>
+
+        <!-- Card Materi 2 -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-slate-200/80 hover:border-blue-400/50 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex flex-col justify-between">
+          <div>
+            <div class="w-20 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4 font-bold border border-blue-100">
+              CSS
+            </div>
+            <h3 class="text-xl text-[#1e3a5f] font-['Poppins',sans-serif] font-bold mb-2">Materi 2: CSS & Tailwind CSS</h3>
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+              Mulai mendesain antarmuka dengan CSS modern. Pelajari integrasi framework Tailwind CSS, sistem Grid/Flexbox, tipografi, dan pembuatan halaman yang responsif.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md font-medium">Tailwind CSS</span>
+              <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md font-medium">Flexbox & Grid</span>
+              <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md font-medium">Responsif UI</span>
+            </div>
+          </div>
+          <a href="Sesi 2/materi_css_tailwind.html" class="inline-flex items-center justify-center bg-[#1a56db] text-white py-3 px-6 rounded-xl text-sm font-semibold hover:bg-blue-800 transition-colors duration-200">
+            Buka Materi CSS &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Contoh Hasil Hands-on (Terkunci) -->
+    <section id="hands-on" class="mb-8">
+      <div class="flex items-center gap-3 mb-2">
+        <h2 class="text-[1.75rem] text-[#1e3a5f] font-['Poppins',sans-serif] font-bold leading-tight">Contoh Hasil Hands-on</h2>
+        <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-amber-200">Sesi Terkunci</span>
+      </div>
+      <div class="w-12 h-1 bg-[#1a56db] rounded-sm mb-4"></div>
+      <p class="text-slate-500 text-sm mb-8">
+        Halaman hasil hands-on di bawah ini dikunci untuk sementara. akses akan terbuka setelah live session selesai.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Locked Card 1 -->
+        <div class="relative bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-200 overflow-hidden group">
+          <!-- Lock Overlay -->
+          <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[3px] z-20 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-slate-900/50">
+            <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg text-slate-800 mb-3 transform transition-transform duration-300 group-hover:scale-110">
+              🔒
+            </div>
+            <span class="text-white font-semibold text-sm tracking-wide bg-slate-900/80 px-4 py-1.5 rounded-full border border-white/20">Belum Terbuka</span>
+          </div>
+
+          <div class="opacity-40">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-2xl mb-4 font-bold border border-slate-200">
+              H1
+            </div>
+            <h3 class="text-xl text-[#1e3a5f] font-['Poppins',sans-serif] font-bold mb-2">Hands-on 1: HTML WebGIS</h3>
+            <p class="text-slate-600 text-sm mb-6">
+              Implementasi dasar WebGIS dengan struktur HTML vanilla dan penayangan peta OpenStreetMap menggunakan iframe standar.
+            </p>
+            <button class="w-full bg-slate-200 text-slate-400 py-3 rounded-xl text-sm font-semibold cursor-not-allowed" disabled>
+              Terkunci
+            </button>
+          </div>
+          <button onclick="showLockAlert('Hands-on 1: HTML WebGIS')" class="absolute inset-0 w-full h-full opacity-0 z-30 cursor-pointer"></button>
+        </div>
+
+        <!-- Locked Card 2 -->
+        <div class="relative bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-200 overflow-hidden group">
+          <!-- Lock Overlay -->
+          <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[3px] z-20 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-slate-900/50">
+            <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg text-slate-800 mb-3 transform transition-transform duration-300 group-hover:scale-110">
+              🔒
+            </div>
+            <span class="text-white font-semibold text-sm tracking-wide bg-slate-900/80 px-4 py-1.5 rounded-full border border-white/20">Belum Terbuka</span>
+          </div>
+
+          <div class="opacity-40">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-2xl mb-4 font-bold border border-slate-200">
+              H2
+            </div>
+            <h3 class="text-xl text-[#1e3a5f] font-['Poppins',sans-serif] font-bold mb-2">Hands-on 2: WebGIS with Tailwind</h3>
+            <p class="text-slate-600 text-sm mb-6">
+              Pembangunan antarmuka dashboard WebGIS yang responsif, modern, dan lengkap menggunakan Tailwind CSS, grid layout, dan integrasi peta yang stylish.
+            </p>
+            <button class="w-full bg-slate-200 text-slate-400 py-3 rounded-xl text-sm font-semibold cursor-not-allowed" disabled>
+              Terkunci
+            </button>
+          </div>
+          <button onclick="showLockAlert('Hands-on 2: WebGIS with Tailwind')" class="absolute inset-0 w-full h-full opacity-0 z-30 cursor-pointer"></button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Lock Alert Modal -->
+  <div id="lockModal" class="fixed inset-0 z-[2000] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 transform scale-95 transition-all duration-200" id="modalContent">
+      <div class="text-center">
+        <div class="w-16 h-16 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-amber-100">
+          🔒
+        </div>
+        <h3 class="text-lg font-bold text-slate-800 mb-2 font-['Poppins',sans-serif]">Materi Terkunci</h3>
+        <p class="text-slate-500 text-sm mb-6" id="modalText">
+          Sesi hands-on ini masih terkunci. Silakan pelajari materi pembelajaran terlebih dahulu untuk membuka akses.
+        </p>
+        <button onclick="closeLockAlert()" class="w-full bg-[#1a56db] hover:bg-blue-800 text-white py-2.5 px-4 rounded-xl text-sm font-semibold shadow-md transition-colors duration-200">
+          Mengerti
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-white/60 text-center py-8 px-4 text-[0.85rem] mt-auto">
+    <div class="w-[90%] max-w-[1100px] mx-auto">
+      <p class="mb-2">
+        &copy; Copyright 2026 &mdash;
+        <strong class="text-white/85 font-bold">MAPID</strong>
+      </p>
+      <p class="text-[0.78rem]">
+        MAPID Academy — WebGIS Development Bootcamp 2026
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function showLockAlert(title) {
+      const modal = document.getElementById('lockModal');
+      const modalContent = document.getElementById('modalContent');
+      const text = document.getElementById('modalText');
+      text.innerText = `Sesi hands-on "${title}" saat ini masih terkunci. Silakan selesaikan membaca materi di atas terlebih dahulu.`;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        modalContent.classList.remove('scale-95');
+        modalContent.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeLockAlert() {
+      const modal = document.getElementById('lockModal');
+      const modalContent = document.getElementById('modalContent');
+      modalContent.classList.remove('scale-100');
+      modalContent.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 150);
+    }
+  </script>
+
+</body>
+</html>
