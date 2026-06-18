@@ -43,10 +43,10 @@ Agar memudahkan navigasi, berikut adalah struktur file yang ada di repositori in
 
 ```text
 ├── index.html                       # Landing Page utama Portal E-Learning
-├── Sesi 1/                          # Sesi HTML & WebGIS Dasar
+├── Sesi 5 HTML/                     # Sesi HTML & WebGIS Dasar
 │   ├── materi_html_webgis.html      # Materi Bacaan HTML & WebGIS
 │   └── handson_webgis.html          # Hasil Praktek Pembuatan Peta DKI Jakarta (Vanilla HTML)
-├── Sesi 2/                          # Sesi Styling (CSS & Tailwind CSS)
+├── Sesi 6 CSS/                      # Sesi Styling (CSS & Tailwind CSS)
 │   ├── materi_css_tailwind.html     # Materi Bacaan CSS & Tailwind CSS
 │   ├── handson_with_css.html        # Hasil Praktek Styling Peta menggunakan CSS manual
 │   └── handson_with_tailwind.html   # Hasil Praktek Pembuatan Dashboard WebGIS dengan Tailwind CSS
