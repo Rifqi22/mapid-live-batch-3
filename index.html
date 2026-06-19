@@ -225,29 +225,20 @@
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Locked Card 1 -->
-        <div class="relative bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-200 overflow-hidden group">
-          <!-- Lock Overlay -->
-          <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[3px] z-20 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-slate-900/50">
-            <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg text-slate-800 mb-3 transform transition-transform duration-300 group-hover:scale-110">
-              🔒
-            </div>
-            <span class="text-white font-semibold text-sm tracking-wide bg-slate-900/80 px-4 py-1.5 rounded-full border border-white/20">Belum Terbuka</span>
-          </div>
-
-          <div class="opacity-40">
-            <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-2xl mb-4 font-bold border border-slate-200">
+        <!-- Card Hands-on 1 -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-slate-200/80 hover:border-blue-400/50 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4 font-bold border border-blue-100">
               H1
             </div>
             <h3 class="text-xl text-[#1e3a5f] font-['Poppins',sans-serif] font-bold mb-2">Hands-on 1: HTML WebGIS</h3>
-            <p class="text-slate-600 text-sm mb-6">
+            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
               Implementasi dasar WebGIS dengan struktur HTML vanilla dan penayangan peta OpenStreetMap menggunakan iframe standar.
             </p>
-            <button class="w-full bg-slate-200 text-slate-400 py-3 rounded-xl text-sm font-semibold cursor-not-allowed" disabled>
-              Terkunci
-            </button>
           </div>
-          <button onclick="showLockAlert('Hands-on 1: HTML WebGIS')" class="absolute inset-0 w-full h-full opacity-0 z-30 cursor-pointer"></button>
+          <a href="Sesi 5 HTML/handson_webgis.html" class="inline-flex items-center justify-center bg-[#1a56db] text-white py-3 px-6 rounded-xl text-sm font-semibold hover:bg-blue-800 transition-colors duration-200">
+            Buka Hands-on HTML &rarr;
+          </a>
         </div>
 
         <!-- Locked Card 2 -->
