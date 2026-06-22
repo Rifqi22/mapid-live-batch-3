@@ -670,17 +670,119 @@
 }</div>
 
       <h3>Satuan pada CSS</h3>
+      <p>CSS memiliki banyak satuan yang terbagi menjadi <strong>3 kelompok utama</strong>: Absolut, Relatif, dan Viewport.</p>
+
       <table>
         <thead><tr><th>Satuan</th><th>Jenis</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
         <tbody>
-          <tr><td><code>px</code></td><td>Absolut</td><td>Ukuran tetap, tidak berubah</td><td><code>font-size: 16px</code></td></tr>
+          <tr><td><code>px</code></td><td>Absolut</td><td>Ukuran tetap, tidak berubah di layar manapun</td><td><code>font-size: 16px</code></td></tr>
+          <tr><td><code>pt</code></td><td>Absolut</td><td>Point (1pt = 1.33px), biasa dipakai untuk cetak/print</td><td><code>font-size: 12pt</code></td></tr>
           <tr><td><code>em</code></td><td>Relatif</td><td>Relatif terhadap font-size <em>parent</em></td><td><code>font-size: 2em</code> → 2× parent</td></tr>
-          <tr><td><code>rem</code></td><td>Relatif</td><td>Relatif terhadap font-size <em>root</em> (html = 16px)</td><td><code>font-size: 2rem</code> → 32px</td></tr>
-          <tr><td><code>%</code></td><td>Relatif</td><td>Relatif terhadap ukuran <em>parent</em></td><td><code>width: 50%</code></td></tr>
-          <tr><td><code>vw</code></td><td>Viewport</td><td>% dari <em>lebar</em> layar</td><td><code>width: 50vw</code> → setengah layar</td></tr>
-          <tr><td><code>vh</code></td><td>Viewport</td><td>% dari <em>tinggi</em> layar</td><td><code>height: 100vh</code> → full layar</td></tr>
+          <tr><td><code>rem</code></td><td>Relatif</td><td>Relatif terhadap font-size <em>root</em> (html = 16px default)</td><td><code>font-size: 2rem</code> → 32px</td></tr>
+          <tr><td><code>%</code></td><td>Relatif</td><td>Relatif terhadap ukuran <em>parent</em></td><td><code>width: 50%</code> → setengah parent</td></tr>
+          <tr><td><code>vw</code></td><td>Viewport</td><td>1vw = 1% dari <em>lebar</em> layar browser</td><td><code>width: 50vw</code> → setengah layar</td></tr>
+          <tr><td><code>vh</code></td><td>Viewport</td><td>1vh = 1% dari <em>tinggi</em> layar browser</td><td><code>height: 100vh</code> → full layar</td></tr>
+          <tr><td><code>vmin</code></td><td>Viewport</td><td>1% dari sisi <em>terkecil</em> viewport (lebar atau tinggi)</td><td><code>font-size: 5vmin</code></td></tr>
+          <tr><td><code>vmax</code></td><td>Viewport</td><td>1% dari sisi <em>terbesar</em> viewport (lebar atau tinggi)</td><td><code>font-size: 5vmax</code></td></tr>
         </tbody>
       </table>
+
+      <div class="code-block"><span class="komen">/* ========== SATUAN ABSOLUT ========== */</span>
+<span class="komen">/* px — ukuran tetap, paling umum digunakan */</span>
+<span class="sel">.kotak</span> {
+  <span class="prop">width</span>: <span class="val">300px</span>;
+  <span class="prop">height</span>: <span class="val">200px</span>;
+  <span class="prop">border</span>: <span class="val">2px solid #1a56db</span>;
+}
+
+<span class="komen">/* ========== SATUAN RELATIF ========== */</span>
+
+<span class="komen">/* em — relatif terhadap font-size PARENT */</span>
+<span class="sel">.parent</span>   { <span class="prop">font-size</span>: <span class="val">16px</span>; }
+<span class="sel">.child</span>    { <span class="prop">font-size</span>: <span class="val">1.5em</span>; }   <span class="komen">/* 1.5 × 16px = 24px */</span>
+<span class="sel">.grandchild</span> { <span class="prop">font-size</span>: <span class="val">1.5em</span>; } <span class="komen">/* 1.5 × 24px = 36px ← menumpuk! */</span>
+
+<span class="komen">/* rem — relatif terhadap font-size ROOT (html) */</span>
+<span class="komen">/* Lebih aman dari em karena TIDAK menumpuk */</span>
+<span class="sel">html</span>      { <span class="prop">font-size</span>: <span class="val">16px</span>; }   <span class="komen">/* root default browser */</span>
+<span class="sel">.child</span>    { <span class="prop">font-size</span>: <span class="val">1.5rem</span>; } <span class="komen">/* 1.5 × 16px = 24px */</span>
+<span class="sel">.grandchild</span> { <span class="prop">font-size</span>: <span class="val">1.5rem</span>; } <span class="komen">/* 1.5 × 16px = 24px ← tetap sama! */</span>
+
+<span class="komen">/* % — relatif terhadap ukuran parent */</span>
+<span class="sel">.parent</span>   { <span class="prop">width</span>: <span class="val">600px</span>; }
+<span class="sel">.child</span>    { <span class="prop">width</span>: <span class="val">50%</span>; }       <span class="komen">/* 50% × 600px = 300px */</span>
+
+<span class="komen">/* ========== SATUAN VIEWPORT ========== */</span>
+
+<span class="komen">/* vw & vh — relatif terhadap ukuran layar browser */</span>
+<span class="sel">.hero</span> {
+  <span class="prop">width</span>: <span class="val">100vw</span>;    <span class="komen">/* selebar layar penuh */</span>
+  <span class="prop">height</span>: <span class="val">100vh</span>;   <span class="komen">/* setinggi layar penuh */</span>
+}
+<span class="sel">.half-screen</span> {
+  <span class="prop">width</span>: <span class="val">50vw</span>;     <span class="komen">/* setengah lebar layar */</span>
+  <span class="prop">height</span>: <span class="val">50vh</span>;    <span class="komen">/* setengah tinggi layar */</span>
+}
+
+<span class="komen">/* Responsive font-size menggunakan viewport */</span>
+<span class="sel">.judul-responsif</span> {
+  <span class="prop">font-size</span>: <span class="val">5vw</span>;  <span class="komen">/* teks membesar/mengecil ikut lebar layar */</span>
+}</div>
+
+      <!-- Demo visual satuan -->
+      <h3>Perbandingan Visual: px vs % vs vw</h3>
+      <div class="demo-area">
+        <div style="background:#1a56db; color:#fff; width:300px; padding:8px 14px; border-radius:6px; font-size:.8rem; margin-bottom:6px;">
+          width: <strong>300px</strong> — selalu 300px
+        </div>
+        <div style="background:#7c3aed; color:#fff; width:50%; padding:8px 14px; border-radius:6px; font-size:.8rem; margin-bottom:6px;">
+          width: <strong>50%</strong> — 50% dari parent (coba resize browser!)
+        </div>
+        <div style="background:#0ea5e9; color:#fff; width:50vw; padding:8px 14px; border-radius:6px; font-size:.8rem;">
+          width: <strong>50vw</strong> — 50% dari lebar layar (coba resize browser!)
+        </div>
+      </div>
+
+      <!-- Demo em vs rem -->
+      <h3>Perbandingan Visual: em vs rem</h3>
+      <div class="demo-area">
+        <p style="font-size:.78rem; color:#64748b; margin-bottom:.5rem;">Parent font-size: 16px (default)</p>
+        <div style="font-size:16px;">
+          <div style="background:#fde68a; padding:8px 14px; border-radius:6px; margin-bottom:6px;">
+            <span style="font-size:1em; color:#92400e; font-weight:600;">font-size: 1em = 16px</span>
+            <div style="background:#fed7aa; padding:6px 12px; border-radius:4px; margin-top:4px;">
+              <span style="font-size:1.5em; color:#92400e;">child 1.5em = 24px</span>
+              <div style="background:#fecaca; padding:4px 10px; border-radius:4px; margin-top:4px;">
+                <span style="font-size:1.5em; color:#991b1b;">grandchild 1.5em = <strong>36px</strong> (menumpuk!)</span>
+              </div>
+            </div>
+          </div>
+          <div style="background:#bbf7d0; padding:8px 14px; border-radius:6px;">
+            <span style="font-size:1rem; color:#166534; font-weight:600;">font-size: 1rem = 16px</span>
+            <div style="background:#d1fae5; padding:6px 12px; border-radius:4px; margin-top:4px;">
+              <span style="font-size:1.5rem; color:#166534;">child 1.5rem = 24px</span>
+              <div style="background:#ecfdf5; padding:4px 10px; border-radius:4px; margin-top:4px;">
+                <span style="font-size:1.5rem; color:#166534;">grandchild 1.5rem = <strong>24px</strong> (tetap sama!)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        ✅ <strong>Rekomendasi:</strong>
+        <ul style="padding-left:1.2rem; margin:.4rem 0 0;">
+          <li><code>rem</code> → untuk <strong>font-size</strong> dan <strong>spacing</strong> (konsisten, mudah di-scale)</li>
+          <li><code>px</code> → untuk <strong>border</strong>, <strong>shadow</strong>, dan ukuran kecil yang harus presisi</li>
+          <li><code>%</code> → untuk <strong>width</strong> yang mengikuti parent (layout responsif)</li>
+          <li><code>vh/vw</code> → untuk elemen yang harus mengikuti <strong>ukuran layar</strong> (hero section, full-screen)</li>
+          <li><code>em</code> → jarang dipakai langsung, hati-hati efek menumpuk (<em>compounding</em>)</li>
+        </ul>
+      </div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Perbedaan penting em vs rem:</strong> <code>em</code> menumpuk jika ada elemen bersarang (1.5em × 1.5em = 2.25× root), sedangkan <code>rem</code> selalu merujuk ke root sehingga hasilnya konsisten di kedalaman bersarang apapun. Gunakan <code>rem</code> sebagai default.
+      </div>
     </section>
 
 
