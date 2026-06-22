@@ -1072,7 +1072,7 @@
       </div>
 
       <h3>Utility Class — Cara Kerja Tailwind</h3>
-      <p>Di Tailwind, styling dilakukan langsung di atribut <code>class</code> HTML menggunakan class-class kecil (utility).</p>
+      <p>Di Tailwind, styling dilakukan langsung di atribut <code>class</code> HTML menggunakan class-class kecil (utility). Tidak perlu file CSS terpisah!</p>
 
       <div class="code-block"><span class="komen">&lt;!-- Vanilla CSS: 2 file (HTML + CSS) --&gt;</span>
 <span class="komen">&lt;!-- index.html --&gt;</span>
@@ -1087,6 +1087,122 @@
 
 <span class="komen">&lt;!-- Tailwind: 1 file, class langsung di HTML --&gt;</span>
 <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-blue-500 text-white px-4 py-2 rounded-lg</span>"</span><span class="tag">&gt;</span>Click Me<span class="tag">&lt;/button&gt;</span></div>
+
+      <div class="info-box">
+        💡 <strong>Cara baca class Tailwind:</strong> <code>bg-blue-500</code> = <strong>bg</strong> (background) + <strong>blue</strong> (warna) + <strong>500</strong> (tingkat gelap). <code>px-4</code> = <strong>p</strong> (padding) + <strong>x</strong> (kiri-kanan) + <strong>4</strong> (ukuran). Pola ini konsisten di seluruh Tailwind!
+      </div>
+
+      <!-- POLA PENAMAAN -->
+      <h3>Pola Penamaan Class Tailwind</h3>
+      <p>Semua class Tailwind mengikuti pola yang bisa diprediksi. Jika kamu sudah paham CSS, kamu bisa "menebak" nama class-nya:</p>
+
+      <table>
+        <thead><tr><th>Pola</th><th>Contoh</th><th>Penjelasan</th></tr></thead>
+        <tbody>
+          <tr><td><code>{property}-{value}</code></td><td><code>text-center</code></td><td>text-align: center</td></tr>
+          <tr><td><code>{property}-{color}-{shade}</code></td><td><code>bg-red-500</code></td><td>background-color: merah tingkat 500</td></tr>
+          <tr><td><code>{property}-{direction}-{size}</code></td><td><code>pt-4</code></td><td>padding-top: 1rem</td></tr>
+          <tr><td><code>{property}-{size}</code></td><td><code>text-xl</code></td><td>font-size: 1.25rem</td></tr>
+          <tr><td><code>{property}-{variant}</code></td><td><code>rounded-lg</code></td><td>border-radius: 0.5rem</td></tr>
+          <tr><td><code>{state}:{class}</code></td><td><code>hover:bg-blue-700</code></td><td>saat hover → bg berubah</td></tr>
+          <tr><td><code>{breakpoint}:{class}</code></td><td><code>md:text-2xl</code></td><td>di layar ≥768px → font lebih besar</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="komen">&lt;!-- Contoh membaca class Tailwind --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-blue-500 text-white p-6 rounded-xl shadow-lg mt-4 hover:bg-blue-700</span>"</span><span class="tag">&gt;</span>
+<span class="komen">&lt;!--  bg-blue-500     → background: biru (#3b82f6)           --&gt;</span>
+<span class="komen">&lt;!--  text-white      → color: putih                         --&gt;</span>
+<span class="komen">&lt;!--  p-6             → padding: 1.5rem (semua sisi)          --&gt;</span>
+<span class="komen">&lt;!--  rounded-xl      → border-radius: 0.75rem               --&gt;</span>
+<span class="komen">&lt;!--  shadow-lg       → box-shadow besar                      --&gt;</span>
+<span class="komen">&lt;!--  mt-4            → margin-top: 1rem                      --&gt;</span>
+<span class="komen">&lt;!--  hover:bg-blue-700 → saat hover, background jadi gelap   --&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+
+      <!-- SISTEM WARNA -->
+      <h3>Sistem Warna Tailwind</h3>
+      <p>Tailwind menyediakan palet warna dengan <strong>11 tingkat gelap</strong> (50 = paling terang, 950 = paling gelap). Kamu tinggal pilih warna + angka.</p>
+
+      <table>
+        <thead><tr><th>Shade</th><th>Kapan Digunakan</th><th>Contoh Class</th></tr></thead>
+        <tbody>
+          <tr><td>50 – 100</td><td>Background terang, highlight area</td><td><code>bg-blue-50</code> <code>bg-blue-100</code></td></tr>
+          <tr><td>200 – 300</td><td>Border, garis pemisah, badge terang</td><td><code>border-blue-200</code></td></tr>
+          <tr><td>400 – 500</td><td>Warna utama tombol, ikon, link</td><td><code>bg-blue-500</code> <code>text-blue-500</code></td></tr>
+          <tr><td>600 – 700</td><td>Hover state, warna lebih tegas</td><td><code>hover:bg-blue-700</code></td></tr>
+          <tr><td>800 – 950</td><td>Teks gelap, background gelap</td><td><code>text-gray-800</code> <code>bg-gray-900</code></td></tr>
+        </tbody>
+      </table>
+
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.4rem;">Contoh skala warna <code>blue</code>:</p>
+      <div class="color-row">
+        <div class="color-swatch" style="background:#eff6ff; color:#1e40af; text-shadow:none; font-size:.65rem;">50</div>
+        <div class="color-swatch" style="background:#dbeafe; color:#1e40af; text-shadow:none; font-size:.65rem;">100</div>
+        <div class="color-swatch" style="background:#bfdbfe; color:#1e40af; text-shadow:none; font-size:.65rem;">200</div>
+        <div class="color-swatch" style="background:#93c5fd; font-size:.65rem;">300</div>
+        <div class="color-swatch" style="background:#60a5fa; font-size:.65rem;">400</div>
+        <div class="color-swatch" style="background:#3b82f6; font-size:.65rem;">500</div>
+        <div class="color-swatch" style="background:#2563eb; font-size:.65rem;">600</div>
+        <div class="color-swatch" style="background:#1d4ed8; font-size:.65rem;">700</div>
+        <div class="color-swatch" style="background:#1e40af; font-size:.65rem;">800</div>
+        <div class="color-swatch" style="background:#1e3a8a; font-size:.65rem;">900</div>
+        <div class="color-swatch" style="background:#172554; font-size:.65rem;">950</div>
+      </div>
+
+      <p style="font-size:.82rem; color:#64748b; margin:.6rem 0 .4rem;">Warna yang tersedia di Tailwind:</p>
+      <div class="color-row">
+        <div class="color-swatch" style="background:#ef4444;">red</div>
+        <div class="color-swatch" style="background:#f97316;">orange</div>
+        <div class="color-swatch" style="background:#eab308; color:#422006;">yellow</div>
+        <div class="color-swatch" style="background:#22c55e;">green</div>
+        <div class="color-swatch" style="background:#14b8a6;">teal</div>
+        <div class="color-swatch" style="background:#0ea5e9;">sky</div>
+        <div class="color-swatch" style="background:#3b82f6;">blue</div>
+        <div class="color-swatch" style="background:#8b5cf6;">violet</div>
+        <div class="color-swatch" style="background:#a855f7;">purple</div>
+        <div class="color-swatch" style="background:#ec4899;">pink</div>
+        <div class="color-swatch" style="background:#6b7280;">gray</div>
+        <div class="color-swatch" style="background:#1e293b;">slate</div>
+      </div>
+
+      <!-- SISTEM SPACING -->
+      <h3>Sistem Spacing (Jarak) Tailwind</h3>
+      <p>Angka di class Tailwind bukan pixel langsung, tapi <strong>kelipatan 0.25rem (4px)</strong>. Ini menjaga jarak antar elemen tetap konsisten.</p>
+
+      <table>
+        <thead><tr><th>Class Angka</th><th>Ukuran</th><th>Contoh Penggunaan</th></tr></thead>
+        <tbody>
+          <tr><td><code>0</code></td><td>0px</td><td><code>p-0</code> <code>m-0</code></td></tr>
+          <tr><td><code>1</code></td><td>0.25rem (4px)</td><td><code>p-1</code> <code>gap-1</code></td></tr>
+          <tr><td><code>2</code></td><td>0.5rem (8px)</td><td><code>p-2</code> <code>mt-2</code></td></tr>
+          <tr><td><code>3</code></td><td>0.75rem (12px)</td><td><code>p-3</code> <code>gap-3</code></td></tr>
+          <tr><td><code>4</code></td><td>1rem (16px)</td><td><code>p-4</code> <code>mx-4</code></td></tr>
+          <tr><td><code>6</code></td><td>1.5rem (24px)</td><td><code>p-6</code> <code>mb-6</code></td></tr>
+          <tr><td><code>8</code></td><td>2rem (32px)</td><td><code>p-8</code> <code>gap-8</code></td></tr>
+          <tr><td><code>12</code></td><td>3rem (48px)</td><td><code>p-12</code> <code>mt-12</code></td></tr>
+          <tr><td><code>16</code></td><td>4rem (64px)</td><td><code>p-16</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="komen">&lt;!-- Arah spacing: sama seperti CSS --&gt;</span>
+<span class="komen">&lt;!--  p-4    → padding: 1rem          (semua sisi)     --&gt;</span>
+<span class="komen">&lt;!--  px-4   → padding-left + right    (horizontal / x) --&gt;</span>
+<span class="komen">&lt;!--  py-4   → padding-top + bottom    (vertical / y)   --&gt;</span>
+<span class="komen">&lt;!--  pt-4   → padding-top             (satu sisi)      --&gt;</span>
+<span class="komen">&lt;!--  pb-4   → padding-bottom                           --&gt;</span>
+<span class="komen">&lt;!--  pl-4   → padding-left                             --&gt;</span>
+<span class="komen">&lt;!--  pr-4   → padding-right                            --&gt;</span>
+<span class="komen">&lt;!--  Sama untuk margin: m-4, mx-4, my-4, mt-4, dst.   --&gt;</span>
+
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="tw">p-6 mx-auto mt-4 mb-8</span>"</span><span class="tag">&gt;</span>
+  <span class="komen">&lt;!-- padding 1.5rem semua sisi, margin kiri-kanan auto (center), --&gt;</span>
+  <span class="komen">&lt;!-- margin-top 1rem, margin-bottom 2rem                         --&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+
+      <div class="info-box success">
+        ✅ <strong>Rumus cepat:</strong> Angka di Tailwind × 4 = pixel. Jadi <code>p-4</code> = 4×4 = <strong>16px</strong>, <code>mt-8</code> = 8×4 = <strong>32px</strong>, <code>gap-2</code> = 2×4 = <strong>8px</strong>.
+      </div>
 
       <h3>Kelas-kelas Penting Tailwind</h3>
       <table>
@@ -1172,7 +1288,7 @@
 
       <!-- Stats grid Tailwind -->
       <p style="font-size:.82rem; color:#64748b; margin-bottom:.4rem;">Demo Grid Stats Responsive:</p>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-2">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
         <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-blue-700">50</div>
           <div class="text-xs text-blue-500 mt-1">Rute TJ</div>
@@ -1189,6 +1305,128 @@
           <div class="text-2xl font-bold text-yellow-700">5</div>
           <div class="text-xs text-yellow-500 mt-1">Rute KRL</div>
         </div>
+      </div>
+
+      <!-- Demo Button variants -->
+      <h3>Demo: Variasi Tombol</h3>
+      <p>Cukup ubah class warna dan bentuk untuk membuat banyak variasi tombol:</p>
+      <div class="code-block"><span class="komen">&lt;!-- Tombol Primary --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition</span>"</span><span class="tag">&gt;</span>Primary<span class="tag">&lt;/button&gt;</span>
+
+<span class="komen">&lt;!-- Tombol Outline --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-white text-blue-600 border border-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 transition</span>"</span><span class="tag">&gt;</span>Outline<span class="tag">&lt;/button&gt;</span>
+
+<span class="komen">&lt;!-- Tombol Rounded Pill --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-green-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-green-700 transition</span>"</span><span class="tag">&gt;</span>Rounded<span class="tag">&lt;/button&gt;</span></div>
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.4rem;">Hasil:</p>
+      <div class="flex flex-wrap gap-3 mb-4">
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">Primary</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-300 transition">Secondary</button>
+        <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition">Success</button>
+        <button class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition">Danger</button>
+        <button class="bg-white text-blue-600 border border-blue-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-50 transition">Outline</button>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition">Rounded</button>
+      </div>
+
+      <!-- Demo Alert -->
+      <h3>Demo: Alert / Notification</h3>
+      <p>Pattern umum: <code>bg-{warna}-50</code> + <code>border-{warna}-200</code> + <code>text-{warna}-800</code> untuk alert box.</p>
+      <div class="code-block"><span class="komen">&lt;!-- Alert Info --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-sm</span>"</span><span class="tag">&gt;</span>
+  ℹ️ &lt;strong&gt;Info:&lt;/strong&gt; Data sedang dimuat.
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="komen">&lt;!-- Alert Error → tinggal ganti blue → red --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm</span>"</span><span class="tag">&gt;</span>
+  ❌ &lt;strong&gt;Error:&lt;/strong&gt; Gagal memuat data.
+<span class="tag">&lt;/div&gt;</span></div>
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.4rem;">Hasil:</p>
+      <div class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-sm mb-2">
+        ℹ️ <strong>Info:</strong> Data peta sedang dimuat, mohon tunggu sebentar.
+      </div>
+      <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg text-sm mb-2">
+        ✅ <strong>Sukses:</strong> Layer berhasil ditambahkan ke peta.
+      </div>
+      <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm mb-2">
+        ❌ <strong>Error:</strong> Gagal memuat data GeoJSON dari server.
+      </div>
+      <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg text-sm mb-4">
+        ⚠️ <strong>Warning:</strong> Koneksi internet tidak stabil, peta mungkin lambat.
+      </div>
+
+      <!-- Demo Badge -->
+      <h3>Demo: Badge / Tag</h3>
+      <div class="code-block"><span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full</span>"</span><span class="tag">&gt;</span>Leaflet.js<span class="tag">&lt;/span&gt;</span></div>
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.4rem;">Hasil:</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Leaflet.js</span>
+        <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">GeoJSON</span>
+        <span class="bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1 rounded-full">Tailwind CSS</span>
+        <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-3 py-1 rounded-full">JavaScript</span>
+        <span class="bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full">Firebase</span>
+      </div>
+
+      <!-- Demo Simple Form -->
+      <h3>Demo: Form Input</h3>
+      <div class="code-block"><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="tw">bg-white border border-gray-200 rounded-xl p-5 max-w-md</span>"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;label</span> <span class="attr">class</span>=<span class="str">"<span class="tw">block text-sm font-medium text-gray-600 mb-1</span>"</span><span class="tag">&gt;</span>Nama Tempat<span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"text"</span> <span class="attr">placeholder</span>=<span class="str">"Contoh: Monas"</span>
+    <span class="attr">class</span>=<span class="str">"<span class="tw">w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+           focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500</span>"</span><span class="tag">&gt;</span>
+  <span class="komen">&lt;!-- focus: → styling saat input aktif/diklik --&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"<span class="tw">w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-semibold
+                 hover:bg-blue-700 transition mt-3</span>"</span><span class="tag">&gt;</span>🔍 Cari<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/div&gt;</span></div>
+      <p style="font-size:.82rem; color:#64748b; margin-bottom:.4rem;">Hasil:</p>
+      <div class="bg-white border border-gray-200 rounded-xl p-5 max-w-md mb-4">
+        <h4 class="text-base font-bold text-gray-800 mb-3">Cari Lokasi</h4>
+        <div class="mb-3">
+          <label class="block text-sm font-medium text-gray-600 mb-1">Nama Tempat</label>
+          <input type="text" placeholder="Contoh: Monas" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+        </div>
+        <div class="mb-3">
+          <label class="block text-sm font-medium text-gray-600 mb-1">Kategori</label>
+          <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+            <option>Semua Kategori</option>
+            <option>Transportasi</option>
+            <option>Wisata</option>
+            <option>Pemerintahan</option>
+          </select>
+        </div>
+        <button class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">🔍 Cari di Peta</button>
+      </div>
+
+      <!-- CHEAT SHEET CSS → TAILWIND -->
+      <h3>Cheat Sheet: CSS → Tailwind</h3>
+      <p>Tabel konversi cepat dari CSS biasa ke class Tailwind:</p>
+
+      <table>
+        <thead><tr><th>CSS Property</th><th>CSS Biasa</th><th>Tailwind Class</th></tr></thead>
+        <tbody>
+          <tr><td>Background</td><td><code>background-color: #3b82f6</code></td><td><code>bg-blue-500</code></td></tr>
+          <tr><td>Text color</td><td><code>color: #ffffff</code></td><td><code>text-white</code></td></tr>
+          <tr><td>Font size</td><td><code>font-size: 1.5rem</code></td><td><code>text-2xl</code></td></tr>
+          <tr><td>Font weight</td><td><code>font-weight: 700</code></td><td><code>font-bold</code></td></tr>
+          <tr><td>Text align</td><td><code>text-align: center</code></td><td><code>text-center</code></td></tr>
+          <tr><td>Padding</td><td><code>padding: 1rem</code></td><td><code>p-4</code></td></tr>
+          <tr><td>Padding X</td><td><code>padding-left: 1rem; padding-right: 1rem</code></td><td><code>px-4</code></td></tr>
+          <tr><td>Margin top</td><td><code>margin-top: 1.5rem</code></td><td><code>mt-6</code></td></tr>
+          <tr><td>Center</td><td><code>margin: 0 auto</code></td><td><code>mx-auto</code></td></tr>
+          <tr><td>Width</td><td><code>width: 100%</code></td><td><code>w-full</code></td></tr>
+          <tr><td>Max width</td><td><code>max-width: 28rem</code></td><td><code>max-w-md</code></td></tr>
+          <tr><td>Height</td><td><code>height: 100vh</code></td><td><code>h-screen</code></td></tr>
+          <tr><td>Flex center</td><td><code>display:flex; justify-content:center; align-items:center</code></td><td><code>flex justify-center items-center</code></td></tr>
+          <tr><td>Grid 3 kolom</td><td><code>display:grid; grid-template-columns:repeat(3,1fr); gap:1rem</code></td><td><code>grid grid-cols-3 gap-4</code></td></tr>
+          <tr><td>Border</td><td><code>border: 1px solid #e5e7eb</code></td><td><code>border border-gray-200</code></td></tr>
+          <tr><td>Rounded</td><td><code>border-radius: 0.5rem</code></td><td><code>rounded-lg</code></td></tr>
+          <tr><td>Shadow</td><td><code>box-shadow: 0 4px 6px ...</code></td><td><code>shadow-md</code></td></tr>
+          <tr><td>Hidden</td><td><code>display: none</code></td><td><code>hidden</code></td></tr>
+          <tr><td>Hover</td><td><code>.btn:hover { background: ... }</code></td><td><code>hover:bg-blue-700</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Ingat:</strong> Tailwind BUKAN pengganti belajar CSS. Kamu harus paham <code>flexbox</code>, <code>grid</code>, <code>position</code>, dan <code>box model</code> dulu. Tailwind hanya mempercepat penulisan CSS yang sudah kamu pahami.
       </div>
 
     </section>
