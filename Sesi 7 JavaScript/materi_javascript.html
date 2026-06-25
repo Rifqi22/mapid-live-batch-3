@@ -760,6 +760,32 @@ moda.<span class="fn">forEach</span>(<span class="kw">function</span>(item, inde
         <li>JavaScript mengakses DOM Tree dan <strong>memanipulasi</strong> elemen-elemen di dalamnya</li>
       </ol>
 
+      <h3>Visualisasi DOM Tree</h3>
+      <p>Setiap tag HTML menjadi "node" (simpul) di pohon DOM:</p>
+      <div class="demo-area" style="font-size:.82rem; text-align:center;">
+        <div style="display:inline-block; text-align:left;">
+          <div style="background:#1e3a5f; color:#fff; padding:6px 16px; border-radius:6px; display:inline-block; font-weight:700;">document</div>
+          <div style="padding-left:30px; border-left:2px solid #cbd5e1; margin-left:20px; margin-top:4px;">
+            <div style="margin:4px 0;"><span style="background:#2563eb; color:#fff; padding:3px 12px; border-radius:4px; font-weight:600;">&lt;html&gt;</span></div>
+            <div style="padding-left:30px; border-left:2px solid #cbd5e1; margin-left:20px;">
+              <div style="margin:4px 0;"><span style="background:#7c3aed; color:#fff; padding:3px 12px; border-radius:4px; font-weight:600;">&lt;head&gt;</span>
+                <span style="background:#a78bfa; color:#fff; padding:2px 8px; border-radius:4px; margin-left:6px;">&lt;title&gt;</span>
+              </div>
+              <div style="margin:4px 0;"><span style="background:#059669; color:#fff; padding:3px 12px; border-radius:4px; font-weight:600;">&lt;body&gt;</span></div>
+              <div style="padding-left:30px; border-left:2px solid #cbd5e1; margin-left:20px;">
+                <div style="margin:3px 0;"><span style="background:#10b981; color:#fff; padding:2px 10px; border-radius:4px;">&lt;h1 id="judul"&gt;</span> <span style="color:#64748b;">→ "Peta WebGIS"</span></div>
+                <div style="margin:3px 0;"><span style="background:#10b981; color:#fff; padding:2px 10px; border-radius:4px;">&lt;div class="card"&gt;</span></div>
+                <div style="margin:3px 0;"><span style="background:#10b981; color:#fff; padding:2px 10px; border-radius:4px;">&lt;button id="btn"&gt;</span> <span style="color:#64748b;">→ "Klik Saya"</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        💡 JavaScript bisa mengakses <strong>node manapun</strong> di pohon ini dan mengubahnya: teks, warna, posisi, bahkan menambah/menghapus elemen secara dinamis.
+      </div>
+
       <h3>Mengakses Elemen DOM</h3>
       <table>
         <thead><tr><th>Method</th><th>Cara Kerja</th><th>Mengembalikan</th></tr></thead>
@@ -789,41 +815,229 @@ moda.<span class="fn">forEach</span>(<span class="kw">function</span>(item, inde
 <span class="kw">const</span> allCards <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">".card"</span>);  <span class="cm">// semua .card</span></div>
 
       <h3>Memanipulasi DOM</h3>
+
+      <h3 style="font-size:.95rem;">1. Mengubah Teks: innerText vs innerHTML vs textContent</h3>
+      <table>
+        <thead><tr><th>Property</th><th>Fungsi</th><th>HTML tag?</th><th>Kapan Dipakai</th></tr></thead>
+        <tbody>
+          <tr><td><code>innerText</code></td><td>Ambil/set teks yang <strong>terlihat</strong> di layar</td><td>❌ Tidak bisa</td><td>Mengubah teks biasa</td></tr>
+          <tr><td><code>innerHTML</code></td><td>Ambil/set konten <strong>termasuk tag HTML</strong></td><td>✅ Bisa sisipkan HTML</td><td>Menyisipkan elemen HTML</td></tr>
+          <tr><td><code>textContent</code></td><td>Ambil/set <strong>semua teks</strong> (termasuk yang hidden)</td><td>❌ Tidak bisa</td><td>Ambil teks mentah</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// HTML: &lt;h1 id="judul"&gt;Gambar Peta&lt;/h1&gt;</span>
+<span class="kw">const</span> judul <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"judul"</span>);
+
+<span class="cm">// innerText — teks biasa</span>
+judul.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Peta Dunia"</span>;
+<span class="cm">// Hasil: &lt;h1&gt;Peta Dunia&lt;/h1&gt;</span>
+
+<span class="cm">// innerHTML — bisa sisipkan tag HTML</span>
+judul.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">"Peta &lt;strong&gt;Dunia&lt;/strong&gt;"</span>;
+<span class="cm">// Hasil: &lt;h1&gt;Peta &lt;strong&gt;Dunia&lt;/strong&gt;&lt;/h1&gt;</span>
+
+<span class="cm">// Membaca teks dari elemen:</span>
+<span class="obj">console</span>.<span class="fn">log</span>(judul.<span class="prop">innerText</span>);   <span class="cm">// "Peta Dunia"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(judul.<span class="prop">innerHTML</span>);   <span class="cm">// "Peta &lt;strong&gt;Dunia&lt;/strong&gt;"</span></div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Hati-hati dengan innerHTML!</strong> Jangan sisipkan data dari user langsung ke <code>innerHTML</code> karena bisa menyebabkan serangan XSS. Untuk teks biasa, selalu pakai <code>innerText</code>.
+      </div>
+
+      <h3 style="font-size:.95rem;">2. Mengubah Style CSS</h3>
+      <p>Property CSS yang menggunakan tanda hubung (<code>-</code>) harus diubah ke <strong>camelCase</strong> di JavaScript:</p>
+      <table>
+        <thead><tr><th>CSS</th><th>JavaScript (camelCase)</th></tr></thead>
+        <tbody>
+          <tr><td><code>color</code></td><td><code>style.color</code></td></tr>
+          <tr><td><code>font-size</code></td><td><code>style.fontSize</code></td></tr>
+          <tr><td><code>background-color</code></td><td><code>style.backgroundColor</code></td></tr>
+          <tr><td><code>border-radius</code></td><td><code>style.borderRadius</code></td></tr>
+          <tr><td><code>margin-top</code></td><td><code>style.marginTop</code></td></tr>
+          <tr><td><code>z-index</code></td><td><code>style.zIndex</code></td></tr>
+          <tr><td><code>display</code></td><td><code>style.display</code></td></tr>
+        </tbody>
+      </table>
+
       <div class="code-block"><span class="kw">const</span> judul <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"judul"</span>);
 
-<span class="cm">// 1. Mengubah teks</span>
-judul.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Peta Dunia"</span>;       <span class="cm">// teks biasa</span>
-judul.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">"Peta &lt;strong&gt;Dunia&lt;/strong&gt;"</span>;  <span class="cm">// bisa sisipkan HTML</span>
-
-<span class="cm">// 2. Mengubah style CSS</span>
 judul.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"blue"</span>;
-judul.<span class="prop">style</span>.<span class="prop">fontSize</span> <span class="op">=</span> <span class="str">"2rem"</span>;         <span class="cm">// pakai camelCase, bukan font-size</span>
+judul.<span class="prop">style</span>.<span class="prop">fontSize</span> <span class="op">=</span> <span class="str">"2rem"</span>;
 judul.<span class="prop">style</span>.<span class="prop">backgroundColor</span> <span class="op">=</span> <span class="str">"#eff6ff"</span>;
+judul.<span class="prop">style</span>.<span class="prop">padding</span> <span class="op">=</span> <span class="str">"1rem"</span>;
+judul.<span class="prop">style</span>.<span class="prop">borderRadius</span> <span class="op">=</span> <span class="str">"8px"</span>;
 
-<span class="cm">// 3. Mengubah class</span>
-judul.<span class="prop">classList</span>.<span class="fn">add</span>(<span class="str">"active"</span>);          <span class="cm">// tambah class</span>
-judul.<span class="prop">classList</span>.<span class="fn">remove</span>(<span class="str">"active"</span>);       <span class="cm">// hapus class</span>
-judul.<span class="prop">classList</span>.<span class="fn">toggle</span>(<span class="str">"active"</span>);       <span class="cm">// toggle (tambah/hapus)</span>
-judul.<span class="prop">classList</span>.<span class="fn">contains</span>(<span class="str">"active"</span>);     <span class="cm">// cek apakah punya class → true/false</span>
+<span class="cm">// Menyembunyikan elemen</span>
+judul.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"none"</span>;    <span class="cm">// hilang dari halaman</span>
+judul.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"block"</span>;   <span class="cm">// tampilkan kembali</span></div>
 
-<span class="cm">// 4. Mengubah atribut</span>
-<span class="kw">const</span> img <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">"img"</span>);
+      <h3 style="font-size:.95rem;">3. Mengubah Class (classList)</h3>
+      <div class="code-block"><span class="kw">const</span> box <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">".card"</span>);
+
+box.<span class="prop">classList</span>.<span class="fn">add</span>(<span class="str">"active"</span>);           <span class="cm">// tambah class "active"</span>
+box.<span class="prop">classList</span>.<span class="fn">add</span>(<span class="str">"highlight"</span>, <span class="str">"bold"</span>); <span class="cm">// tambah beberapa class sekaligus</span>
+box.<span class="prop">classList</span>.<span class="fn">remove</span>(<span class="str">"active"</span>);        <span class="cm">// hapus class "active"</span>
+box.<span class="prop">classList</span>.<span class="fn">toggle</span>(<span class="str">"active"</span>);        <span class="cm">// toggle: ada → hapus, tidak ada → tambah</span>
+
+<span class="cm">// Cek apakah elemen punya class tertentu</span>
+<span class="kw">if</span> (box.<span class="prop">classList</span>.<span class="fn">contains</span>(<span class="str">"active"</span>)) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Card sedang aktif!"</span>);
+}</div>
+
+      <div class="info-box success">
+        ✅ <strong>classList vs style:</strong> Gunakan <code>classList</code> untuk toggle tampilan yang sudah didefinisikan di CSS (lebih rapi). Gunakan <code>style</code> hanya untuk perubahan dinamis yang nilainya dari JavaScript (misal dari input user).
+      </div>
+
+      <h3 style="font-size:.95rem;">4. Mengubah Atribut</h3>
+      <div class="code-block"><span class="kw">const</span> img <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">"img"</span>);
+<span class="kw">const</span> link <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">"a"</span>);
+
+<span class="cm">// Mengubah atribut</span>
 img.<span class="fn">setAttribute</span>(<span class="str">"src"</span>, <span class="str">"peta-baru.jpg"</span>);
-img.<span class="fn">setAttribute</span>(<span class="str">"alt"</span>, <span class="str">"Peta DKI Jakarta"</span>);</div>
+img.<span class="fn">setAttribute</span>(<span class="str">"alt"</span>, <span class="str">"Peta DKI Jakarta"</span>);
+link.<span class="fn">setAttribute</span>(<span class="str">"href"</span>, <span class="str">"https://maps.google.com"</span>);
+link.<span class="fn">setAttribute</span>(<span class="str">"target"</span>, <span class="str">"_blank"</span>);
 
-      <h3>Membuat Elemen Baru (createElement)</h3>
-      <div class="code-block"><span class="cm">// Membuat elemen &lt;p&gt; baru dan memasukkannya ke halaman</span>
-<span class="kw">const</span> p <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"p"</span>);
-p.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Lokasi berhasil dimuat!"</span>;
+<span class="cm">// Membaca atribut</span>
+<span class="obj">console</span>.<span class="fn">log</span>(img.<span class="fn">getAttribute</span>(<span class="str">"src"</span>));  <span class="cm">// "peta-baru.jpg"</span>
+
+<span class="cm">// Menghapus atribut</span>
+link.<span class="fn">removeAttribute</span>(<span class="str">"target"</span>);</div>
+
+      <h3 style="font-size:.95rem;">5. Mengambil Nilai Input (.value)</h3>
+      <div class="code-block"><span class="cm">// HTML:</span>
+<span class="cm">// &lt;input type="text" id="nama" value="Rifqi"&gt;</span>
+<span class="cm">// &lt;select id="moda"&gt;</span>
+<span class="cm">//   &lt;option value="TJ"&gt;Transjakarta&lt;/option&gt;</span>
+<span class="cm">//   &lt;option value="MRT"&gt;MRT&lt;/option&gt;</span>
+<span class="cm">// &lt;/select&gt;</span>
+<span class="cm">// &lt;input type="checkbox" id="setuju"&gt;</span>
+
+<span class="cm">// Text input — ambil teks yang diketik</span>
+<span class="kw">const</span> nama <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"nama"</span>).<span class="prop">value</span>;     <span class="cm">// "Rifqi"</span>
+
+<span class="cm">// Select/dropdown — ambil value option yang dipilih</span>
+<span class="kw">const</span> moda <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"moda"</span>).<span class="prop">value</span>;     <span class="cm">// "TJ" atau "MRT"</span>
+
+<span class="cm">// Checkbox — ambil apakah dicentang (true/false)</span>
+<span class="kw">const</span> setuju <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"setuju"</span>).<span class="prop">checked</span>; <span class="cm">// true / false</span>
+
+<span class="cm">// Mengosongkan input setelah submit:</span>
+<span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"nama"</span>).<span class="prop">value</span> <span class="op">=</span> <span class="str">""</span>;</div>
+
+      <hr>
+
+      <h3>Navigasi DOM (Parent, Children, Sibling)</h3>
+      <p>Selain mengakses elemen langsung, kamu bisa "berjalan" di pohon DOM dari satu elemen ke elemen lain:</p>
+
+      <div class="code-block"><span class="cm">// HTML:</span>
+<span class="cm">// &lt;div id="container"&gt;</span>
+<span class="cm">//   &lt;h2&gt;Judul&lt;/h2&gt;</span>
+<span class="cm">//   &lt;p&gt;Paragraf pertama&lt;/p&gt;</span>
+<span class="cm">//   &lt;p&gt;Paragraf kedua&lt;/p&gt;</span>
+<span class="cm">// &lt;/div&gt;</span>
+
+<span class="kw">const</span> container <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"container"</span>);
+<span class="kw">const</span> paragraf <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">"p"</span>);
+
+<span class="cm">// Naik ke parent</span>
+<span class="obj">console</span>.<span class="fn">log</span>(paragraf.<span class="prop">parentElement</span>);         <span class="cm">// &lt;div id="container"&gt;</span>
+
+<span class="cm">// Turun ke children</span>
+<span class="obj">console</span>.<span class="fn">log</span>(container.<span class="prop">children</span>);              <span class="cm">// [h2, p, p] — semua anak</span>
+<span class="obj">console</span>.<span class="fn">log</span>(container.<span class="prop">children</span>[<span class="num">0</span>]);           <span class="cm">// &lt;h2&gt;Judul&lt;/h2&gt;</span>
+<span class="obj">console</span>.<span class="fn">log</span>(container.<span class="prop">children</span>.<span class="prop">length</span>);      <span class="cm">// 3</span>
+<span class="obj">console</span>.<span class="fn">log</span>(container.<span class="prop">firstElementChild</span>);     <span class="cm">// &lt;h2&gt; — anak pertama</span>
+<span class="obj">console</span>.<span class="fn">log</span>(container.<span class="prop">lastElementChild</span>);      <span class="cm">// &lt;p&gt; — anak terakhir</span>
+
+<span class="cm">// Ke samping (sibling)</span>
+<span class="kw">const</span> h2 <span class="op">=</span> container.<span class="prop">firstElementChild</span>;
+<span class="obj">console</span>.<span class="fn">log</span>(h2.<span class="prop">nextElementSibling</span>);           <span class="cm">// &lt;p&gt;Paragraf pertama&lt;/p&gt;</span>
+<span class="obj">console</span>.<span class="fn">log</span>(h2.<span class="prop">nextElementSibling</span>.<span class="prop">nextElementSibling</span>); <span class="cm">// &lt;p&gt;Paragraf kedua&lt;/p&gt;</span></div>
+
+      <table>
+        <thead><tr><th>Property</th><th>Arah</th><th>Penjelasan</th></tr></thead>
+        <tbody>
+          <tr><td><code>parentElement</code></td><td>Naik</td><td>Elemen induk</td></tr>
+          <tr><td><code>children</code></td><td>Turun</td><td>Semua elemen anak</td></tr>
+          <tr><td><code>firstElementChild</code></td><td>Turun</td><td>Anak pertama</td></tr>
+          <tr><td><code>lastElementChild</code></td><td>Turun</td><td>Anak terakhir</td></tr>
+          <tr><td><code>nextElementSibling</code></td><td>Samping</td><td>Elemen saudara berikutnya</td></tr>
+          <tr><td><code>previousElementSibling</code></td><td>Samping</td><td>Elemen saudara sebelumnya</td></tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+      <h3>Membuat Elemen Baru (createElement + appendChild)</h3>
+      <div class="code-block"><span class="cm">// Langkah: 1. Buat elemen  →  2. Isi konten  →  3. Masukkan ke halaman</span>
+
+<span class="cm">// Membuat elemen &lt;p&gt; baru</span>
+<span class="kw">const</span> p <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"p"</span>);       <span class="cm">// 1. buat</span>
+p.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Lokasi berhasil dimuat!"</span>;    <span class="cm">// 2. isi</span>
 p.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"green"</span>;
-<span class="obj">document</span>.<span class="prop">body</span>.<span class="fn">appendChild</span>(p);
+<span class="obj">document</span>.<span class="prop">body</span>.<span class="fn">appendChild</span>(p);               <span class="cm">// 3. masukkan ke &lt;body&gt;</span>
 
-<span class="cm">// Menambahkan ke elemen tertentu:</span>
+<span class="cm">// Menambahkan ke elemen tertentu (bukan body):</span>
 <span class="kw">const</span> container <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"output"</span>);
 <span class="kw">const</span> div <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"div"</span>);
 div.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">"&lt;strong&gt;Data baru&lt;/strong&gt; ditambahkan."</span>;
 div.<span class="prop">classList</span>.<span class="fn">add</span>(<span class="str">"card"</span>);
-container.<span class="fn">appendChild</span>(div);</div>
+container.<span class="fn">appendChild</span>(div);
+
+<span class="cm">// Membuat banyak elemen dari array (sangat sering dipakai!):</span>
+<span class="kw">const</span> lokasi <span class="op">=</span> [<span class="str">"Monas"</span>, <span class="str">"Ancol"</span>, <span class="str">"Kota Tua"</span>];
+<span class="kw">const</span> list <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"daftarLokasi"</span>);
+
+lokasi.<span class="fn">forEach</span>(<span class="kw">function</span>(nama) {
+  <span class="kw">const</span> li <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+  li.<span class="prop">innerText</span> <span class="op">=</span> nama;
+  list.<span class="fn">appendChild</span>(li);
+});
+<span class="cm">// Hasil: &lt;ul id="daftarLokasi"&gt;</span>
+<span class="cm">//          &lt;li&gt;Monas&lt;/li&gt;</span>
+<span class="cm">//          &lt;li&gt;Ancol&lt;/li&gt;</span>
+<span class="cm">//          &lt;li&gt;Kota Tua&lt;/li&gt;</span>
+<span class="cm">//        &lt;/ul&gt;</span></div>
+
+      <h3>Menghapus Elemen (remove &amp; removeChild)</h3>
+      <div class="code-block"><span class="cm">// Cara 1: remove() — hapus elemen itu sendiri</span>
+<span class="kw">const</span> pesan <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"pesan"</span>);
+pesan.<span class="fn">remove</span>();  <span class="cm">// elemen #pesan hilang dari halaman</span>
+
+<span class="cm">// Cara 2: removeChild() — hapus anak dari parent</span>
+<span class="kw">const</span> list <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"daftarLokasi"</span>);
+<span class="kw">const</span> itemPertama <span class="op">=</span> list.<span class="prop">firstElementChild</span>;
+list.<span class="fn">removeChild</span>(itemPertama);  <span class="cm">// hapus &lt;li&gt; pertama</span>
+
+<span class="cm">// Mengosongkan semua isi elemen:</span>
+list.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">""</span>;  <span class="cm">// semua &lt;li&gt; di dalam list hilang</span></div>
+
+      <h3>querySelectorAll + forEach (Memanipulasi Banyak Elemen)</h3>
+      <div class="code-block"><span class="cm">// HTML:</span>
+<span class="cm">// &lt;div class="card"&gt;Card 1&lt;/div&gt;</span>
+<span class="cm">// &lt;div class="card"&gt;Card 2&lt;/div&gt;</span>
+<span class="cm">// &lt;div class="card"&gt;Card 3&lt;/div&gt;</span>
+
+<span class="cm">// Ambil SEMUA elemen .card</span>
+<span class="kw">const</span> cards <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">".card"</span>);
+
+<span class="cm">// Loop semua card dan ubah style-nya</span>
+cards.<span class="fn">forEach</span>(<span class="kw">function</span>(card) {
+  card.<span class="prop">style</span>.<span class="prop">border</span> <span class="op">=</span> <span class="str">"2px solid #1a56db"</span>;
+  card.<span class="prop">style</span>.<span class="prop">borderRadius</span> <span class="op">=</span> <span class="str">"8px"</span>;
+  card.<span class="prop">style</span>.<span class="prop">padding</span> <span class="op">=</span> <span class="str">"1rem"</span>;
+});
+
+<span class="cm">// Tambah event click ke SEMUA card</span>
+cards.<span class="fn">forEach</span>(<span class="kw">function</span>(card) {
+  card.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">function</span>() {
+    card.<span class="prop">classList</span>.<span class="fn">toggle</span>(<span class="str">"active"</span>);
+  });
+});</div>
+
+      <hr>
 
       <h3>Event Handling (addEventListener)</h3>
       <p>Event adalah aksi yang terjadi di halaman (klik, ketik, hover, submit, dll). Kita bisa merespon event menggunakan <code>addEventListener</code>.</p>
@@ -876,6 +1090,130 @@ search.<span class="fn">addEventListener</span>(<span class="str">"input"</span>
       <div class="info-box warning">
         ⚠️ <strong>e.preventDefault()</strong> wajib dipakai pada event <code>"submit"</code> agar halaman tidak refresh. Tanpa ini, data yang sudah diproses akan hilang karena halaman reload.
       </div>
+
+      <h3>Event Object (e) — Informasi Tentang Event</h3>
+      <p>Saat event terjadi, JavaScript menyediakan <strong>object <code>e</code></strong> (event) yang berisi informasi detail tentang apa yang terjadi:</p>
+
+      <table>
+        <thead><tr><th>Property</th><th>Isi</th><th>Contoh Hasil</th></tr></thead>
+        <tbody>
+          <tr><td><code>e.target</code></td><td>Elemen yang diklik / memicu event</td><td><code>&lt;button&gt;Klik&lt;/button&gt;</code></td></tr>
+          <tr><td><code>e.target.value</code></td><td>Nilai input yang sedang diketik</td><td><code>"Monas"</code></td></tr>
+          <tr><td><code>e.target.id</code></td><td>ID elemen yang diklik</td><td><code>"btn"</code></td></tr>
+          <tr><td><code>e.type</code></td><td>Jenis event</td><td><code>"click"</code>, <code>"submit"</code></td></tr>
+          <tr><td><code>e.key</code></td><td>Tombol keyboard yang ditekan</td><td><code>"Enter"</code>, <code>"Escape"</code></td></tr>
+          <tr><td><code>e.preventDefault()</code></td><td>Mencegah aksi default browser</td><td>Cegah form refresh</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// Mengetahui elemen mana yang diklik</span>
+<span class="obj">document</span>.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">function</span>(e) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Diklik:"</span>, e.<span class="prop">target</span>);         <span class="cm">// elemen yang diklik</span>
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Tag:"</span>, e.<span class="prop">target</span>.<span class="prop">tagName</span>);    <span class="cm">// "BUTTON", "DIV", dll</span>
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"ID:"</span>, e.<span class="prop">target</span>.<span class="prop">id</span>);         <span class="cm">// id elemen (jika ada)</span>
+});
+
+<span class="cm">// Mendeteksi tombol keyboard</span>
+<span class="obj">document</span>.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, <span class="kw">function</span>(e) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Tombol ditekan:"</span>, e.<span class="prop">key</span>);
+
+  <span class="kw">if</span> (e.<span class="prop">key</span> <span class="op">===</span> <span class="str">"Escape"</span>) {
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"User menekan Escape — tutup modal"</span>);
+  }
+  <span class="kw">if</span> (e.<span class="prop">key</span> <span class="op">===</span> <span class="str">"Enter"</span>) {
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"User menekan Enter"</span>);
+  }
+});</div>
+
+      <hr>
+
+      <h3>Contoh Praktis: Show / Hide (Toggle)</h3>
+      <div class="code-block"><span class="cm">// HTML:</span>
+<span class="cm">// &lt;button id="toggleBtn"&gt;Tampilkan Info&lt;/button&gt;</span>
+<span class="cm">// &lt;div id="info" style="display: none;"&gt;</span>
+<span class="cm">//   &lt;p&gt;Ini adalah informasi tersembunyi!&lt;/p&gt;</span>
+<span class="cm">// &lt;/div&gt;</span>
+
+<span class="kw">const</span> toggleBtn <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"toggleBtn"</span>);
+<span class="kw">const</span> info <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"info"</span>);
+
+toggleBtn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">function</span>() {
+  <span class="kw">if</span> (info.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">===</span> <span class="str">"none"</span>) {
+    info.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"block"</span>;
+    toggleBtn.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Sembunyikan Info"</span>;
+  } <span class="kw">else</span> {
+    info.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"none"</span>;
+    toggleBtn.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Tampilkan Info"</span>;
+  }
+});</div>
+
+      <h3>Contoh Praktis: Filter / Search Real-Time</h3>
+      <div class="code-block"><span class="cm">// HTML:</span>
+<span class="cm">// &lt;input type="text" id="cariLokasi" placeholder="Cari lokasi..."&gt;</span>
+<span class="cm">// &lt;ul id="listLokasi"&gt;</span>
+<span class="cm">//   &lt;li&gt;Monas&lt;/li&gt;</span>
+<span class="cm">//   &lt;li&gt;Ancol&lt;/li&gt;</span>
+<span class="cm">//   &lt;li&gt;Kota Tua&lt;/li&gt;</span>
+<span class="cm">//   &lt;li&gt;Taman Mini&lt;/li&gt;</span>
+<span class="cm">// &lt;/ul&gt;</span>
+
+<span class="kw">const</span> inputCari <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"cariLokasi"</span>);
+<span class="kw">const</span> items <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">"#listLokasi li"</span>);
+
+inputCari.<span class="fn">addEventListener</span>(<span class="str">"input"</span>, <span class="kw">function</span>(e) {
+  <span class="kw">const</span> keyword <span class="op">=</span> e.<span class="prop">target</span>.<span class="prop">value</span>.<span class="fn">toLowerCase</span>();
+
+  items.<span class="fn">forEach</span>(<span class="kw">function</span>(item) {
+    <span class="kw">const</span> nama <span class="op">=</span> item.<span class="prop">innerText</span>.<span class="fn">toLowerCase</span>();
+    <span class="kw">if</span> (nama.<span class="fn">includes</span>(keyword)) {
+      item.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">""</span>;       <span class="cm">// tampilkan</span>
+    } <span class="kw">else</span> {
+      item.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"none"</span>;   <span class="cm">// sembunyikan</span>
+    }
+  });
+});</div>
+
+      <h3>Contoh Praktis: Dynamic List (Tambah &amp; Hapus Item)</h3>
+      <div class="code-block"><span class="cm">// HTML:</span>
+<span class="cm">// &lt;input type="text" id="inputItem" placeholder="Nama lokasi"&gt;</span>
+<span class="cm">// &lt;button id="btnTambah"&gt;Tambah&lt;/button&gt;</span>
+<span class="cm">// &lt;ul id="daftar"&gt;&lt;/ul&gt;</span>
+
+<span class="kw">const</span> inputItem <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"inputItem"</span>);
+<span class="kw">const</span> btnTambah <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"btnTambah"</span>);
+<span class="kw">const</span> daftar <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"daftar"</span>);
+
+btnTambah.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">function</span>() {
+  <span class="kw">const</span> teks <span class="op">=</span> inputItem.<span class="prop">value</span>.<span class="fn">trim</span>();
+  <span class="kw">if</span> (teks <span class="op">===</span> <span class="str">""</span>) <span class="kw">return</span>;  <span class="cm">// jangan tambah jika kosong</span>
+
+  <span class="cm">// Buat &lt;li&gt; baru</span>
+  <span class="kw">const</span> li <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+  li.<span class="prop">innerText</span> <span class="op">=</span> teks;
+
+  <span class="cm">// Buat tombol hapus</span>
+  <span class="kw">const</span> btnHapus <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"button"</span>);
+  btnHapus.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"❌"</span>;
+  btnHapus.<span class="prop">style</span>.<span class="prop">marginLeft</span> <span class="op">=</span> <span class="str">"8px"</span>;
+  btnHapus.<span class="prop">style</span>.<span class="prop">cursor</span> <span class="op">=</span> <span class="str">"pointer"</span>;
+
+  <span class="cm">// Klik tombol hapus → hapus item</span>
+  btnHapus.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">function</span>() {
+    li.<span class="fn">remove</span>();
+  });
+
+  li.<span class="fn">appendChild</span>(btnHapus);
+  daftar.<span class="fn">appendChild</span>(li);
+
+  inputItem.<span class="prop">value</span> <span class="op">=</span> <span class="str">""</span>;  <span class="cm">// kosongkan input</span>
+  inputItem.<span class="fn">focus</span>();      <span class="cm">// fokus kembali ke input</span>
+});</div>
+
+      <div class="info-box success">
+        ✅ <strong>Contoh di atas menggabungkan semua konsep DOM:</strong> mengakses elemen, membuat elemen baru, menambahkan event listener, memanipulasi konten, dan menghapus elemen. Ini adalah pola yang sangat sering dipakai di proyek nyata.
+      </div>
+
+      <hr>
 
       <h3>Contoh Lengkap: Form + DOM</h3>
       <div class="code-block"><span class="cm">// HTML:</span>
@@ -956,6 +1294,88 @@ search.<span class="fn">addEventListener</span>(<span class="str">"input"</span>
           <tr><td><code>500</code></td><td>Server Error</td><td>Ada masalah di server</td></tr>
         </tbody>
       </table>
+
+      <hr>
+
+      <h3>Synchronous vs Asynchronous</h3>
+      <p>Sebelum belajar fetch, kamu perlu paham perbedaan dua cara JavaScript menjalankan kode:</p>
+
+      <table>
+        <thead><tr><th>Aspek</th><th>Synchronous (Sync)</th><th>Asynchronous (Async)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Cara kerja</strong></td>
+            <td>Dijalankan <strong>berurutan</strong>, satu per satu</td>
+            <td>Bisa <strong>berjalan bersamaan</strong>, tidak perlu menunggu</td>
+          </tr>
+          <tr>
+            <td><strong>Jika ada proses lama</strong></td>
+            <td>Kode berikutnya <strong>harus menunggu</strong> (blocking)</td>
+            <td>Kode berikutnya <strong>tetap jalan</strong> (non-blocking)</td>
+          </tr>
+          <tr>
+            <td><strong>Analogi</strong></td>
+            <td>Antri di kasir — harus selesai satu baru lanjut</td>
+            <td>Pesan makanan — sambil menunggu, bisa ngobrol</td>
+          </tr>
+          <tr>
+            <td><strong>Contoh</strong></td>
+            <td><code>console.log()</code>, kalkulasi, loop</td>
+            <td><code>fetch()</code>, <code>setTimeout()</code>, baca file</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size:.95rem;">Synchronous — Berurutan</h3>
+      <div class="code-block"><span class="cm">// Synchronous: kode dijalankan SATU PER SATU dari atas ke bawah</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"1. Mulai"</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"2. Proses data"</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"3. Selesai"</span>);
+
+<span class="cm">// Output (berurutan):</span>
+<span class="cm">// 1. Mulai</span>
+<span class="cm">// 2. Proses data</span>
+<span class="cm">// 3. Selesai</span></div>
+
+      <h3 style="font-size:.95rem;">Asynchronous — Tidak Menunggu</h3>
+      <div class="code-block"><span class="cm">// Asynchronous: proses yang butuh waktu TIDAK menghalangi kode lain</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"1. Mulai"</span>);
+
+<span class="fn">setTimeout</span>(<span class="kw">function</span>() {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"2. Data selesai dimuat (setelah 2 detik)"</span>);
+}, <span class="num">2000</span>);  <span class="cm">// tunggu 2000ms = 2 detik</span>
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"3. Kode ini jalan duluan!"</span>);
+
+<span class="cm">// Output (TIDAK berurutan!):</span>
+<span class="cm">// 1. Mulai</span>
+<span class="cm">// 3. Kode ini jalan duluan!       ← tidak menunggu setTimeout</span>
+<span class="cm">// 2. Data selesai dimuat (setelah 2 detik)  ← muncul belakangan</span></div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Kenapa ini penting?</strong> <code>fetch()</code> adalah operasi <strong>asynchronous</strong> — mengambil data dari server butuh waktu (bisa 1 detik, bisa 10 detik). Tanpa async, seluruh halaman akan <strong>freeze/macet</strong> selama menunggu data. Dengan async, halaman tetap bisa digunakan sambil menunggu.
+      </div>
+
+      <h3 style="font-size:.95rem;">Kenapa fetch() Butuh .then() atau await?</h3>
+      <div class="code-block"><span class="cm">// ❌ SALAH — fetch() belum selesai, data belum ada!</span>
+<span class="kw">const</span> response <span class="op">=</span> <span class="fn">fetch</span>(<span class="str">"https://api.example.com/data"</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(response);  <span class="cm">// Promise { &lt;pending&gt; } ← bukan data!</span>
+
+<span class="cm">// ✅ BENAR — tunggu fetch selesai dengan .then()</span>
+<span class="fn">fetch</span>(<span class="str">"https://api.example.com/data"</span>)
+  .<span class="fn">then</span>(<span class="kw">function</span>(response) { <span class="kw">return</span> response.<span class="fn">json</span>(); })
+  .<span class="fn">then</span>(<span class="kw">function</span>(data) { <span class="obj">console</span>.<span class="fn">log</span>(data); });  <span class="cm">// ← data sudah ada</span>
+
+<span class="cm">// ✅ BENAR — atau pakai async/await (lebih rapi)</span>
+<span class="kw">async function</span> <span class="fn">ambilData</span>() {
+  <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://api.example.com/data"</span>);  <span class="cm">// tunggu selesai</span>
+  <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();  <span class="cm">// tunggu konversi JSON</span>
+  <span class="obj">console</span>.<span class="fn">log</span>(data);  <span class="cm">// ← data sudah ada</span>
+}</div>
+
+      <div class="info-box success">
+        ✅ <strong>Ringkasan:</strong> Gunakan <code>.then()</code> atau <code>async/await</code> untuk "menunggu" proses async selesai. <code>await</code> artinya "tunggu sampai selesai baru lanjut ke baris berikutnya" — hanya bisa dipakai di dalam function yang ditandai <code>async</code>.
+      </div>
 
       <hr>
 
