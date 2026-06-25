@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<!--
+  ================================================================
+  MATERI JAVASCRIPT — SESI 7 & 8
+  MAPID Academy — WebGIS Development Bootcamp 2026
+  ================================================================
+  File ini mencakup seluruh materi dari Sesi 7 & 8:
+    Sesi 7  : Dasar JavaScript
+              - Pengenalan JavaScript
+              - Cara Penulisan (Internal & External)
+              - Tipe Data (Number, String, Boolean, Array, Object, dll)
+              - Variable (var, let, const)
+              - Console (log, error, warn, table)
+              - Operator (Aritmatika, Perbandingan, Logika)
+              - String & Array Methods
+              - Percabangan (if/else, switch/case)
+              - Perulangan (for, for...of, while, do...while)
+              - Function (Declaration & Expression)
+    Sesi 8  : DOM & REST API
+              - DOM (Document Object Model)
+              - Mengakses & Memanipulasi DOM
+              - Event Handling
+              - createElement & appendChild
+              - Form Handling
+              - REST API & Fetch
+              - async/await
+              - GET & POST Request
+  ================================================================
+-->
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Materi lengkap JavaScript untuk MAPID Academy WebGIS Development Bootcamp 2026">
+  <meta name="author" content="MAPID Academy">
+  <title>Materi JavaScript — MAPID Academy WebGIS Bootcamp 2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      background-color: #f8f9ff;
+      color: #1a1a2e;
+    }
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; line-height: 1.25; }
+
+    :root {
+      --kuning:       #f59e0b;
+      --kuning-gelap: #b45309;
+      --kuning-muda:  #fffbeb;
+      --biru-utama:   #1a56db;
+      --biru-gelap:   #1e3a5f;
+      --biru-muda:    #eff6ff;
+      --hijau:        #10b981;
+      --ungu:         #7c3aed;
+      --ungu-muda:    #f5f3ff;
+      --merah:        #ef4444;
+      --abu:          #64748b;
+      --putih:        #ffffff;
+      --border:       #e2e8f0;
+      --shadow-sm:    0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md:    0 4px 16px rgba(0,0,0,0.10);
+      --radius:       10px;
+      --radius-lg:    16px;
+    }
+
+    nav.navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: linear-gradient(135deg, #92400e, var(--kuning));
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 56px;
+      box-shadow: var(--shadow-md);
+    }
+    nav.navbar .logo { color: var(--putih); font-weight: 800; font-size: 1.05rem; font-family: 'Poppins', sans-serif; }
+    nav.navbar .links { display: flex; gap: 0.2rem; }
+    nav.navbar a { color: rgba(255,255,255,0.82); text-decoration: none; font-size: 0.88rem; padding: 0.35rem 0.75rem; border-radius: 6px; transition: background 0.2s; }
+    nav.navbar a:hover { background: rgba(255,255,255,0.15); color: var(--putih); }
+
+    main { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    .section-card {
+      background: var(--putih); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm); padding: 2rem 2.2rem;
+      margin-bottom: 2.5rem; border-left: 5px solid var(--kuning);
+    }
+    .section-card.blue   { border-left-color: var(--biru-utama); }
+    .section-card.green  { border-left-color: var(--hijau); }
+    .section-card.purple { border-left-color: var(--ungu); }
+    .section-card.red    { border-left-color: var(--merah); }
+
+    h1 { font-size: 2rem; color: var(--kuning-gelap); margin-bottom: .4rem; }
+    h2 { font-size: 1.45rem; color: var(--kuning-gelap); margin: 1.5rem 0 .6rem; border-bottom: 2px solid var(--border); padding-bottom: .3rem; }
+    h3 { font-size: 1.05rem; color: var(--biru-gelap); margin: 1.2rem 0 .4rem; }
+    p { margin-bottom: .8rem; color: #334155; }
+
+    .badge-sesi {
+      display: inline-block; background: var(--kuning); color: var(--putih);
+      font-size: .7rem; padding: 2px 9px; border-radius: 20px;
+      vertical-align: middle; margin-left: 6px; font-weight: 600;
+    }
+    .badge-bonus {
+      display: inline-block; background: var(--ungu); color: var(--putih);
+      font-size: .7rem; padding: 2px 9px; border-radius: 20px;
+      vertical-align: middle; margin-left: 6px; font-weight: 600;
+    }
+
+    .code-block {
+      background: #1e293b; color: #e2e8f0; border-radius: 8px;
+      padding: 1rem 1.3rem; font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: .85rem; line-height: 1.7; overflow-x: auto;
+      margin: .8rem 0; white-space: pre; position: relative;
+    }
+    .code-block .kw   { color: #c084fc; }
+    .code-block .fn   { color: #60a5fa; }
+    .code-block .str  { color: #fbbf24; }
+    .code-block .num  { color: #34d399; }
+    .code-block .cm   { color: #64748b; font-style: italic; }
+    .code-block .op   { color: #f472b6; }
+    .code-block .obj  { color: #38bdf8; }
+    .code-block .prop { color: #a5b4fc; }
+
+    .copy-btn {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(255,255,255,0.1); color: #cbd5e1;
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;
+      padding: 4px 8px; font-size: 0.72rem; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: background 0.2s, color 0.2s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.2); color: #ffffff; }
+
+    .info-box {
+      background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px;
+      padding: .9rem 1.1rem; margin: .8rem 0; font-size: .9rem; color: #1e40af;
+    }
+    .info-box.warning { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .info-box.success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+    .info-box.purple  { background: var(--ungu-muda); border-color: #ddd6fe; color: #5b21b6; }
+    .info-box.red     { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+    table { width: 100%; border-collapse: collapse; margin: .8rem 0 1rem; font-size: .88rem; }
+    th { background: #92400e; color: var(--putih); padding: .6rem .9rem; text-align: left; }
+    td { padding: .55rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: #f1f5f9; }
+    tr:hover td { background: #fef3c7; }
+
+    .demo-area {
+      background: #f1f5f9; border: 2px dashed #cbd5e1;
+      border-radius: 8px; padding: 1.2rem; margin: .8rem 0;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #78350f 0%, #b45309 40%, #f59e0b 100%);
+      color: var(--putih); border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem; margin-bottom: 2.5rem; text-align: center;
+    }
+    .hero h1 { color: var(--putih); font-size: 2.1rem; }
+    .hero p  { color: rgba(255,255,255,.85); }
+    .hero .pills { margin-top: 1rem; }
+    .hero .pills span {
+      display: inline-block; background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 14px; border-radius: 20px; font-size: .8rem; margin: 3px;
+    }
+
+    hr { border: none; border-top: 2px solid var(--border); margin: 1.5rem 0; }
+
+    footer {
+      background: #78350f; color: rgba(255,255,255,.75);
+      text-align: center; padding: 1.4rem 1rem; font-size: .88rem;
+    }
+    footer a { color: #fbbf24; }
+
+    .output-box {
+      background: #0f172a; color: #a3e635; border-radius: 6px;
+      padding: .7rem 1rem; font-family: 'Fira Code', monospace;
+      font-size: .82rem; margin: .5rem 0; border-left: 3px solid #a3e635;
+    }
+    .output-box .label { color: #64748b; font-size: .72rem; margin-bottom: .2rem; }
+
+    @media (max-width: 600px) {
+      main { padding: 1rem .8rem 2rem; }
+      .section-card { padding: 1.2rem 1rem; }
+      nav.navbar .links { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <span class="logo" style="display: inline-flex; align-items: center; gap: 8px;">
+      <span style="background-color: white; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center;">
+        <img src="https://geo.mapid.io/static/media/logo_mapid_black.c5290e8ff135e196ce653f502d693dcf.svg" alt="MAPID Logo" style="height: 18px;" />
+      </span>
+      MAPID Academy — Materi JavaScript
+    </span>
+    <div class="links">
+      <a href="../index.html" style="font-weight: bold; color: var(--putih);">🏠 Beranda</a>
+      <a href="#dasar">Dasar JS</a>
+      <a href="#tipedata">Tipe Data</a>
+      <a href="#variable">Variable</a>
+      <a href="#operator">Operator</a>
+      <a href="#percabangan">Percabangan</a>
+      <a href="#perulangan">Perulangan</a>
+      <a href="#function">Function</a>
+      <a href="#dom">DOM</a>
+      <a href="#api">API</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <header class="hero">
+      <h1>⚡ Materi JavaScript</h1>
+      <p>MAPID Academy &mdash; WebGIS Development Bootcamp 2026</p>
+      <p>Sesi 7 &amp; Sesi 8 &bull; Code the Map, Decode the Future</p>
+      <div style="margin-top: 1.2rem; margin-bottom: 0.5rem;">
+        <a href="../index.html" style="display: inline-block; background-color: #fff; color: #92400e; text-decoration: none; padding: 0.5rem 1.2rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🏠 Kembali ke Beranda</a>
+      </div>
+      <div class="pills">
+        <span>Dasar JavaScript</span>
+        <span>Tipe Data & Variable</span>
+        <span>Operator</span>
+        <span>Percabangan & Perulangan</span>
+        <span>Function</span>
+        <span>DOM</span>
+        <span>REST API & Fetch</span>
+      </div>
+    </header>
+
+
+    <!-- ====================== SESI 7: DASAR JAVASCRIPT ====================== -->
+
+    <!-- SECTION 1 — PENGENALAN JAVASCRIPT -->
+    <section class="section-card" id="dasar">
+      <h2>1. Pengenalan JavaScript <span class="badge-sesi">Sesi 7</span></h2>
+
+      <p><strong>JavaScript</strong> adalah bahasa pemrograman tingkat tinggi yang digunakan untuk membuat website menjadi <strong>interaktif dan dinamis</strong>. JavaScript berjalan di browser menggunakan JavaScript Engine (seperti V8 di Chrome).</p>
+
+      <h3>Analogi: HTML, CSS, JavaScript</h3>
+      <table>
+        <thead><tr><th>Teknologi</th><th>Peran</th><th>Analogi Rumah</th></tr></thead>
+        <tbody>
+          <tr><td><strong>HTML</strong></td><td>Struktur / konten</td><td>Kerangka & dinding rumah</td></tr>
+          <tr><td><strong>CSS</strong></td><td>Tampilan / gaya</td><td>Cat, dekorasi, tata letak</td></tr>
+          <tr><td><strong>JavaScript</strong></td><td>Interaksi / perilaku</td><td>Listrik, saklar lampu, pintu otomatis</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Fungsi Utama JavaScript</h3>
+      <ul style="padding-left:1.5rem; margin-bottom:.8rem;">
+        <li>Mengontrol <strong>interaksi</strong> (klik tombol, form, animasi)</li>
+        <li>Memanipulasi <strong>HTML & CSS</strong> (ubah tampilan tanpa reload halaman)</li>
+        <li>Mengolah <strong>data</strong> (validasi form, kalkulasi, filter)</li>
+        <li>Mengambil data dari <strong>server/API</strong> (menampilkan data peta, cuaca, dll)</li>
+      </ul>
+
+      <h3>2 Cara Penulisan JavaScript</h3>
+      <table>
+        <thead><tr><th>Metode</th><th>Cara</th><th>Kapan Digunakan</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Internal JS</strong></td>
+            <td>Tag <code>&lt;script&gt;</code> di dalam file HTML</td>
+            <td>Belajar, file kecil</td>
+          </tr>
+          <tr>
+            <td><strong>External JS</strong></td>
+            <td>File <code>.js</code> terpisah via <code>&lt;script src="..."&gt;</code></td>
+            <td>✅ Proyek nyata, best practice</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// ========== 1. Internal JavaScript ==========</span>
+<span class="cm">// Tulis langsung di dalam tag &lt;script&gt; pada file HTML</span>
+
+<span class="cm">&lt;script&gt;</span>
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Hello World"</span>);
+  <span class="fn">alert</span>(<span class="str">"Selamat datang!"</span>);
+<span class="cm">&lt;/script&gt;</span>
+
+<span class="cm">// ========== 2. External JavaScript ==========</span>
+<span class="cm">// Buat file terpisah: script.js</span>
+<span class="cm">// Lalu hubungkan di HTML:</span>
+
+<span class="cm">&lt;script src="script.js"&gt;&lt;/script&gt;</span></div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Letakkan <code>&lt;script&gt;</code> sebelum <code>&lt;/body&gt;</code></strong> (di bagian bawah HTML). Ini memastikan semua elemen HTML sudah dimuat sebelum JavaScript dijalankan.
+      </div>
+    </section>
+
+
+    <!-- SECTION 2 — TIPE DATA -->
+    <section class="section-card" id="tipedata">
+      <h2>2. Tipe Data <span class="badge-sesi">Sesi 7</span></h2>
+
+      <p><strong>Tipe data</strong> adalah jenis nilai yang bisa disimpan dan digunakan dalam program. JavaScript memiliki beberapa tipe data dasar:</p>
+
+      <table>
+        <thead><tr><th>Tipe Data</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Number</strong></td><td>Angka (bulat maupun desimal)</td><td><code>42</code>, <code>3.14</code>, <code>-10</code></td></tr>
+          <tr><td><strong>String</strong></td><td>Teks (diapit tanda kutip)</td><td><code>"Halo"</code>, <code>'Jakarta'</code>, <code>`WebGIS`</code></td></tr>
+          <tr><td><strong>Boolean</strong></td><td>Nilai benar atau salah</td><td><code>true</code>, <code>false</code></td></tr>
+          <tr><td><strong>Null</strong></td><td>Sengaja dikosongkan (tidak ada nilai)</td><td><code>null</code></td></tr>
+          <tr><td><strong>Undefined</strong></td><td>Variabel yang belum diberi nilai</td><td><code>undefined</code></td></tr>
+          <tr><td><strong>Array</strong></td><td>Kumpulan data dalam satu variabel (berurutan)</td><td><code>[1, 2, 3]</code></td></tr>
+          <tr><td><strong>Object</strong></td><td>Data berpasangan key-value</td><td><code>{ nama: "Rifqi", umur: 21 }</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// === NUMBER ===</span>
+<span class="kw">const</span> umur <span class="op">=</span> <span class="num">21</span>;
+<span class="kw">const</span> suhu <span class="op">=</span> <span class="num">28.5</span>;
+<span class="kw">const</span> negatif <span class="op">=</span> <span class="num">-10</span>;
+
+<span class="cm">// === STRING ===</span>
+<span class="kw">const</span> nama <span class="op">=</span> <span class="str">"Rifqi"</span>;           <span class="cm">// petik dua</span>
+<span class="kw">const</span> kota <span class="op">=</span> <span class="str">'Jakarta'</span>;         <span class="cm">// petik satu</span>
+<span class="kw">const</span> pesan <span class="op">=</span> <span class="str">`Halo, ${nama}!`</span>;  <span class="cm">// template literal (backtick) — bisa sisipkan variabel!</span>
+
+<span class="cm">// === BOOLEAN ===</span>
+<span class="kw">const</span> sudahLulus <span class="op">=</span> <span class="num">true</span>;
+<span class="kw">const</span> hujan <span class="op">=</span> <span class="num">false</span>;
+
+<span class="cm">// === NULL vs UNDEFINED ===</span>
+<span class="kw">let</span> dataPeta <span class="op">=</span> <span class="num">null</span>;       <span class="cm">// sengaja dikosongkan (data belum diambil)</span>
+<span class="kw">let</span> koordinat;              <span class="cm">// undefined — belum diberi nilai sama sekali</span>
+
+<span class="cm">// === ARRAY ===</span>
+<span class="kw">const</span> transportasi <span class="op">=</span> [<span class="str">"Transjakarta"</span>, <span class="str">"MRT"</span>, <span class="str">"LRT"</span>, <span class="str">"KRL"</span>];
+<span class="kw">const</span> angka <span class="op">=</span> [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+
+<span class="obj">console</span>.<span class="fn">log</span>(transportasi[<span class="num">0</span>]);  <span class="cm">// "Transjakarta" — index dimulai dari 0!</span>
+<span class="obj">console</span>.<span class="fn">log</span>(transportasi[<span class="num">3</span>]);  <span class="cm">// "KRL"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(transportasi.<span class="prop">length</span>); <span class="cm">// 4 — jumlah item</span>
+
+<span class="cm">// === OBJECT ===</span>
+<span class="kw">const</span> mahasiswa <span class="op">=</span> {
+  nama: <span class="str">"Rifqi"</span>,
+  umur: <span class="num">21</span>,
+  jurusan: <span class="str">"Ilmu Informasi Geografi"</span>,
+  aktif: <span class="num">true</span>
+};
+
+<span class="obj">console</span>.<span class="fn">log</span>(mahasiswa.<span class="prop">nama</span>);     <span class="cm">// "Rifqi" — akses dengan titik (dot notation)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(mahasiswa[<span class="str">"jurusan"</span>]); <span class="cm">// "Ilmu Informasi Geografi" — bracket notation</span></div>
+
+      <div class="output-box">
+        <div class="label">Output console:</div>
+        Transjakarta<br>KRL<br>4<br>Rifqi<br>Ilmu Informasi Geografi
+      </div>
+
+      <h3>Mengecek Tipe Data: typeof</h3>
+      <div class="code-block"><span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">42</span>);          <span class="cm">// "number"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="str">"Halo"</span>);      <span class="cm">// "string"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">true</span>);       <span class="cm">// "boolean"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">null</span>);       <span class="cm">// "object" ← ini bug lama JS, seharusnya "null"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">undefined</span>);  <span class="cm">// "undefined"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> [<span class="num">1</span>,<span class="num">2</span>]);      <span class="cm">// "object" ← array termasuk object di JS</span></div>
+
+      <h3>Template Literal (Backtick)</h3>
+      <p>Cara modern menyisipkan variabel ke dalam string — menggunakan backtick <code>`</code> dan <code>${}</code>:</p>
+      <div class="code-block"><span class="kw">const</span> nama <span class="op">=</span> <span class="str">"Rifqi"</span>;
+<span class="kw">const</span> umur <span class="op">=</span> <span class="num">21</span>;
+
+<span class="cm">// Cara lama: concatenation (+)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Nama saya "</span> <span class="op">+</span> nama <span class="op">+</span> <span class="str">", umur "</span> <span class="op">+</span> umur <span class="op">+</span> <span class="str">" tahun."</span>);
+
+<span class="cm">// Cara modern: template literal (lebih rapi!)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Nama saya ${nama}, umur ${umur} tahun.`</span>);</div>
+
+      <div class="info-box success">
+        ✅ <strong>Tips:</strong> Selalu gunakan <strong>template literal</strong> (backtick) untuk menggabungkan string dengan variabel. Lebih mudah dibaca dan tidak rawan error tanda kutip.
+      </div>
+    </section>
+
+
+    <!-- SECTION 3 — VARIABLE -->
+    <section class="section-card" id="variable">
+      <h2>3. Variable <span class="badge-sesi">Sesi 7</span></h2>
+
+      <p><strong>Variable</strong> adalah tempat menyimpan data. Seperti "kotak berlabel" yang berisi nilai tertentu.</p>
+
+      <table>
+        <thead><tr><th>Jenis</th><th>Bisa Diubah?</th><th>Scope</th><th>Rekomendasi</th></tr></thead>
+        <tbody>
+          <tr><td><code>var</code></td><td>✅ Ya</td><td>Function scope</td><td>❌ Jangan dipakai (cara lama)</td></tr>
+          <tr><td><code>let</code></td><td>✅ Ya</td><td>Block scope <code>{}</code></td><td>✅ Untuk nilai yang berubah</td></tr>
+          <tr><td><code>const</code></td><td>❌ Tidak</td><td>Block scope <code>{}</code></td><td>✅ Default, untuk nilai tetap</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// Anatomi: (jenis variable) + (nama) + (=) + (nilai)</span>
+
+<span class="kw">var</span> namaDepan <span class="op">=</span> <span class="str">"Rifqi"</span>;      <span class="cm">// ❌ hindari var</span>
+<span class="kw">let</span> namaBelakang <span class="op">=</span> <span class="str">"Naufal"</span>;  <span class="cm">// ✅ bisa diubah nanti</span>
+<span class="kw">const</span> namaLengkap <span class="op">=</span> <span class="str">"Rifqi Naufal"</span>; <span class="cm">// ✅ tidak bisa diubah</span>
+
+<span class="cm">// let bisa diubah nilainya:</span>
+namaBelakang <span class="op">=</span> <span class="str">"Alfayyadh"</span>;  <span class="cm">// ✅ OK</span>
+
+<span class="cm">// const TIDAK bisa diubah:</span>
+<span class="cm">// namaLengkap = "Budi";  ← ERROR! Assignment to constant variable</span>
+
+<span class="cm">// Tapi const ARRAY & OBJECT isinya bisa diubah:</span>
+<span class="kw">const</span> rute <span class="op">=</span> [<span class="str">"TJ"</span>, <span class="str">"MRT"</span>];
+rute.<span class="fn">push</span>(<span class="str">"LRT"</span>);   <span class="cm">// ✅ OK — menambah isi array</span>
+<span class="cm">// rute = [];          ← ERROR! — tidak bisa ganti variabel-nya</span></div>
+
+      <h3>Aturan Penamaan Variable</h3>
+      <ul style="padding-left:1.5rem; margin-bottom:.8rem;">
+        <li>Harus dimulai dengan <strong>huruf</strong>, <code>_</code>, atau <code>$</code> (tidak boleh angka)</li>
+        <li>Tidak boleh pakai <strong>spasi</strong> — gunakan <strong>camelCase</strong>: <code>namaDepan</code>, <code>jumlahRute</code></li>
+        <li>Tidak boleh pakai <strong>reserved word</strong>: <code>let</code>, <code>const</code>, <code>function</code>, <code>return</code>, dll</li>
+        <li>Case-sensitive: <code>nama</code> ≠ <code>Nama</code> ≠ <code>NAMA</code></li>
+      </ul>
+
+      <div class="info-box">
+        💡 <strong>Best practice:</strong> Default pakai <code>const</code>. Hanya pakai <code>let</code> kalau nilainya memang perlu diubah. Jangan pernah pakai <code>var</code>.
+      </div>
+    </section>
+
+
+    <!-- SECTION 4 — CONSOLE -->
+    <section class="section-card" id="console">
+      <h2>4. Console <span class="badge-sesi">Sesi 7</span></h2>
+
+      <p><strong>Console</strong> adalah alat debugging untuk melihat output JavaScript tanpa mengubah tampilan halaman. Buka dengan: <strong>Klik kanan → Inspect → Tab Console</strong>.</p>
+
+      <div class="code-block"><span class="cm">// 1. console.log() — menampilkan informasi biasa</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Hello World"</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">42</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Nama:"</span>, <span class="str">"Rifqi"</span>, <span class="str">"| Umur:"</span>, <span class="num">21</span>);  <span class="cm">// bisa banyak argumen</span>
+
+<span class="cm">// 2. console.error() — pesan error (merah di console)</span>
+<span class="obj">console</span>.<span class="fn">error</span>(<span class="str">"Gagal memuat data peta!"</span>);
+
+<span class="cm">// 3. console.warn() — pesan peringatan (kuning)</span>
+<span class="obj">console</span>.<span class="fn">warn</span>(<span class="str">"API key hampir expired!"</span>);
+
+<span class="cm">// 4. console.table() — tampilkan data sebagai tabel</span>
+<span class="kw">const</span> users <span class="op">=</span> [
+  { nama: <span class="str">"Rifqi"</span>, kota: <span class="str">"Bogor"</span> },
+  { nama: <span class="str">"Andi"</span>,  kota: <span class="str">"Jakarta"</span> }
+];
+<span class="obj">console</span>.<span class="fn">table</span>(users);  <span class="cm">// tampil sebagai tabel rapi di console</span></div>
+    </section>
+
+
+    <!-- SECTION 5 — OPERATOR -->
+    <section class="section-card" id="operator">
+      <h2>5. Operator <span class="badge-sesi">Sesi 7</span></h2>
+
+      <h3>A. Operator Aritmatika</h3>
+      <div class="code-block"><span class="kw">const</span> a <span class="op">=</span> <span class="num">10</span>;
+<span class="kw">const</span> b <span class="op">=</span> <span class="num">3</span>;
+
+<span class="obj">console</span>.<span class="fn">log</span>(a <span class="op">+</span> b);   <span class="cm">// 13  — penjumlahan</span>
+<span class="obj">console</span>.<span class="fn">log</span>(a <span class="op">-</span> b);   <span class="cm">// 7   — pengurangan</span>
+<span class="obj">console</span>.<span class="fn">log</span>(a <span class="op">*</span> b);   <span class="cm">// 30  — perkalian</span>
+<span class="obj">console</span>.<span class="fn">log</span>(a <span class="op">/</span> b);   <span class="cm">// 3.33 — pembagian</span>
+<span class="obj">console</span>.<span class="fn">log</span>(a <span class="op">%</span> b);   <span class="cm">// 1   — sisa bagi (modulus)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(a <span class="op">**</span> b);  <span class="cm">// 1000 — pangkat (10³)</span>
+
+<span class="cm">// Increment & Decrement</span>
+<span class="kw">let</span> count <span class="op">=</span> <span class="num">5</span>;
+count<span class="op">++</span>;  <span class="cm">// 6 — tambah 1</span>
+count<span class="op">--</span>;  <span class="cm">// 5 — kurang 1</span></div>
+
+      <h3>B. Operator Perbandingan</h3>
+      <div class="code-block"><span class="obj">console</span>.<span class="fn">log</span>(<span class="num">10</span> <span class="op">></span> <span class="num">5</span>);    <span class="cm">// true  — lebih besar</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">10</span> <span class="op"><</span> <span class="num">5</span>);    <span class="cm">// false — lebih kecil</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">10</span> <span class="op">>=</span> <span class="num">10</span>);  <span class="cm">// true  — lebih besar atau sama</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">10</span> <span class="op"><=</span> <span class="num">5</span>);   <span class="cm">// false — lebih kecil atau sama</span>
+
+<span class="cm">// ⚠️ Perbedaan penting: == vs ===</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">5</span> <span class="op">==</span> <span class="str">"5"</span>);   <span class="cm">// true  — hanya bandingkan NILAI (type coercion)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">5</span> <span class="op">===</span> <span class="str">"5"</span>);  <span class="cm">// false — bandingkan NILAI + TIPE DATA</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">5</span> <span class="op">===</span> <span class="num">5</span>);    <span class="cm">// true  — nilai sama, tipe sama</span>
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">5</span> <span class="op">!=</span> <span class="str">"5"</span>);   <span class="cm">// false — nilai sama</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="num">5</span> <span class="op">!==</span> <span class="str">"5"</span>);  <span class="cm">// true  — tipe berbeda</span></div>
+
+      <div class="info-box red">
+        ⚠️ <strong>Selalu pakai <code>===</code> (strict equality)</strong>, bukan <code>==</code>. Ini mencegah bug tersembunyi dari type coercion. Contoh: <code>0 == ""</code> hasilnya <code>true</code> (padahal seharusnya <code>false</code>).
+      </div>
+
+      <h3>C. Operator Logika</h3>
+      <div class="code-block"><span class="kw">const</span> hujan <span class="op">=</span> <span class="num">true</span>;
+<span class="kw">const</span> dingin <span class="op">=</span> <span class="num">false</span>;
+
+<span class="cm">// && (AND) — true jika SEMUA kondisi true</span>
+<span class="obj">console</span>.<span class="fn">log</span>(hujan <span class="op">&&</span> dingin);   <span class="cm">// false (satu false = false)</span>
+
+<span class="cm">// || (OR) — true jika SALAH SATU kondisi true</span>
+<span class="obj">console</span>.<span class="fn">log</span>(hujan <span class="op">||</span> dingin);   <span class="cm">// true</span>
+
+<span class="cm">// ! (NOT) — membalik nilai</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="op">!</span>hujan);            <span class="cm">// false (kebalikan dari true)</span>
+
+<span class="cm">// Contoh kombinasi:</span>
+<span class="kw">const</span> nilai <span class="op">=</span> <span class="num">85</span>;
+<span class="kw">const</span> hadir <span class="op">=</span> <span class="num">true</span>;
+<span class="kw">if</span> (nilai <span class="op">>=</span> <span class="num">70</span> <span class="op">&&</span> hadir) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Lulus!"</span>);        <span class="cm">// ← ini yang jalan</span>
+}</div>
+    </section>
+
+
+    <!-- SECTION 6 — STRING & ARRAY METHODS -->
+    <section class="section-card green" id="methods">
+      <h2>6. String &amp; Array Methods <span class="badge-bonus">Penting</span></h2>
+
+      <h3>A. String Methods</h3>
+      <div class="code-block"><span class="kw">const</span> teks <span class="op">=</span> <span class="str">"  Halo Dunia WebGIS  "</span>;
+
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">length</span>);              <span class="cm">// 21 — panjang string</span>
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">trim</span>());              <span class="cm">// "Halo Dunia WebGIS" — hapus spasi depan/belakang</span>
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">toUpperCase</span>());       <span class="cm">// "  HALO DUNIA WEBGIS  "</span>
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">toLowerCase</span>());       <span class="cm">// "  halo dunia webgis  "</span>
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">includes</span>(<span class="str">"WebGIS"</span>));  <span class="cm">// true — apakah mengandung kata?</span>
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">indexOf</span>(<span class="str">"Dunia"</span>));   <span class="cm">// 7 — posisi kata ditemukan</span>
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">slice</span>(<span class="num">2</span>, <span class="num">6</span>));         <span class="cm">// "Halo" — potong dari index 2 sampai 5</span>
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">replace</span>(<span class="str">"Dunia"</span>, <span class="str">"Peta"</span>)); <span class="cm">// "  Halo Peta WebGIS  "</span>
+<span class="obj">console</span>.<span class="fn">log</span>(teks.<span class="fn">split</span>(<span class="str">" "</span>));          <span class="cm">// ["", "", "Halo", "Dunia", "WebGIS", "", ""]</span></div>
+
+      <h3>B. Array Methods</h3>
+      <div class="code-block"><span class="kw">const</span> moda <span class="op">=</span> [<span class="str">"Transjakarta"</span>, <span class="str">"MRT"</span>, <span class="str">"LRT"</span>];
+
+<span class="cm">// Menambah & Menghapus</span>
+moda.<span class="fn">push</span>(<span class="str">"KRL"</span>);       <span class="cm">// tambah di akhir     → ["Transjakarta","MRT","LRT","KRL"]</span>
+moda.<span class="fn">pop</span>();              <span class="cm">// hapus dari akhir    → ["Transjakarta","MRT","LRT"]</span>
+moda.<span class="fn">unshift</span>(<span class="str">"Angkot"</span>); <span class="cm">// tambah di awal      → ["Angkot","Transjakarta","MRT","LRT"]</span>
+moda.<span class="fn">shift</span>();            <span class="cm">// hapus dari awal     → ["Transjakarta","MRT","LRT"]</span>
+
+<span class="cm">// Mencari</span>
+<span class="obj">console</span>.<span class="fn">log</span>(moda.<span class="fn">includes</span>(<span class="str">"MRT"</span>));  <span class="cm">// true</span>
+<span class="obj">console</span>.<span class="fn">log</span>(moda.<span class="fn">indexOf</span>(<span class="str">"LRT"</span>));   <span class="cm">// 2</span>
+
+<span class="cm">// forEach — jalankan fungsi untuk setiap item</span>
+moda.<span class="fn">forEach</span>(<span class="kw">function</span>(item, index) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`${index}: ${item}`</span>);
+});
+
+<span class="cm">// map — buat array baru dari hasil olahan</span>
+<span class="kw">const</span> hurufBesar <span class="op">=</span> moda.<span class="fn">map</span>(<span class="kw">function</span>(item) {
+  <span class="kw">return</span> item.<span class="fn">toUpperCase</span>();
+});
+<span class="cm">// ["TRANSJAKARTA", "MRT", "LRT"]</span>
+
+<span class="cm">// filter — ambil item yang sesuai kondisi</span>
+<span class="kw">const</span> angka <span class="op">=</span> [<span class="num">5</span>, <span class="num">12</span>, <span class="num">8</span>, <span class="num">30</span>, <span class="num">3</span>];
+<span class="kw">const</span> besar <span class="op">=</span> angka.<span class="fn">filter</span>(<span class="kw">function</span>(n) {
+  <span class="kw">return</span> n <span class="op">></span> <span class="num">10</span>;
+});
+<span class="cm">// [12, 30]</span></div>
+    </section>
+
+
+    <!-- SECTION 7 — PERCABANGAN -->
+    <section class="section-card" id="percabangan">
+      <h2>7. Percabangan <span class="badge-sesi">Sesi 7</span></h2>
+
+      <p>Percabangan digunakan untuk membuat program <strong>mengambil keputusan</strong> berdasarkan kondisi tertentu.</p>
+
+      <h3>A. if / else if / else</h3>
+      <div class="code-block"><span class="kw">const</span> nilai <span class="op">=</span> <span class="num">75</span>;
+
+<span class="kw">if</span> (nilai <span class="op">>=</span> <span class="num">80</span>) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Nilai A — Sangat Baik"</span>);
+} <span class="kw">else if</span> (nilai <span class="op">>=</span> <span class="num">70</span>) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Nilai B — Baik"</span>);         <span class="cm">// ← ini yang jalan</span>
+} <span class="kw">else if</span> (nilai <span class="op">>=</span> <span class="num">60</span>) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Nilai C — Cukup"</span>);
+} <span class="kw">else</span> {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Tidak Lulus"</span>);
+}
+
+<span class="cm">// Contoh WebGIS: cek jarak</span>
+<span class="kw">const</span> jarakKm <span class="op">=</span> <span class="num">2.5</span>;
+
+<span class="kw">if</span> (jarakKm <span class="op"><</span> <span class="num">1</span>) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Lokasi sangat dekat — jalan kaki saja"</span>);
+} <span class="kw">else if</span> (jarakKm <span class="op"><</span> <span class="num">5</span>) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Lokasi cukup dekat — naik Transjakarta"</span>); <span class="cm">// ← ini</span>
+} <span class="kw">else</span> {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Lokasi jauh — naik KRL atau MRT"</span>);
+}</div>
+
+      <h3>B. switch / case</h3>
+      <div class="code-block"><span class="kw">const</span> kode <span class="op">=</span> <span class="str">"MRT"</span>;
+
+<span class="kw">switch</span> (kode) {
+  <span class="kw">case</span> <span class="str">"TJ"</span>:
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Transjakarta — 50 rute"</span>);
+    <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="str">"MRT"</span>:
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"MRT Jakarta — 2 rute"</span>);   <span class="cm">// ← ini yang jalan</span>
+    <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="str">"LRT"</span>:
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"LRT Jakarta — 1 rute"</span>);
+    <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="str">"KRL"</span>:
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"KRL Commuter — 5 rute"</span>);
+    <span class="kw">break</span>;
+  <span class="kw">default</span>:
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Kode tidak dikenal"</span>);
+}</div>
+
+      <div class="info-box">
+        💡 <strong>Kapan pakai apa?</strong> <code>if/else</code> untuk kondisi rentang nilai (<code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>). <code>switch/case</code> untuk mencocokkan nilai tetap (<code>===</code>).
+      </div>
+    </section>
+
+
+    <!-- SECTION 8 — PERULANGAN -->
+    <section class="section-card" id="perulangan">
+      <h2>8. Perulangan (Looping) <span class="badge-sesi">Sesi 7</span></h2>
+
+      <p>Perulangan mengulang perintah <strong>berkali-kali secara otomatis</strong> tanpa harus menulis kode berulang.</p>
+
+      <h3>A. for loop</h3>
+      <p>Digunakan saat kita <strong>tahu jumlah perulangannya</strong>.</p>
+      <div class="code-block"><span class="cm">// Struktur: for (mulai; kondisi; increment)</span>
+<span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op"><</span> <span class="num">5</span>; i<span class="op">++</span>) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Nilai ke-${i}`</span>);
+}
+<span class="cm">// Output: Nilai ke-0, Nilai ke-1, ... Nilai ke-4</span>
+
+<span class="cm">// Looping array dengan for:</span>
+<span class="kw">const</span> moda <span class="op">=</span> [<span class="str">"TJ"</span>, <span class="str">"MRT"</span>, <span class="str">"LRT"</span>, <span class="str">"KRL"</span>];
+<span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op"><</span> moda.<span class="prop">length</span>; i<span class="op">++</span>) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`${i + 1}. ${moda[i]}`</span>);
+}</div>
+
+      <h3>B. for...of</h3>
+      <p>Cara lebih simpel untuk membaca isi array <strong>tanpa index</strong>.</p>
+      <div class="code-block"><span class="kw">const</span> lokasi <span class="op">=</span> [<span class="str">"Monas"</span>, <span class="str">"Ancol"</span>, <span class="str">"Bandung"</span>];
+
+<span class="kw">for</span> (<span class="kw">let</span> item <span class="kw">of</span> lokasi) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Lokasi: ${item}`</span>);
+}
+<span class="cm">// Lokasi: Monas</span>
+<span class="cm">// Lokasi: Ancol</span>
+<span class="cm">// Lokasi: Bandung</span></div>
+
+      <h3>C. while loop</h3>
+      <p>Mengulang <strong>selama kondisi masih true</strong>. Hati-hati infinite loop!</p>
+      <div class="code-block"><span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>;
+<span class="kw">while</span> (i <span class="op"><</span> <span class="num">3</span>) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Marker ke-${i}`</span>);
+  i<span class="op">++</span>;  <span class="cm">// WAJIB! tanpa ini = infinite loop</span>
+}</div>
+
+      <h3>D. do...while</h3>
+      <p>Mirip while, tapi <strong>minimal dijalankan 1 kali</strong> sebelum cek kondisi.</p>
+      <div class="code-block"><span class="kw">let</span> j <span class="op">=</span> <span class="num">0</span>;
+<span class="kw">do</span> {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Marker ke-${j}`</span>);
+  j<span class="op">++</span>;
+} <span class="kw">while</span> (j <span class="op"><</span> <span class="num">3</span>);</div>
+
+      <h3>break &amp; continue</h3>
+      <div class="code-block"><span class="cm">// break — hentikan loop sepenuhnya</span>
+<span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op"><</span> <span class="num">10</span>; i<span class="op">++</span>) {
+  <span class="kw">if</span> (i <span class="op">===</span> <span class="num">5</span>) <span class="kw">break</span>;     <span class="cm">// stop di angka 5</span>
+  <span class="obj">console</span>.<span class="fn">log</span>(i);           <span class="cm">// Output: 0, 1, 2, 3, 4</span>
+}
+
+<span class="cm">// continue — lewati 1 putaran, lanjut ke berikutnya</span>
+<span class="kw">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op"><</span> <span class="num">5</span>; i<span class="op">++</span>) {
+  <span class="kw">if</span> (i <span class="op">===</span> <span class="num">2</span>) <span class="kw">continue</span>;   <span class="cm">// lewati angka 2</span>
+  <span class="obj">console</span>.<span class="fn">log</span>(i);           <span class="cm">// Output: 0, 1, 3, 4</span>
+}</div>
+    </section>
+
+
+    <!-- SECTION 9 — FUNCTION -->
+    <section class="section-card" id="function">
+      <h2>9. Function <span class="badge-sesi">Sesi 7</span></h2>
+
+      <p><strong>Function</strong> adalah sekumpulan kode yang dibungkus dalam satu nama dan bisa dipanggil berkali-kali. Seperti "resep masakan" — ditulis sekali, bisa dipakai kapan saja.</p>
+
+      <h3>Struktur Function</h3>
+      <table>
+        <thead><tr><th>Bagian</th><th>Penjelasan</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nama function</strong></td><td>Identitas untuk memanggil function</td></tr>
+          <tr><td><strong>Parameter (input)</strong></td><td>Data yang diterima function untuk diproses</td></tr>
+          <tr><td><strong>Proses / isi</strong></td><td>Kode yang dijalankan di dalam function</td></tr>
+          <tr><td><strong>return (output)</strong></td><td>Nilai yang dikembalikan function</td></tr>
+        </tbody>
+      </table>
+
+      <h3>A. Function Declaration</h3>
+      <div class="code-block"><span class="cm">// Membuat function</span>
+<span class="kw">function</span> <span class="fn">sapa</span>(nama) {
+  <span class="kw">return</span> <span class="str">`Halo, ${nama}! Selamat belajar WebGIS.`</span>;
+}
+
+<span class="cm">// Memanggil function</span>
+<span class="kw">const</span> pesan <span class="op">=</span> <span class="fn">sapa</span>(<span class="str">"Rifqi"</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(pesan); <span class="cm">// "Halo, Rifqi! Selamat belajar WebGIS."</span>
+
+<span class="cm">// Function dengan parameter & proses</span>
+<span class="kw">function</span> <span class="fn">hitungLuas</span>(panjang, lebar) {
+  <span class="kw">const</span> luas <span class="op">=</span> panjang <span class="op">*</span> lebar;
+  <span class="kw">return</span> luas;
+}
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">hitungLuas</span>(<span class="num">10</span>, <span class="num">5</span>)); <span class="cm">// 50</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">hitungLuas</span>(<span class="num">7</span>, <span class="num">3</span>));  <span class="cm">// 21</span></div>
+
+      <h3>B. Function Expression (Arrow Function)</h3>
+      <div class="code-block"><span class="cm">// Function disimpan dalam variabel</span>
+<span class="kw">const</span> <span class="fn">tambah</span> <span class="op">=</span> <span class="kw">function</span>(a, b) {
+  <span class="kw">return</span> a <span class="op">+</span> b;
+};
+
+<span class="cm">// Arrow function — cara singkat menulis function</span>
+<span class="kw">const</span> <span class="fn">kali</span> <span class="op">=</span> (a, b) <span class="op">=></span> {
+  <span class="kw">return</span> a <span class="op">*</span> b;
+};
+
+<span class="cm">// Arrow function super singkat (1 baris langsung return)</span>
+<span class="kw">const</span> <span class="fn">kuadrat</span> <span class="op">=</span> (n) <span class="op">=></span> n <span class="op">*</span> n;
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">tambah</span>(<span class="num">3</span>, <span class="num">4</span>));   <span class="cm">// 7</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">kali</span>(<span class="num">5</span>, <span class="num">6</span>));     <span class="cm">// 30</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">kuadrat</span>(<span class="num">8</span>));    <span class="cm">// 64</span></div>
+
+      <div class="info-box">
+        💡 <strong>Function Declaration</strong> bisa dipanggil sebelum ditulis (hoisting). <strong>Arrow Function</strong> tidak bisa — harus ditulis dulu baru dipanggil.
+      </div>
+    </section>
+
+
+    <!-- ====================== SESI 8: DOM & REST API ====================== -->
+
+    <!-- SECTION 10 — DOM -->
+    <section class="section-card blue" id="dom">
+      <h2>10. DOM (Document Object Model) <span class="badge-sesi">Sesi 8</span></h2>
+
+      <p><strong>DOM</strong> adalah representasi struktur HTML dalam bentuk <strong>object/pohon (tree)</strong> yang bisa diakses dan dimanipulasi oleh JavaScript. Dengan DOM, kamu bisa mengubah tampilan halaman <strong>tanpa reload</strong>.</p>
+
+      <h3>Bagaimana DOM Bekerja?</h3>
+      <ol style="padding-left:1.5rem; margin-bottom:.8rem;">
+        <li>Browser membaca file HTML</li>
+        <li>Browser membangun <strong>DOM Tree</strong> (pohon elemen)</li>
+        <li>JavaScript mengakses DOM Tree dan <strong>memanipulasi</strong> elemen-elemen di dalamnya</li>
+      </ol>
+
+      <h3>Mengakses Elemen DOM</h3>
+      <table>
+        <thead><tr><th>Method</th><th>Cara Kerja</th><th>Mengembalikan</th></tr></thead>
+        <tbody>
+          <tr><td><code>getElementById("id")</code></td><td>Cari berdasarkan atribut <code>id</code></td><td>1 elemen</td></tr>
+          <tr><td><code>getElementsByClassName("cls")</code></td><td>Cari berdasarkan <code>class</code></td><td>Kumpulan elemen</td></tr>
+          <tr><td><code>querySelector(".cls")</code></td><td>Cari dengan CSS selector, ambil <strong>pertama</strong></td><td>1 elemen</td></tr>
+          <tr><td><code>querySelectorAll(".cls")</code></td><td>Cari dengan CSS selector, ambil <strong>semua</strong></td><td>Kumpulan elemen</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// HTML: &lt;h1 id="judul"&gt;Gambar Peta&lt;/h1&gt;</span>
+<span class="cm">//       &lt;div class="card"&gt;...&lt;/div&gt;</span>
+<span class="cm">//       &lt;div class="card"&gt;...&lt;/div&gt;</span>
+
+<span class="cm">// Akses berdasarkan ID</span>
+<span class="kw">let</span> judul <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"judul"</span>);
+
+<span class="cm">// Akses berdasarkan class</span>
+<span class="kw">let</span> cards <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementsByClassName</span>(<span class="str">"card"</span>);
+
+<span class="cm">// querySelector — pakai CSS selector (. untuk class, # untuk id)</span>
+<span class="kw">const</span> firstCard <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">".card"</span>);     <span class="cm">// ambil .card pertama</span>
+<span class="kw">const</span> heading <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">"#judul"</span>);     <span class="cm">// ambil #judul</span>
+
+<span class="cm">// querySelectorAll — ambil SEMUA yang cocok</span>
+<span class="kw">const</span> allCards <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">".card"</span>);  <span class="cm">// semua .card</span></div>
+
+      <h3>Memanipulasi DOM</h3>
+      <div class="code-block"><span class="kw">const</span> judul <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"judul"</span>);
+
+<span class="cm">// 1. Mengubah teks</span>
+judul.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Peta Dunia"</span>;       <span class="cm">// teks biasa</span>
+judul.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">"Peta &lt;strong&gt;Dunia&lt;/strong&gt;"</span>;  <span class="cm">// bisa sisipkan HTML</span>
+
+<span class="cm">// 2. Mengubah style CSS</span>
+judul.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"blue"</span>;
+judul.<span class="prop">style</span>.<span class="prop">fontSize</span> <span class="op">=</span> <span class="str">"2rem"</span>;         <span class="cm">// pakai camelCase, bukan font-size</span>
+judul.<span class="prop">style</span>.<span class="prop">backgroundColor</span> <span class="op">=</span> <span class="str">"#eff6ff"</span>;
+
+<span class="cm">// 3. Mengubah class</span>
+judul.<span class="prop">classList</span>.<span class="fn">add</span>(<span class="str">"active"</span>);          <span class="cm">// tambah class</span>
+judul.<span class="prop">classList</span>.<span class="fn">remove</span>(<span class="str">"active"</span>);       <span class="cm">// hapus class</span>
+judul.<span class="prop">classList</span>.<span class="fn">toggle</span>(<span class="str">"active"</span>);       <span class="cm">// toggle (tambah/hapus)</span>
+judul.<span class="prop">classList</span>.<span class="fn">contains</span>(<span class="str">"active"</span>);     <span class="cm">// cek apakah punya class → true/false</span>
+
+<span class="cm">// 4. Mengubah atribut</span>
+<span class="kw">const</span> img <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">"img"</span>);
+img.<span class="fn">setAttribute</span>(<span class="str">"src"</span>, <span class="str">"peta-baru.jpg"</span>);
+img.<span class="fn">setAttribute</span>(<span class="str">"alt"</span>, <span class="str">"Peta DKI Jakarta"</span>);</div>
+
+      <h3>Membuat Elemen Baru (createElement)</h3>
+      <div class="code-block"><span class="cm">// Membuat elemen &lt;p&gt; baru dan memasukkannya ke halaman</span>
+<span class="kw">const</span> p <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"p"</span>);
+p.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Lokasi berhasil dimuat!"</span>;
+p.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"green"</span>;
+<span class="obj">document</span>.<span class="prop">body</span>.<span class="fn">appendChild</span>(p);
+
+<span class="cm">// Menambahkan ke elemen tertentu:</span>
+<span class="kw">const</span> container <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"output"</span>);
+<span class="kw">const</span> div <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+div.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">"&lt;strong&gt;Data baru&lt;/strong&gt; ditambahkan."</span>;
+div.<span class="prop">classList</span>.<span class="fn">add</span>(<span class="str">"card"</span>);
+container.<span class="fn">appendChild</span>(div);</div>
+
+      <h3>Event Handling (addEventListener)</h3>
+      <p>Event adalah aksi yang terjadi di halaman (klik, ketik, hover, submit, dll). Kita bisa merespon event menggunakan <code>addEventListener</code>.</p>
+
+      <table>
+        <thead><tr><th>Event</th><th>Kapan Terjadi</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td><code>"click"</code></td><td>Saat elemen diklik</td><td>Tombol, link</td></tr>
+          <tr><td><code>"submit"</code></td><td>Saat form disubmit</td><td>Form pendaftaran</td></tr>
+          <tr><td><code>"input"</code></td><td>Saat user mengetik di input</td><td>Search box</td></tr>
+          <tr><td><code>"change"</code></td><td>Saat nilai input berubah</td><td>Dropdown, checkbox</td></tr>
+          <tr><td><code>"mouseover"</code></td><td>Saat mouse hover di elemen</td><td>Tooltip, highlight</td></tr>
+          <tr><td><code>"keydown"</code></td><td>Saat tombol keyboard ditekan</td><td>Shortcut</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// === KLIK TOMBOL ===</span>
+<span class="cm">// HTML: &lt;button id="btn"&gt;Klik Saya&lt;/button&gt;</span>
+
+<span class="kw">const</span> tombol <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"btn"</span>);
+
+tombol.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">function</span>() {
+  <span class="fn">alert</span>(<span class="str">"Tombol diklik!"</span>);
+});
+
+<span class="cm">// === FORM SUBMIT ===</span>
+<span class="cm">// HTML: &lt;form class="register"&gt;...&lt;/form&gt;</span>
+
+<span class="kw">const</span> form <span class="op">=</span> <span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">".register"</span>);
+
+form.<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, <span class="kw">function</span>(e) {
+  e.<span class="fn">preventDefault</span>();  <span class="cm">// ← PENTING! mencegah halaman refresh</span>
+
+  <span class="kw">const</span> nama <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"namaDepan"</span>).<span class="prop">value</span>;
+  <span class="kw">const</span> email <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"email"</span>).<span class="prop">value</span>;
+
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Nama: ${nama}, Email: ${email}`</span>);
+  <span class="fn">alert</span>(<span class="str">`Data berhasil dikirim!\nNama: ${nama}`</span>);
+});
+
+<span class="cm">// === INPUT REAL-TIME ===</span>
+<span class="cm">// HTML: &lt;input id="search" type="text"&gt;</span>
+
+<span class="kw">const</span> search <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"search"</span>);
+
+search.<span class="fn">addEventListener</span>(<span class="str">"input"</span>, <span class="kw">function</span>(e) {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"User mengetik:"</span>, e.<span class="prop">target</span>.<span class="prop">value</span>);
+});</div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>e.preventDefault()</strong> wajib dipakai pada event <code>"submit"</code> agar halaman tidak refresh. Tanpa ini, data yang sudah diproses akan hilang karena halaman reload.
+      </div>
+
+      <h3>Contoh Lengkap: Form + DOM</h3>
+      <div class="code-block"><span class="cm">// HTML:</span>
+<span class="cm">// &lt;form class="register"&gt;</span>
+<span class="cm">//   &lt;input type="text" id="namaDepan" required&gt;</span>
+<span class="cm">//   &lt;input type="text" id="namaBelakang" required&gt;</span>
+<span class="cm">//   &lt;button type="submit"&gt;Daftar&lt;/button&gt;</span>
+<span class="cm">// &lt;/form&gt;</span>
+<span class="cm">// &lt;div id="hasil"&gt;&lt;/div&gt;</span>
+
+<span class="obj">document</span>.<span class="fn">querySelector</span>(<span class="str">".register"</span>).<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, <span class="kw">function</span>(e) {
+  e.<span class="fn">preventDefault</span>();
+
+  <span class="kw">const</span> depan <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"namaDepan"</span>).<span class="prop">value</span>;
+  <span class="kw">const</span> belakang <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"namaBelakang"</span>).<span class="prop">value</span>;
+
+  <span class="cm">// Tampilkan hasil di halaman (bukan alert)</span>
+  <span class="kw">const</span> hasil <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"hasil"</span>);
+  hasil.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">`&lt;p&gt;Selamat datang, &lt;strong&gt;${depan} ${belakang}&lt;/strong&gt;!&lt;/p&gt;`</span>;
+  hasil.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"green"</span>;
+});</div>
+    </section>
+
+
+    <!-- SECTION 11 — REST API -->
+    <section class="section-card purple" id="api">
+      <h2>11. REST API &amp; Fetch <span class="badge-sesi">Sesi 8</span></h2>
+
+      <div style="background: linear-gradient(135deg, #7c3aed, #6d28d9); border-radius: 12px; padding: 1.2rem 1.5rem; margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
+        <div style="color: #fff;">
+          <strong style="font-size: 1rem;">📖 Dokumentasi MDN — Fetch API</strong>
+          <p style="color: rgba(255,255,255,0.85); font-size: 0.82rem; margin: 0.2rem 0 0;">Referensi lengkap penggunaan fetch() di JavaScript.</p>
+        </div>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch" target="_blank" style="display: inline-block; background: #fff; color: #7c3aed; text-decoration: none; padding: 0.55rem 1.4rem; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">Buka MDN Docs →</a>
+      </div>
+
+      <h3>Apa itu API?</h3>
+      <p><strong>API</strong> (Application Programming Interface) adalah mekanisme yang memungkinkan dua sistem berkomunikasi. <strong>REST API</strong> menggunakan HTTP untuk bertukar data — biasanya format <strong>JSON</strong>.</p>
+
+      <h3>Alur Kerja</h3>
+      <div class="demo-area" style="text-align:center; font-size:.88rem;">
+        <strong>JavaScript (Frontend)</strong> → Kirim <strong>Request</strong> ke API → <strong>Server</strong> memproses → Server kirim <strong>Response</strong> (JSON) → JavaScript tampilkan ke <strong>DOM</strong>
+      </div>
+
+      <h3>Struktur REST API</h3>
+      <table>
+        <thead><tr><th>Komponen</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Endpoint (URL)</strong></td><td>Alamat API di server</td><td><code>https://api.example.com/users</code></td></tr>
+          <tr><td><strong>HTTP Method</strong></td><td>Aksi yang dilakukan</td><td>GET, POST, PUT, DELETE</td></tr>
+          <tr><td><strong>Headers</strong></td><td>Info tambahan (format data, auth)</td><td><code>Content-Type: application/json</code></td></tr>
+          <tr><td><strong>Body</strong></td><td>Data yang dikirim (POST/PUT)</td><td><code>{ "nama": "Rifqi" }</code></td></tr>
+          <tr><td><strong>Response</strong></td><td>Balasan dari server</td><td>Status code + data JSON</td></tr>
+        </tbody>
+      </table>
+
+      <h3>HTTP Method</h3>
+      <table>
+        <thead><tr><th>Method</th><th>Fungsi</th><th>Contoh Penggunaan</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET</code></td><td>Mengambil data</td><td>Ambil daftar lokasi peta</td></tr>
+          <tr><td><code>POST</code></td><td>Mengirim/membuat data baru</td><td>Tambah marker baru</td></tr>
+          <tr><td><code>PUT</code></td><td>Mengubah seluruh data</td><td>Update info lokasi</td></tr>
+          <tr><td><code>PATCH</code></td><td>Mengubah sebagian data</td><td>Update nama saja</td></tr>
+          <tr><td><code>DELETE</code></td><td>Menghapus data</td><td>Hapus marker</td></tr>
+        </tbody>
+      </table>
+
+      <h3>HTTP Status Code</h3>
+      <table>
+        <thead><tr><th>Kode</th><th>Arti</th><th>Penjelasan</th></tr></thead>
+        <tbody>
+          <tr><td><code>200</code></td><td>OK</td><td>Request berhasil</td></tr>
+          <tr><td><code>201</code></td><td>Created</td><td>Data baru berhasil dibuat</td></tr>
+          <tr><td><code>400</code></td><td>Bad Request</td><td>Request salah / data tidak valid</td></tr>
+          <tr><td><code>401</code></td><td>Unauthorized</td><td>Tidak punya akses (perlu login/API key)</td></tr>
+          <tr><td><code>404</code></td><td>Not Found</td><td>Endpoint/data tidak ditemukan</td></tr>
+          <tr><td><code>500</code></td><td>Server Error</td><td>Ada masalah di server</td></tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+      <h3>Fetch API — Cara Mengambil Data</h3>
+
+      <h3 style="font-size:.95rem;">Cara 1: .then() / .catch() (Promise)</h3>
+      <div class="code-block"><span class="cm">// GET — Mengambil data dari API</span>
+<span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>)
+  .<span class="fn">then</span>(<span class="kw">function</span>(response) {
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Status:"</span>, response.<span class="prop">status</span>);  <span class="cm">// 200</span>
+    <span class="kw">return</span> response.<span class="fn">json</span>();  <span class="cm">// konversi response ke JSON</span>
+  })
+  .<span class="fn">then</span>(<span class="kw">function</span>(data) {
+    <span class="obj">console</span>.<span class="fn">log</span>(data);  <span class="cm">// array berisi 10 user</span>
+  })
+  .<span class="fn">catch</span>(<span class="kw">function</span>(error) {
+    <span class="obj">console</span>.<span class="fn">error</span>(<span class="str">"Terjadi kesalahan:"</span>, error);
+  });</div>
+
+      <h3 style="font-size:.95rem;">Cara 2: async / await (Lebih Mudah Dibaca)</h3>
+      <div class="code-block"><span class="kw">async function</span> <span class="fn">getUsers</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>);
+
+    <span class="cm">// Cek apakah response OK (status 200)</span>
+    <span class="kw">if</span> (<span class="op">!</span>response.<span class="prop">ok</span>) {
+      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`HTTP Error: ${response.status}`</span>);
+    }
+
+    <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
+    <span class="obj">console</span>.<span class="fn">log</span>(data);
+  } <span class="kw">catch</span> (error) {
+    <span class="obj">console</span>.<span class="fn">error</span>(<span class="str">"Error:"</span>, error);
+  }
+}
+
+<span class="fn">getUsers</span>();  <span class="cm">// panggil function</span></div>
+
+      <div class="info-box success">
+        ✅ <strong>async/await</strong> adalah cara modern yang lebih mudah dibaca dibanding <code>.then()</code>. Gunakan <code>try/catch</code> untuk menangani error. Keduanya menghasilkan hal yang sama.
+      </div>
+
+      <hr>
+
+      <h3>Contoh: GET — Menampilkan Data ke Halaman</h3>
+      <div class="code-block"><span class="cm">// HTML: &lt;ul id="userList"&gt;&lt;/ul&gt;</span>
+
+<span class="kw">async function</span> <span class="fn">tampilkanUsers</span>() {
+  <span class="kw">const</span> list <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"userList"</span>);
+  list.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">"&lt;li&gt;Memuat data...&lt;/li&gt;"</span>;  <span class="cm">// loading state</span>
+
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>);
+    <span class="kw">const</span> users <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
+
+    <span class="cm">// Kosongkan loading</span>
+    list.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">""</span>;
+
+    <span class="cm">// Loop setiap user dan buat elemen &lt;li&gt;</span>
+    users.<span class="fn">forEach</span>(<span class="kw">function</span>(user) {
+      <span class="kw">const</span> li <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+      li.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">`${user.name} — ${user.email}`</span>;
+      list.<span class="fn">appendChild</span>(li);
+    });
+  } <span class="kw">catch</span> (error) {
+    list.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">"&lt;li style='color:red'&gt;Gagal memuat data!&lt;/li&gt;"</span>;
+    <span class="obj">console</span>.<span class="fn">error</span>(error);
+  }
+}
+
+<span class="fn">tampilkanUsers</span>();</div>
+
+      <h3>Contoh: POST — Mengirim Data ke Server</h3>
+      <div class="code-block"><span class="kw">async function</span> <span class="fn">kirimData</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>, {
+      method: <span class="str">"POST"</span>,
+      headers: {
+        <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>
+      },
+      body: <span class="obj">JSON</span>.<span class="fn">stringify</span>({
+        name: <span class="str">"Rifqi Naufal"</span>,
+        email: <span class="str">"rifqi@email.com"</span>,
+        phone: <span class="str">"081911075017"</span>
+      })
+    });
+
+    <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Data berhasil dikirim:"</span>, data);
+  } <span class="kw">catch</span> (error) {
+    <span class="obj">console</span>.<span class="fn">error</span>(<span class="str">"Gagal mengirim data:"</span>, error);
+  }
+}
+
+<span class="fn">kirimData</span>();</div>
+
+      <h3>JSON.stringify() &amp; JSON.parse()</h3>
+      <div class="code-block"><span class="cm">// JavaScript Object → JSON String (untuk dikirim ke server)</span>
+<span class="kw">const</span> objek <span class="op">=</span> { nama: <span class="str">"Rifqi"</span>, umur: <span class="num">21</span> };
+<span class="kw">const</span> jsonString <span class="op">=</span> <span class="obj">JSON</span>.<span class="fn">stringify</span>(objek);
+<span class="obj">console</span>.<span class="fn">log</span>(jsonString);  <span class="cm">// '{"nama":"Rifqi","umur":21}'</span>
+
+<span class="cm">// JSON String → JavaScript Object (data dari server)</span>
+<span class="kw">const</span> text <span class="op">=</span> <span class="str">'{"nama":"Andi","kota":"Jakarta"}'</span>;
+<span class="kw">const</span> obj <span class="op">=</span> <span class="obj">JSON</span>.<span class="fn">parse</span>(text);
+<span class="obj">console</span>.<span class="fn">log</span>(obj.<span class="prop">nama</span>);  <span class="cm">// "Andi"</span></div>
+
+      <h3>Contoh Lengkap: Form + Fetch POST + DOM</h3>
+      <div class="code-block"><span class="cm">// HTML:</span>
+<span class="cm">// &lt;form id="formTambah"&gt;</span>
+<span class="cm">//   &lt;input type="text" id="inputNama" placeholder="Nama" required&gt;</span>
+<span class="cm">//   &lt;input type="email" id="inputEmail" placeholder="Email" required&gt;</span>
+<span class="cm">//   &lt;button type="submit"&gt;Kirim&lt;/button&gt;</span>
+<span class="cm">// &lt;/form&gt;</span>
+<span class="cm">// &lt;div id="status"&gt;&lt;/div&gt;</span>
+
+<span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"formTambah"</span>).<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, <span class="kw">async function</span>(e) {
+  e.<span class="fn">preventDefault</span>();
+
+  <span class="kw">const</span> nama <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"inputNama"</span>).<span class="prop">value</span>;
+  <span class="kw">const</span> email <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"inputEmail"</span>).<span class="prop">value</span>;
+  <span class="kw">const</span> status <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"status"</span>);
+
+  status.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Mengirim data..."</span>;
+  status.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"gray"</span>;
+
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>, {
+      method: <span class="str">"POST"</span>,
+      headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span> },
+      body: <span class="obj">JSON</span>.<span class="fn">stringify</span>({ name: nama, email: email })
+    });
+
+    <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
+
+    status.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">`✅ Berhasil! ID: ${data.id}, Nama: ${data.name}`</span>;
+    status.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"green"</span>;
+  } <span class="kw">catch</span> (error) {
+    status.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">`❌ Gagal mengirim: ${error.message}`</span>;
+    status.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"red"</span>;
+  }
+});</div>
+    </section>
+
+
+    <!-- SECTION 12 — REFERENSI -->
+    <section class="section-card green" id="referensi">
+      <h2>12. Referensi Belajar JavaScript</h2>
+      <table>
+        <thead><tr><th>Resource</th><th>Link</th><th>Untuk</th></tr></thead>
+        <tbody>
+          <tr><td>W3Schools JS</td><td><a href="https://www.w3schools.com/js/" target="_blank">w3schools.com/js</a></td><td>Referensi lengkap + try it</td></tr>
+          <tr><td>MDN JavaScript</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">developer.mozilla.org</a></td><td>Dokumentasi resmi</td></tr>
+          <tr><td>MDN DOM</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model" target="_blank">MDN — DOM</a></td><td>Dokumentasi DOM</td></tr>
+          <tr><td>W3Schools DOM</td><td><a href="https://www.w3schools.com/js/js_htmldom.asp" target="_blank">w3schools.com/js_htmldom</a></td><td>Tutorial DOM interaktif</td></tr>
+          <tr><td>JSONPlaceholder</td><td><a href="https://jsonplaceholder.typicode.com/" target="_blank">jsonplaceholder.typicode.com</a></td><td>API dummy untuk latihan</td></tr>
+          <tr><td>JavaScript.info</td><td><a href="https://javascript.info/" target="_blank">javascript.info</a></td><td>Tutorial JS modern & lengkap</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 <strong style="color:rgba(255,255,255,.9);">MAPID Academy</strong> — WebGIS Development Bootcamp &nbsp;|&nbsp; <em>Code the Map, Decode the Future</em></p>
+    <p style="margin-top:.35rem; font-size:.78rem;">File ini mencakup materi Sesi 7 (Dasar JavaScript) &amp; Sesi 8 (DOM &amp; REST API).</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.code-block').forEach(function(codeBlock) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.innerText = '📋 Copy';
+      codeBlock.appendChild(btn);
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var tempNode = codeBlock.cloneNode(true);
+        var buttonInTemp = tempNode.querySelector('.copy-btn');
+        if (buttonInTemp) buttonInTemp.remove();
+        var textToCopy = tempNode.innerText;
+        navigator.clipboard.writeText(textToCopy).then(function() {
+          btn.innerText = '✅ Copied!';
+          setTimeout(function() { btn.innerText = '📋 Copy'; }, 2000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
