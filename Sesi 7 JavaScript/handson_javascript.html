@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WebGIS Transportasi DKI Jakarta — Hands-on JavaScript, DOM & Fetch API">
+  <meta name="author" content="Mochammad Rifqi Naufal Alfayyadh">
+  <title>WebGIS Transportasi DKI — Hands-on JavaScript</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-['Inter',Arial,sans-serif] text-base leading-relaxed bg-slate-100 text-slate-800 box-border m-0 p-0">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 inset-x-0 z-[1000] bg-slate-900 py-[0.85rem] px-6 flex justify-between items-center shadow-[0_2px_16px_rgba(0,0,0,0.3)]">
+    <a href="#home" class="flex items-center gap-2 font-['Poppins',sans-serif] font-extrabold text-[1.1rem] text-white tracking-[0.5px] no-underline">
+      <span class="bg-white px-2 py-1 rounded inline-flex items-center">
+        <img src="https://geo.mapid.io/static/media/logo_mapid_black.c5290e8ff135e196ce653f502d693dcf.svg" alt="MAPID Logo" class="h-5" />
+      </span>
+      Hands-on JavaScript
+    </a>
+    <ul class="hidden md:flex gap-[0.3rem] list-none m-0 p-0">
+      <li><a href="../index.html" class="text-amber-400 font-semibold text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15">🏠 Portal</a></li>
+      <li><a href="#home" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">Beranda</a></li>
+      <li><a href="#stats" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">Stats</a></li>
+      <li><a href="#cari" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">Cari</a></li>
+      <li><a href="#api" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">API</a></li>
+      <li><a href="#form" class="text-white/85 font-medium text-[0.95rem] py-[0.4rem] px-[0.8rem] rounded-md no-underline transition-colors duration-200 hover:bg-white/15 hover:text-white">Form</a></li>
+    </ul>
+  </nav>
+
+  <div class="h-[64px]"></div>
+
+  <div class="min-h-screen flex flex-col">
+
+    <!-- ========== HERO ========== -->
+    <section id="home" class="bg-gradient-to-br from-[#0f172a] via-[#1e3a5f] to-[#1a56db] text-white py-10 sm:py-20 px-4 text-center relative overflow-hidden">
+      <div class="absolute -top-[80px] -right-[80px] w-[320px] h-[320px] rounded-full bg-white/5 pointer-events-none"></div>
+
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+        <div class="inline-block bg-white/12 border border-white/25 text-amber-300 text-[0.8rem] font-semibold py-[0.3rem] px-4 rounded-full uppercase tracking-[1.5px] mb-[1.2rem]">Hands-on JavaScript — Sesi 7 & 8</div>
+
+        <h1 class="text-[1.8rem] sm:text-[clamp(2rem,5vw,3.5rem)] font-['Poppins',sans-serif] font-extrabold mb-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.3)] leading-tight">
+          WebGIS Transportasi<br>DKI Jakarta
+        </h1>
+
+        <p class="text-[clamp(0.95rem,2vw,1.15rem)] opacity-85 max-w-[560px] mx-auto mt-4 mb-8 leading-[1.7]">
+          Halaman interaktif yang mendemonstrasikan manipulasi DOM, event handling, fetch API, dan dynamic content menggunakan JavaScript.
+        </p>
+
+        <!-- Jam Digital (DOM manipulation) -->
+        <div class="inline-block bg-white/10 border border-white/20 rounded-xl px-6 py-3 mb-6">
+          <div class="text-xs text-blue-200 uppercase tracking-widest mb-1">Waktu Saat Ini</div>
+          <div id="jamDigital" class="text-3xl font-bold font-['Poppins',sans-serif] tracking-wider">--:--:--</div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+          <a href="#stats" class="inline-block bg-white text-blue-700 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-50 transition">📊 Lihat Statistik</a>
+          <a href="#api" class="inline-block bg-transparent text-white border border-white/40 px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition">🌐 Data dari API</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========== STATS COUNTER (DOM + setInterval) ========== -->
+    <section id="stats" class="bg-white py-10 sm:py-16 px-4">
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+        <div class="text-[1.75rem] text-[#1e3a5f] mb-2 font-['Poppins',sans-serif] font-bold">Statistik Transportasi</div>
+        <div class="w-12 h-1 bg-amber-500 rounded-sm my-2 mb-6"></div>
+        <p class="text-slate-500 text-sm mb-6">Counter di bawah dianimasikan menggunakan JavaScript — angka naik dari 0 secara bertahap.</p>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div class="bg-blue-50 border border-blue-100 rounded-xl p-5 text-center">
+            <div class="text-3xl font-bold text-blue-700 counter" data-target="50">0</div>
+            <div class="text-xs text-blue-500 mt-1">Rute Transjakarta</div>
+          </div>
+          <div class="bg-purple-50 border border-purple-100 rounded-xl p-5 text-center">
+            <div class="text-3xl font-bold text-purple-700 counter" data-target="2">0</div>
+            <div class="text-xs text-purple-500 mt-1">Rute MRT</div>
+          </div>
+          <div class="bg-green-50 border border-green-100 rounded-xl p-5 text-center">
+            <div class="text-3xl font-bold text-green-700 counter" data-target="1">0</div>
+            <div class="text-xs text-green-500 mt-1">Rute LRT</div>
+          </div>
+          <div class="bg-yellow-50 border border-yellow-100 rounded-xl p-5 text-center">
+            <div class="text-3xl font-bold text-yellow-700 counter" data-target="5">0</div>
+            <div class="text-xs text-yellow-500 mt-1">Rute KRL</div>
+          </div>
+        </div>
+
+        <!-- Toggle Table -->
+        <button id="toggleTable" class="bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-slate-700 transition mb-4">📋 Tampilkan Tabel Data</button>
+
+        <div id="tabelTransportasi" class="hidden">
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-sm text-left">
+              <thead class="bg-slate-800 text-white">
+                <tr>
+                  <th class="py-3 px-4 font-semibold">No</th>
+                  <th class="py-3 px-4 font-semibold">Kode</th>
+                  <th class="py-3 px-4 font-semibold">Nama</th>
+                  <th class="py-3 px-4 font-semibold">Jumlah Rute</th>
+                </tr>
+              </thead>
+              <tbody id="tabelBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========== SEARCH & FILTER (DOM + Event) ========== -->
+    <section id="cari" class="bg-slate-50 py-10 sm:py-16 px-4">
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+        <div class="text-[1.75rem] text-[#1e3a5f] mb-2 font-['Poppins',sans-serif] font-bold">Cari & Filter Lokasi</div>
+        <div class="w-12 h-1 bg-amber-500 rounded-sm my-2 mb-6"></div>
+        <p class="text-slate-500 text-sm mb-4">Ketik untuk mencari lokasi secara real-time menggunakan event <code class="bg-slate-200 px-1 rounded">input</code> + DOM filtering.</p>
+
+        <input type="text" id="inputCari" placeholder="🔍 Cari lokasi... (contoh: Monas)" class="w-full max-w-md border-2 border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition mb-2">
+        <div id="hasilCount" class="text-xs text-slate-400 mb-4">Menampilkan 8 lokasi</div>
+
+        <div id="daftarLokasi" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========== FETCH API ========== -->
+    <section id="api" class="bg-white py-10 sm:py-16 px-4">
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+        <div class="text-[1.75rem] text-[#1e3a5f] mb-2 font-['Poppins',sans-serif] font-bold">Data Lokasi dari API (Fetch)</div>
+        <div class="w-12 h-1 bg-amber-500 rounded-sm my-2 mb-6"></div>
+        <p class="text-slate-500 text-sm mb-4">Data lokasi (apartemen &amp; hotel di Bandung) diambil secara <strong>asynchronous</strong> dari <strong>MAPID GeoServer</strong> dalam format <strong>GeoJSON</strong> menggunakan <code class="bg-slate-200 px-1 rounded">fetch()</code> + <code class="bg-slate-200 px-1 rounded">async/await</code>.</p>
+
+        <button id="btnLoadUsers" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition mb-4">🗺️ Ambil Data Lokasi dari MAPID</button>
+        <button id="btnClearUsers" class="bg-slate-300 text-slate-700 px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-slate-400 transition mb-4 hidden">🗑️ Hapus Data</button>
+
+        <div id="apiStatus" class="text-sm text-slate-400 mb-4"></div>
+
+        <div id="userCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========== DYNAMIC FORM (DOM + Event + createElement) ========== -->
+    <section id="form" class="bg-slate-50 py-10 sm:py-16 px-4">
+      <div class="w-[90%] max-w-[1100px] mx-auto px-4">
+        <div class="text-[1.75rem] text-[#1e3a5f] mb-2 font-['Poppins',sans-serif] font-bold">Tambah Lokasi Baru</div>
+        <div class="w-12 h-1 bg-amber-500 rounded-sm my-2 mb-6"></div>
+        <p class="text-slate-500 text-sm mb-6">Form di bawah menggunakan <code class="bg-slate-200 px-1 rounded">addEventListener("submit")</code> + <code class="bg-slate-200 px-1 rounded">preventDefault()</code> + <code class="bg-slate-200 px-1 rounded">createElement</code> untuk menambahkan item secara dinamis.</p>
+
+        <div class="flex flex-col md:flex-row gap-8">
+          <!-- Form -->
+          <div class="flex-none w-full md:w-[360px]">
+            <form id="formLokasi" class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-slate-600 mb-1" for="namaLokasi">Nama Lokasi</label>
+                <input type="text" id="namaLokasi" placeholder="Contoh: Monas" required class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-slate-600 mb-1" for="kategoriLokasi">Kategori</label>
+                <select id="kategoriLokasi" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-blue-500">
+                  <option value="Wisata">🏛️ Wisata</option>
+                  <option value="Transportasi">🚌 Transportasi</option>
+                  <option value="Pemerintahan">🏢 Pemerintahan</option>
+                  <option value="Pendidikan">🎓 Pendidikan</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm font-semibold text-slate-600 mb-1" for="deskripsiLokasi">Deskripsi</label>
+                <textarea id="deskripsiLokasi" rows="3" placeholder="Deskripsi singkat..." required class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"></textarea>
+              </div>
+              <button type="submit" class="w-full bg-amber-500 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-amber-600 transition">➕ Tambah Lokasi</button>
+            </form>
+            <div id="formStatus" class="mt-3 text-sm"></div>
+          </div>
+
+          <!-- Output list -->
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-base font-bold text-slate-700 font-['Poppins',sans-serif]">Daftar Lokasi (<span id="jumlahLokasi">0</span>)</h3>
+              <button id="btnHapusSemua" class="text-xs text-red-500 hover:text-red-700 font-semibold hidden">Hapus Semua</button>
+            </div>
+            <div id="outputLokasi" class="space-y-3">
+              <div class="text-sm text-slate-400 italic">Belum ada lokasi. Tambahkan melalui form di samping.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-white/60 text-center py-6 px-4 text-[0.85rem] mt-auto">
+      <p>
+        v.1.0.0 &copy; Copyright 2026 &mdash;
+        <strong class="text-white/85 font-bold">Mochammad Rifqi Naufal Alfayyadh</strong>
+      </p>
+      <p class="mt-[0.3rem] text-[0.78rem]">
+        MAPID Academy — WebGIS Development Bootcamp 2026 &bull;
+        Dibangun dengan <span class="text-red-400">♥</span> menggunakan HTML, Tailwind CSS & JavaScript
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+    // ============================================================
+    // 1. JAM DIGITAL — setInterval + DOM manipulation
+    // ============================================================
+    function updateJam() {
+      var sekarang = new Date();
+      var jam = String(sekarang.getHours()).padStart(2, '0');
+      var menit = String(sekarang.getMinutes()).padStart(2, '0');
+      var detik = String(sekarang.getSeconds()).padStart(2, '0');
+      document.getElementById('jamDigital').innerText = jam + ':' + menit + ':' + detik;
+    }
+    updateJam();
+    setInterval(updateJam, 1000);
+
+
+    // ============================================================
+    // 2. COUNTER ANIMATION — querySelectorAll + setInterval
+    // ============================================================
+    var counters = document.querySelectorAll('.counter');
+
+    counters.forEach(function(counter) {
+      var target = Number(counter.getAttribute('data-target'));
+      var current = 0;
+      var speed = Math.max(1, Math.floor(2000 / target));
+
+      var timer = setInterval(function() {
+        current++;
+        counter.innerText = current;
+        if (current >= target) {
+          clearInterval(timer);
+        }
+      }, speed);
+    });
+
+
+    // ============================================================
+    // 3. TOGGLE TABLE — addEventListener + classList + createElement
+    // ============================================================
+    var dataTransportasi = [
+      { no: 1, kode: 'TJ', nama: 'Transjakarta', rute: 50 },
+      { no: 2, kode: 'MRT', nama: 'Mass Rapid Transit', rute: 2 },
+      { no: 3, kode: 'LRT', nama: 'Light Rail Transit', rute: 1 },
+      { no: 4, kode: 'KRL', nama: 'Kereta Rel Listrik', rute: 5 }
+    ];
+
+    var tabelBody = document.getElementById('tabelBody');
+
+    dataTransportasi.forEach(function(item) {
+      var tr = document.createElement('tr');
+      tr.className = 'border-b border-slate-100 hover:bg-blue-50 transition-colors';
+      tr.innerHTML =
+        '<td class="py-3 px-4 text-slate-600">' + item.no + '</td>' +
+        '<td class="py-3 px-4 text-blue-600 font-bold">' + item.kode + '</td>' +
+        '<td class="py-3 px-4 text-slate-700">' + item.nama + '</td>' +
+        '<td class="py-3 px-4 text-slate-700">' + item.rute + '</td>';
+      tabelBody.appendChild(tr);
+    });
+
+    var toggleBtn = document.getElementById('toggleTable');
+    var tabel = document.getElementById('tabelTransportasi');
+
+    toggleBtn.addEventListener('click', function() {
+      if (tabel.classList.contains('hidden')) {
+        tabel.classList.remove('hidden');
+        toggleBtn.innerText = '📋 Sembunyikan Tabel';
+      } else {
+        tabel.classList.add('hidden');
+        toggleBtn.innerText = '📋 Tampilkan Tabel Data';
+      }
+    });
+
+
+    // ============================================================
+    // 4. SEARCH & FILTER — input event + forEach + includes
+    // ============================================================
+    var lokasiData = [
+      { nama: 'Monas', kategori: 'Wisata', emoji: '🏛️' },
+      { nama: 'Ancol', kategori: 'Wisata', emoji: '🏖️' },
+      { nama: 'Kota Tua', kategori: 'Wisata', emoji: '🏚️' },
+      { nama: 'Halte Harmoni', kategori: 'Transportasi', emoji: '🚌' },
+      { nama: 'Stasiun Gambir', kategori: 'Transportasi', emoji: '🚆' },
+      { nama: 'Bundaran HI (MRT)', kategori: 'Transportasi', emoji: '🚇' },
+      { nama: 'Istana Negara', kategori: 'Pemerintahan', emoji: '🏢' },
+      { nama: 'Universitas Indonesia', kategori: 'Pendidikan', emoji: '🎓' }
+    ];
+
+    var daftarLokasi = document.getElementById('daftarLokasi');
+    var hasilCount = document.getElementById('hasilCount');
+
+    function renderLokasi(data) {
+      daftarLokasi.innerHTML = '';
+
+      if (data.length === 0) {
+        daftarLokasi.innerHTML = '<div class="col-span-full text-sm text-slate-400 italic text-center py-4">Tidak ada lokasi yang cocok.</div>';
+        hasilCount.innerText = 'Menampilkan 0 lokasi';
+        return;
+      }
+
+      data.forEach(function(loc) {
+        var card = document.createElement('div');
+        card.className = 'bg-white border border-slate-200 rounded-xl p-4 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer';
+        card.innerHTML =
+          '<div class="text-2xl mb-2">' + loc.emoji + '</div>' +
+          '<div class="font-bold text-slate-800 text-sm">' + loc.nama + '</div>' +
+          '<div class="text-xs text-slate-400 mt-1">' + loc.kategori + '</div>';
+
+        card.addEventListener('click', function() {
+          alert('Lokasi: ' + loc.nama + '\nKategori: ' + loc.kategori);
+        });
+
+        daftarLokasi.appendChild(card);
+      });
+
+      hasilCount.innerText = 'Menampilkan ' + data.length + ' lokasi';
+    }
+
+    renderLokasi(lokasiData);
+
+    document.getElementById('inputCari').addEventListener('input', function(e) {
+      var keyword = e.target.value.toLowerCase().trim();
+
+      var filtered = lokasiData.filter(function(loc) {
+        return loc.nama.toLowerCase().includes(keyword) || loc.kategori.toLowerCase().includes(keyword);
+      });
+
+      renderLokasi(filtered);
+    });
+
+
+    // ============================================================
+    // 5. FETCH API — async/await + DOM + loading state
+    //    Sumber: MAPID GeoServer (data GeoJSON apartemen Bandung)
+    // ============================================================
+    var API_URL = 'https://geoserver.mapid.io/layers_new/get_layer?api_key=7b8019aa264248e89e3fd5b27253132f&layer_id=69ace1b8643f7636a769ce7c&project_id=69ab9fb96c69e6252868efaf';
+
+    var btnLoad = document.getElementById('btnLoadUsers');
+    var btnClear = document.getElementById('btnClearUsers');
+    var apiStatus = document.getElementById('apiStatus');
+    var userCards = document.getElementById('userCards');
+
+    btnLoad.addEventListener('click', async function() {
+      apiStatus.innerText = '⏳ Mengambil data dari MAPID GeoServer...';
+      apiStatus.style.color = '#64748b';
+      userCards.innerHTML = '';
+      btnLoad.disabled = true;
+      btnLoad.classList.add('opacity-50');
+
+      try {
+        var response = await fetch(API_URL);
+
+        if (!response.ok) {
+          throw new Error('HTTP Error: ' + response.status);
+        }
+
+        var data = await response.json();
+
+        // Data lokasi ada di dalam data.features (GeoJSON FeatureCollection)
+        // Ambil hanya yang punya properti NAMA, lalu batasi 12 lokasi pertama
+        var lokasi = data.features.filter(function(item) {
+          return item.properties && item.properties.NAMA;
+        }).slice(0, 12);
+
+        apiStatus.innerText = '✅ Berhasil memuat ' + data.features.length + ' lokasi (menampilkan ' + lokasi.length + ') — Status: ' + response.status;
+        apiStatus.style.color = '#166534';
+
+        lokasi.forEach(function(item) {
+          var p = item.properties;
+          var coords = item.geometry.coordinates;
+          var lng = coords[0];
+          var lat = coords[1];
+
+          var statusBadge = p.STATUS === 'BUKA'
+            ? '<span class="bg-green-100 text-green-700 text-[0.65rem] px-2 py-0.5 rounded-full">BUKA</span>'
+            : '<span class="bg-slate-100 text-slate-500 text-[0.65rem] px-2 py-0.5 rounded-full">' + (p.STATUS || '-') + '</span>';
+
+          var card = document.createElement('div');
+          card.className = 'bg-slate-50 border border-slate-200 rounded-xl p-4 hover:shadow-md hover:border-blue-300 transition-all';
+          card.innerHTML =
+            '<div class="flex items-start justify-between gap-2 mb-2">' +
+              '<div class="font-bold text-slate-800 text-sm leading-snug">' + p.NAMA + '</div>' +
+              statusBadge +
+            '</div>' +
+            '<div class="text-xs text-slate-500 space-y-1">' +
+              '<div>🏢 ' + (p.TIPE_2 || '-') + '</div>' +
+              '<div>📍 ' + (p.KECAMATAN || '-') + ', ' + (p.KABKOT || '-') + '</div>' +
+              '<div>📞 ' + (p.TELEPON || '-') + '</div>' +
+              '<div>🌐 ' + lat.toFixed(5) + ', ' + lng.toFixed(5) + '</div>' +
+            '</div>';
+          userCards.appendChild(card);
+        });
+
+        btnClear.classList.remove('hidden');
+      } catch (error) {
+        apiStatus.innerText = '❌ Gagal: ' + error.message;
+        apiStatus.style.color = '#991b1b';
+      }
+
+      btnLoad.disabled = false;
+      btnLoad.classList.remove('opacity-50');
+    });
+
+    btnClear.addEventListener('click', function() {
+      userCards.innerHTML = '';
+      apiStatus.innerText = 'Data dihapus.';
+      apiStatus.style.color = '#64748b';
+      btnClear.classList.add('hidden');
+    });
+
+
+    // ============================================================
+    // 6. FORM — submit event + preventDefault + createElement + remove
+    // ============================================================
+    var formLokasi = document.getElementById('formLokasi');
+    var outputLokasi = document.getElementById('outputLokasi');
+    var jumlahLokasi = document.getElementById('jumlahLokasi');
+    var formStatus = document.getElementById('formStatus');
+    var btnHapusSemua = document.getElementById('btnHapusSemua');
+    var lokasiCount = 0;
+
+    formLokasi.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var nama = document.getElementById('namaLokasi').value.trim();
+      var kategori = document.getElementById('kategoriLokasi').value;
+      var deskripsi = document.getElementById('deskripsiLokasi').value.trim();
+
+      if (nama === '' || deskripsi === '') return;
+
+      if (lokasiCount === 0) {
+        outputLokasi.innerHTML = '';
+      }
+
+      lokasiCount++;
+
+      var emojiMap = { 'Wisata': '🏛️', 'Transportasi': '🚌', 'Pemerintahan': '🏢', 'Pendidikan': '🎓' };
+
+      var card = document.createElement('div');
+      card.className = 'bg-white border border-slate-200 rounded-xl p-4 flex justify-between items-start gap-3 hover:border-green-400 transition-all';
+      card.innerHTML =
+        '<div class="flex-1">' +
+          '<div class="flex items-center gap-2 mb-1">' +
+            '<span class="text-lg">' + (emojiMap[kategori] || '📍') + '</span>' +
+            '<span class="font-bold text-slate-800 text-sm">' + nama + '</span>' +
+            '<span class="bg-slate-100 text-slate-500 text-[0.7rem] px-2 py-0.5 rounded-full">' + kategori + '</span>' +
+          '</div>' +
+          '<p class="text-xs text-slate-500 leading-relaxed">' + deskripsi + '</p>' +
+        '</div>';
+
+      var btnHapus = document.createElement('button');
+      btnHapus.className = 'text-red-400 hover:text-red-600 text-lg flex-none mt-1 transition';
+      btnHapus.innerText = '❌';
+      btnHapus.title = 'Hapus lokasi ini';
+
+      btnHapus.addEventListener('click', function() {
+        card.remove();
+        lokasiCount--;
+        jumlahLokasi.innerText = lokasiCount;
+        if (lokasiCount === 0) {
+          outputLokasi.innerHTML = '<div class="text-sm text-slate-400 italic">Belum ada lokasi. Tambahkan melalui form di samping.</div>';
+          btnHapusSemua.classList.add('hidden');
+        }
+      });
+
+      card.appendChild(btnHapus);
+      outputLokasi.appendChild(card);
+      jumlahLokasi.innerText = lokasiCount;
+      btnHapusSemua.classList.remove('hidden');
+
+      formStatus.innerHTML = '✅ <strong>' + nama + '</strong> berhasil ditambahkan!';
+      formStatus.style.color = '#166534';
+
+      formLokasi.reset();
+      document.getElementById('namaLokasi').focus();
+
+      setTimeout(function() {
+        formStatus.innerHTML = '';
+      }, 3000);
+    });
+
+    btnHapusSemua.addEventListener('click', function() {
+      outputLokasi.innerHTML = '<div class="text-sm text-slate-400 italic">Belum ada lokasi. Tambahkan melalui form di samping.</div>';
+      lokasiCount = 0;
+      jumlahLokasi.innerText = 0;
+      btnHapusSemua.classList.add('hidden');
+    });
+  </script>
+
+</body>
+</html>

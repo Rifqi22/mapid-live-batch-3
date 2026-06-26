@@ -1262,13 +1262,54 @@ btnTambah.<span class="fn">addEventListener</span>(<span class="str">"click"</sp
       <table>
         <thead><tr><th>Komponen</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
         <tbody>
-          <tr><td><strong>Endpoint (URL)</strong></td><td>Alamat API di server</td><td><code>https://api.example.com/users</code></td></tr>
+          <tr><td><strong>Endpoint (URL)</strong></td><td>Alamat API di server</td><td><code>https://geoserver.mapid.io/layers_new/get_layer</code></td></tr>
           <tr><td><strong>HTTP Method</strong></td><td>Aksi yang dilakukan</td><td>GET, POST, PUT, DELETE</td></tr>
+          <tr><td><strong>Query Parameter</strong></td><td>Info tambahan di URL (setelah <code>?</code>)</td><td><code>?api_key=...&amp;layer_id=...</code></td></tr>
           <tr><td><strong>Headers</strong></td><td>Info tambahan (format data, auth)</td><td><code>Content-Type: application/json</code></td></tr>
           <tr><td><strong>Body</strong></td><td>Data yang dikirim (POST/PUT)</td><td><code>{ "nama": "Rifqi" }</code></td></tr>
           <tr><td><strong>Response</strong></td><td>Balasan dari server</td><td>Status code + data JSON</td></tr>
         </tbody>
       </table>
+
+      <h3>Contoh API Nyata: MAPID GeoServer</h3>
+      <p>Sepanjang materi ini kita akan memakai API <strong>MAPID GeoServer</strong> yang menyediakan data spasial (lokasi) dalam format <strong>GeoJSON</strong>:</p>
+      <div class="code-block"><span class="cm">// Endpoint MAPID GeoServer — mengambil 1 layer data lokasi</span>
+https://geoserver.mapid.io/layers_new/get_layer
+  ?api_key=7b8019aa264248e89e3fd5b27253132f      <span class="cm">// kunci akses API</span>
+  &amp;layer_id=69ace1b8643f7636a769ce7c             <span class="cm">// ID layer yang diambil</span>
+  &amp;project_id=69ab9fb96c69e6252868efaf           <span class="cm">// ID project</span>
+
+<span class="cm">// Bagian setelah tanda "?" disebut QUERY PARAMETER</span>
+<span class="cm">// Dipisah dengan "&amp;", formatnya: nama=nilai</span></div>
+
+      <div class="info-box purple">
+        🗺️ <strong>Apa itu GeoJSON?</strong> Format JSON khusus untuk data geografis. Berisi kumpulan <strong>features</strong> (titik/garis/area), masing-masing punya <code>geometry</code> (koordinat) dan <code>properties</code> (info seperti nama, alamat). Ini format standar di dunia WebGIS.
+      </div>
+
+      <h3>Struktur Response GeoJSON</h3>
+      <div class="code-block"><span class="cm">// Bentuk data yang dikembalikan MAPID GeoServer:</span>
+{
+  <span class="prop">"type"</span>: <span class="str">"FeatureCollection"</span>,
+  <span class="prop">"features"</span>: [                         <span class="cm">// ← array berisi semua lokasi</span>
+    {
+      <span class="prop">"id"</span>: <span class="str">"3fece687-cada-4f90..."</span>,
+      <span class="prop">"type"</span>: <span class="str">"Feature"</span>,
+      <span class="prop">"geometry"</span>: {
+        <span class="prop">"type"</span>: <span class="str">"Point"</span>,
+        <span class="prop">"coordinates"</span>: [<span class="num">107.6878304</span>, <span class="op">-</span><span class="num">6.9058563</span>]  <span class="cm">// [longitude, latitude]</span>
+      },
+      <span class="prop">"properties"</span>: {                     <span class="cm">// ← info detail lokasi</span>
+        <span class="prop">"NAMA"</span>: <span class="str">"APARTEMEN TRANSIT UJUNG BERUNG"</span>,
+        <span class="prop">"TIPE_2"</span>: <span class="str">"APARTEMEN"</span>,
+        <span class="prop">"ALAMAT"</span>: <span class="str">"JALAN A.H. NASUTION NO.117..."</span>,
+        <span class="prop">"KABKOT"</span>: <span class="str">"KOTA BANDUNG"</span>,
+        <span class="prop">"KECAMATAN"</span>: <span class="str">"UJUNGBERUNG"</span>,
+        <span class="prop">"STATUS"</span>: <span class="str">"BUKA"</span>
+      }
+    }
+    <span class="cm">// ... dan seterusnya (total 67 lokasi)</span>
+  ]
+}</div>
 
       <h3>HTTP Method</h3>
       <table>
@@ -1382,23 +1423,29 @@ btnTambah.<span class="fn">addEventListener</span>(<span class="str">"click"</sp
       <h3>Fetch API — Cara Mengambil Data</h3>
 
       <h3 style="font-size:.95rem;">Cara 1: .then() / .catch() (Promise)</h3>
-      <div class="code-block"><span class="cm">// GET — Mengambil data dari API</span>
-<span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>)
+      <div class="code-block"><span class="cm">// GET — Mengambil data lokasi dari MAPID GeoServer</span>
+<span class="kw">const</span> url <span class="op">=</span> <span class="str">"https://geoserver.mapid.io/layers_new/get_layer?api_key=7b8019aa264248e89e3fd5b27253132f&amp;layer_id=69ace1b8643f7636a769ce7c&amp;project_id=69ab9fb96c69e6252868efaf"</span>;
+
+<span class="fn">fetch</span>(url)
   .<span class="fn">then</span>(<span class="kw">function</span>(response) {
     <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Status:"</span>, response.<span class="prop">status</span>);  <span class="cm">// 200</span>
     <span class="kw">return</span> response.<span class="fn">json</span>();  <span class="cm">// konversi response ke JSON</span>
   })
   .<span class="fn">then</span>(<span class="kw">function</span>(data) {
-    <span class="obj">console</span>.<span class="fn">log</span>(data);  <span class="cm">// array berisi 10 user</span>
+    <span class="obj">console</span>.<span class="fn">log</span>(data);                 <span class="cm">// object GeoJSON FeatureCollection</span>
+    <span class="obj">console</span>.<span class="fn">log</span>(data.<span class="prop">features</span>);        <span class="cm">// array berisi 67 lokasi</span>
+    <span class="obj">console</span>.<span class="fn">log</span>(data.<span class="prop">features</span>.<span class="prop">length</span>); <span class="cm">// 67</span>
   })
   .<span class="fn">catch</span>(<span class="kw">function</span>(error) {
     <span class="obj">console</span>.<span class="fn">error</span>(<span class="str">"Terjadi kesalahan:"</span>, error);
   });</div>
 
       <h3 style="font-size:.95rem;">Cara 2: async / await (Lebih Mudah Dibaca)</h3>
-      <div class="code-block"><span class="kw">async function</span> <span class="fn">getUsers</span>() {
+      <div class="code-block"><span class="kw">const</span> url <span class="op">=</span> <span class="str">"https://geoserver.mapid.io/layers_new/get_layer?api_key=7b8019aa264248e89e3fd5b27253132f&amp;layer_id=69ace1b8643f7636a769ce7c&amp;project_id=69ab9fb96c69e6252868efaf"</span>;
+
+<span class="kw">async function</span> <span class="fn">getLokasi</span>() {
   <span class="kw">try</span> {
-    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>);
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(url);
 
     <span class="cm">// Cek apakah response OK (status 200)</span>
     <span class="kw">if</span> (<span class="op">!</span>response.<span class="prop">ok</span>) {
@@ -1406,13 +1453,18 @@ btnTambah.<span class="fn">addEventListener</span>(<span class="str">"click"</sp
     }
 
     <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
-    <span class="obj">console</span>.<span class="fn">log</span>(data);
+    <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Berhasil memuat ${data.features.length} lokasi`</span>);
+
+    <span class="cm">// Ambil lokasi pertama sebagai contoh</span>
+    <span class="kw">const</span> pertama <span class="op">=</span> data.<span class="prop">features</span>[<span class="num">0</span>];
+    <span class="obj">console</span>.<span class="fn">log</span>(pertama.<span class="prop">properties</span>.<span class="prop">NAMA</span>);          <span class="cm">// nama lokasi</span>
+    <span class="obj">console</span>.<span class="fn">log</span>(pertama.<span class="prop">geometry</span>.<span class="prop">coordinates</span>);   <span class="cm">// [lng, lat]</span>
   } <span class="kw">catch</span> (error) {
     <span class="obj">console</span>.<span class="fn">error</span>(<span class="str">"Error:"</span>, error);
   }
 }
 
-<span class="fn">getUsers</span>();  <span class="cm">// panggil function</span></div>
+<span class="fn">getLokasi</span>();  <span class="cm">// panggil function</span></div>
 
       <div class="info-box success">
         ✅ <strong>async/await</strong> adalah cara modern yang lebih mudah dibaca dibanding <code>.then()</code>. Gunakan <code>try/catch</code> untuk menangani error. Keduanya menghasilkan hal yang sama.
@@ -1420,24 +1472,32 @@ btnTambah.<span class="fn">addEventListener</span>(<span class="str">"click"</sp
 
       <hr>
 
-      <h3>Contoh: GET — Menampilkan Data ke Halaman</h3>
-      <div class="code-block"><span class="cm">// HTML: &lt;ul id="userList"&gt;&lt;/ul&gt;</span>
+      <h3>Contoh: GET — Menampilkan Data Lokasi ke Halaman</h3>
+      <div class="code-block"><span class="cm">// HTML: &lt;ul id="daftarLokasi"&gt;&lt;/ul&gt;</span>
 
-<span class="kw">async function</span> <span class="fn">tampilkanUsers</span>() {
-  <span class="kw">const</span> list <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"userList"</span>);
+<span class="kw">const</span> url <span class="op">=</span> <span class="str">"https://geoserver.mapid.io/layers_new/get_layer?api_key=7b8019aa264248e89e3fd5b27253132f&amp;layer_id=69ace1b8643f7636a769ce7c&amp;project_id=69ab9fb96c69e6252868efaf"</span>;
+
+<span class="kw">async function</span> <span class="fn">tampilkanLokasi</span>() {
+  <span class="kw">const</span> list <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"daftarLokasi"</span>);
   list.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">"&lt;li&gt;Memuat data...&lt;/li&gt;"</span>;  <span class="cm">// loading state</span>
 
   <span class="kw">try</span> {
-    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>);
-    <span class="kw">const</span> users <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(url);
+    <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
+
+    <span class="cm">// Data lokasi ada di dalam data.features (array GeoJSON)</span>
+    <span class="kw">const</span> lokasi <span class="op">=</span> data.<span class="prop">features</span>;
 
     <span class="cm">// Kosongkan loading</span>
     list.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">""</span>;
 
-    <span class="cm">// Loop setiap user dan buat elemen &lt;li&gt;</span>
-    users.<span class="fn">forEach</span>(<span class="kw">function</span>(user) {
+    <span class="cm">// Loop setiap lokasi dan buat elemen &lt;li&gt;</span>
+    lokasi.<span class="fn">forEach</span>(<span class="kw">function</span>(item) {
+      <span class="kw">const</span> nama <span class="op">=</span> item.<span class="prop">properties</span>.<span class="prop">NAMA</span> <span class="op">||</span> <span class="str">"Tanpa Nama"</span>;
+      <span class="kw">const</span> alamat <span class="op">=</span> item.<span class="prop">properties</span>.<span class="prop">KABKOT</span> <span class="op">||</span> <span class="str">"-"</span>;
+
       <span class="kw">const</span> li <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"li"</span>);
-      li.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">`${user.name} — ${user.email}`</span>;
+      li.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">`${nama} — ${alamat}`</span>;
       list.<span class="fn">appendChild</span>(li);
     });
   } <span class="kw">catch</span> (error) {
@@ -1446,20 +1506,25 @@ btnTambah.<span class="fn">addEventListener</span>(<span class="str">"click"</sp
   }
 }
 
-<span class="fn">tampilkanUsers</span>();</div>
+<span class="fn">tampilkanLokasi</span>();</div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Perhatikan <code>|| "Tanpa Nama"</code>:</strong> Tidak semua lokasi punya properti <code>NAMA</code> (ada yang kosong). Operator <code>||</code> memberi nilai cadangan jika data tidak ada, agar tidak muncul <code>undefined</code> di layar.
+      </div>
 
       <h3>Contoh: POST — Mengirim Data ke Server</h3>
+      <p>Untuk membuat data baru, gunakan <code>method: "POST"</code> beserta <code>body</code>. Contoh berikut mengirim data ke API latihan (JSONPlaceholder):</p>
       <div class="code-block"><span class="kw">async function</span> <span class="fn">kirimData</span>() {
   <span class="kw">try</span> {
-    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>, {
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/posts"</span>, {
       method: <span class="str">"POST"</span>,
       headers: {
         <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>
       },
       body: <span class="obj">JSON</span>.<span class="fn">stringify</span>({
-        name: <span class="str">"Rifqi Naufal"</span>,
-        email: <span class="str">"rifqi@email.com"</span>,
-        phone: <span class="str">"081911075017"</span>
+        nama: <span class="str">"Apartemen Baru"</span>,
+        kota: <span class="str">"Bandung"</span>,
+        koordinat: [<span class="num">107.61</span>, <span class="op">-</span><span class="num">6.90</span>]
       })
     });
 
@@ -1483,41 +1548,55 @@ btnTambah.<span class="fn">addEventListener</span>(<span class="str">"click"</sp
 <span class="kw">const</span> obj <span class="op">=</span> <span class="obj">JSON</span>.<span class="fn">parse</span>(text);
 <span class="obj">console</span>.<span class="fn">log</span>(obj.<span class="prop">nama</span>);  <span class="cm">// "Andi"</span></div>
 
-      <h3>Contoh Lengkap: Form + Fetch POST + DOM</h3>
+      <h3>Contoh Lengkap: Tombol + Fetch GET + Render Cards</h3>
+      <p>Contoh paling sering dipakai di WebGIS: klik tombol → ambil data lokasi → tampilkan sebagai card di halaman.</p>
       <div class="code-block"><span class="cm">// HTML:</span>
-<span class="cm">// &lt;form id="formTambah"&gt;</span>
-<span class="cm">//   &lt;input type="text" id="inputNama" placeholder="Nama" required&gt;</span>
-<span class="cm">//   &lt;input type="email" id="inputEmail" placeholder="Email" required&gt;</span>
-<span class="cm">//   &lt;button type="submit"&gt;Kirim&lt;/button&gt;</span>
-<span class="cm">// &lt;/form&gt;</span>
+<span class="cm">// &lt;button id="btnLoad"&gt;Muat Data Lokasi&lt;/button&gt;</span>
 <span class="cm">// &lt;div id="status"&gt;&lt;/div&gt;</span>
+<span class="cm">// &lt;div id="hasil"&gt;&lt;/div&gt;</span>
 
-<span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"formTambah"</span>).<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, <span class="kw">async function</span>(e) {
-  e.<span class="fn">preventDefault</span>();
+<span class="kw">const</span> url <span class="op">=</span> <span class="str">"https://geoserver.mapid.io/layers_new/get_layer?api_key=7b8019aa264248e89e3fd5b27253132f&amp;layer_id=69ace1b8643f7636a769ce7c&amp;project_id=69ab9fb96c69e6252868efaf"</span>;
 
-  <span class="kw">const</span> nama <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"inputNama"</span>).<span class="prop">value</span>;
-  <span class="kw">const</span> email <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"inputEmail"</span>).<span class="prop">value</span>;
+<span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"btnLoad"</span>).<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">async function</span>() {
   <span class="kw">const</span> status <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"status"</span>);
+  <span class="kw">const</span> hasil <span class="op">=</span> <span class="obj">document</span>.<span class="fn">getElementById</span>(<span class="str">"hasil"</span>);
 
-  status.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"Mengirim data..."</span>;
-  status.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"gray"</span>;
+  status.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">"⏳ Memuat data..."</span>;
+  hasil.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">""</span>;
 
   <span class="kw">try</span> {
-    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://jsonplaceholder.typicode.com/users"</span>, {
-      method: <span class="str">"POST"</span>,
-      headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span> },
-      body: <span class="obj">JSON</span>.<span class="fn">stringify</span>({ name: nama, email: email })
-    });
-
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(url);
     <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
+    <span class="kw">const</span> lokasi <span class="op">=</span> data.<span class="prop">features</span>;
 
-    status.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">`✅ Berhasil! ID: ${data.id}, Nama: ${data.name}`</span>;
-    status.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"green"</span>;
+    status.<span class="prop">innerText</span> <span class="op">=</span> <span class="str">`✅ Berhasil memuat ${lokasi.length} lokasi`</span>;
+
+    <span class="cm">// Tampilkan hanya yang punya NAMA, ambil 10 pertama</span>
+    lokasi
+      .<span class="fn">filter</span>(<span class="kw">function</span>(item) { <span class="kw">return</span> item.<span class="prop">properties</span>.<span class="prop">NAMA</span>; })
+      .<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">10</span>)
+      .<span class="fn">forEach</span>(<span class="kw">function</span>(item) {
+        <span class="kw">const</span> p <span class="op">=</span> item.<span class="prop">properties</span>;
+        <span class="kw">const</span> [lng, lat] <span class="op">=</span> item.<span class="prop">geometry</span>.<span class="prop">coordinates</span>;
+
+        <span class="kw">const</span> card <span class="op">=</span> <span class="obj">document</span>.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+        card.<span class="prop">classList</span>.<span class="fn">add</span>(<span class="str">"card"</span>);
+        card.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">`
+          &lt;h4&gt;${p.NAMA}&lt;/h4&gt;
+          &lt;p&gt;📍 ${p.KABKOT || "-"}, ${p.KECAMATAN || "-"}&lt;/p&gt;
+          &lt;p&gt;🏢 ${p.TIPE_2 || "-"} • Status: ${p.STATUS || "-"}&lt;/p&gt;
+          &lt;p&gt;🌐 ${lat.toFixed(5)}, ${lng.toFixed(5)}&lt;/p&gt;
+        `</span>;
+        hasil.<span class="fn">appendChild</span>(card);
+      });
   } <span class="kw">catch</span> (error) {
-    status.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">`❌ Gagal mengirim: ${error.message}`</span>;
-    status.<span class="prop">style</span>.<span class="prop">color</span> <span class="op">=</span> <span class="str">"red"</span>;
+    status.<span class="prop">innerHTML</span> <span class="op">=</span> <span class="str">`❌ Gagal memuat: ${error.message}`</span>;
   }
 });</div>
+
+      <div class="info-box success">
+        ✅ <strong>Pola ini menggabungkan semua materi Sesi 8:</strong> event handling (<code>click</code>), async/await, fetch GET, loading state, array methods (<code>filter</code>, <code>slice</code>, <code>forEach</code>), destructuring koordinat, dan DOM manipulation (<code>createElement</code>, <code>innerHTML</code>, <code>appendChild</code>). Inilah inti dari membangun WebGIS dengan JavaScript!
+      </div>
     </section>
 
 
@@ -1531,7 +1610,8 @@ btnTambah.<span class="fn">addEventListener</span>(<span class="str">"click"</sp
           <tr><td>MDN JavaScript</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">developer.mozilla.org</a></td><td>Dokumentasi resmi</td></tr>
           <tr><td>MDN DOM</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model" target="_blank">MDN — DOM</a></td><td>Dokumentasi DOM</td></tr>
           <tr><td>W3Schools DOM</td><td><a href="https://www.w3schools.com/js/js_htmldom.asp" target="_blank">w3schools.com/js_htmldom</a></td><td>Tutorial DOM interaktif</td></tr>
-          <tr><td>JSONPlaceholder</td><td><a href="https://jsonplaceholder.typicode.com/" target="_blank">jsonplaceholder.typicode.com</a></td><td>API dummy untuk latihan</td></tr>
+          <tr><td>MAPID GeoServer</td><td><a href="https://geoserver.mapid.io/layers_new/get_layer?api_key=7b8019aa264248e89e3fd5b27253132f&layer_id=69ace1b8643f7636a769ce7c&project_id=69ab9fb96c69e6252868efaf" target="_blank">geoserver.mapid.io</a></td><td>API data spasial (GeoJSON) untuk latihan</td></tr>
+          <tr><td>JSONPlaceholder</td><td><a href="https://jsonplaceholder.typicode.com/" target="_blank">jsonplaceholder.typicode.com</a></td><td>API dummy untuk latihan POST</td></tr>
           <tr><td>JavaScript.info</td><td><a href="https://javascript.info/" target="_blank">javascript.info</a></td><td>Tutorial JS modern & lengkap</td></tr>
         </tbody>
       </table>
