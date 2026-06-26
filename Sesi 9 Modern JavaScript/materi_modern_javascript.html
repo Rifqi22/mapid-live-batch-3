@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<!--
+  ================================================================
+  MATERI MODERN JAVASCRIPT (ES6+) — SESI 9
+  MAPID Academy — WebGIS Development Bootcamp 2026
+  ================================================================
+  Lanjutan dari Sesi 7 & 8 (JavaScript Dasar + DOM + Fetch).
+  Fokus: fitur modern ES6+ yang sering dipakai di proyek nyata.
+    - let & const (block scope)
+    - Arrow Function (mendalam)
+    - Template Literals
+    - Destructuring (array & object)
+    - Spread & Rest Operator
+    - Default Parameters
+    - Ternary & Short-circuit (||, &&, ??)
+    - Optional Chaining (?.)
+    - Array Methods Modern (map, filter, reduce, find, some, every, sort)
+    - Object Methods (keys, values, entries, shorthand)
+    - Modules (import / export)
+    - Promise & async/await (recap + Promise.all)
+  ================================================================
+-->
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Materi Modern JavaScript (ES6+) untuk MAPID Academy WebGIS Development Bootcamp 2026">
+  <meta name="author" content="MAPID Academy">
+  <title>Materi Modern JavaScript (ES6+) — MAPID Academy WebGIS Bootcamp 2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      background-color: #f0fdfa;
+      color: #1a1a2e;
+    }
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; line-height: 1.25; }
+
+    :root {
+      --teal:        #0d9488;
+      --teal-gelap:  #115e59;
+      --teal-muda:   #f0fdfa;
+      --biru-utama:  #1a56db;
+      --biru-gelap:  #1e3a5f;
+      --hijau:       #10b981;
+      --ungu:        #7c3aed;
+      --ungu-muda:   #f5f3ff;
+      --merah:       #ef4444;
+      --kuning:      #f59e0b;
+      --abu:         #64748b;
+      --putih:       #ffffff;
+      --border:      #d1e7e3;
+      --shadow-sm:   0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md:   0 4px 16px rgba(0,0,0,0.10);
+      --radius:      10px;
+      --radius-lg:   16px;
+    }
+
+    nav.navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: linear-gradient(135deg, #115e59, var(--teal));
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 56px;
+      box-shadow: var(--shadow-md);
+    }
+    nav.navbar .logo { color: var(--putih); font-weight: 800; font-size: 1.05rem; font-family: 'Poppins', sans-serif; }
+    nav.navbar .links { display: flex; gap: 0.2rem; }
+    nav.navbar a { color: rgba(255,255,255,0.82); text-decoration: none; font-size: 0.88rem; padding: 0.35rem 0.75rem; border-radius: 6px; transition: background 0.2s; }
+    nav.navbar a:hover { background: rgba(255,255,255,0.15); color: var(--putih); }
+
+    main { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    .section-card {
+      background: var(--putih); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm); padding: 2rem 2.2rem;
+      margin-bottom: 2.5rem; border-left: 5px solid var(--teal);
+    }
+    .section-card.blue   { border-left-color: var(--biru-utama); }
+    .section-card.green  { border-left-color: var(--hijau); }
+    .section-card.purple { border-left-color: var(--ungu); }
+
+    h1 { font-size: 2rem; color: var(--teal-gelap); margin-bottom: .4rem; }
+    h2 { font-size: 1.45rem; color: var(--teal-gelap); margin: 1.5rem 0 .6rem; border-bottom: 2px solid var(--border); padding-bottom: .3rem; }
+    h3 { font-size: 1.05rem; color: var(--biru-gelap); margin: 1.2rem 0 .4rem; }
+    p { margin-bottom: .8rem; color: #334155; }
+
+    .badge-sesi {
+      display: inline-block; background: var(--teal); color: var(--putih);
+      font-size: .7rem; padding: 2px 9px; border-radius: 20px;
+      vertical-align: middle; margin-left: 6px; font-weight: 600;
+    }
+    .badge-es {
+      display: inline-block; background: var(--ungu); color: var(--putih);
+      font-size: .68rem; padding: 2px 8px; border-radius: 20px;
+      vertical-align: middle; margin-left: 6px; font-weight: 600;
+    }
+
+    .code-block {
+      background: #0f2e2b; color: #e2e8f0; border-radius: 8px;
+      padding: 1rem 1.3rem; font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: .85rem; line-height: 1.7; overflow-x: auto;
+      margin: .8rem 0; white-space: pre; position: relative;
+    }
+    .code-block .kw   { color: #c084fc; }
+    .code-block .fn   { color: #5eead4; }
+    .code-block .str  { color: #fbbf24; }
+    .code-block .num  { color: #34d399; }
+    .code-block .cm   { color: #64748b; font-style: italic; }
+    .code-block .op   { color: #f472b6; }
+    .code-block .obj  { color: #38bdf8; }
+    .code-block .prop { color: #a5b4fc; }
+
+    .copy-btn {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(255,255,255,0.1); color: #cbd5e1;
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;
+      padding: 4px 8px; font-size: 0.72rem; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: background 0.2s, color 0.2s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.2); color: #ffffff; }
+
+    .info-box {
+      background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px;
+      padding: .9rem 1.1rem; margin: .8rem 0; font-size: .9rem; color: #1e40af;
+    }
+    .info-box.warning { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .info-box.success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+    .info-box.purple  { background: var(--ungu-muda); border-color: #ddd6fe; color: #5b21b6; }
+    .info-box.red     { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+    .info-box.teal    { background: #f0fdfa; border-color: #99f6e4; color: #115e59; }
+
+    table { width: 100%; border-collapse: collapse; margin: .8rem 0 1rem; font-size: .88rem; }
+    th { background: #115e59; color: var(--putih); padding: .6rem .9rem; text-align: left; }
+    td { padding: .55rem .9rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: #f0fdfa; }
+    tr:hover td { background: #ccfbf1; }
+
+    .demo-area {
+      background: #f1f5f9; border: 2px dashed #cbd5e1;
+      border-radius: 8px; padding: 1.2rem; margin: .8rem 0;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #134e4a 0%, #0d9488 50%, #2dd4bf 100%);
+      color: var(--putih); border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem; margin-bottom: 2.5rem; text-align: center;
+    }
+    .hero h1 { color: var(--putih); font-size: 2.1rem; }
+    .hero p  { color: rgba(255,255,255,.88); }
+    .hero .pills { margin-top: 1rem; }
+    .hero .pills span {
+      display: inline-block; background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 14px; border-radius: 20px; font-size: .8rem; margin: 3px;
+    }
+
+    hr { border: none; border-top: 2px solid var(--border); margin: 1.5rem 0; }
+
+    footer {
+      background: #134e4a; color: rgba(255,255,255,.75);
+      text-align: center; padding: 1.4rem 1rem; font-size: .88rem;
+    }
+    footer a { color: #5eead4; }
+
+    .output-box {
+      background: #0f172a; color: #a3e635; border-radius: 6px;
+      padding: .7rem 1rem; font-family: 'Fira Code', monospace;
+      font-size: .82rem; margin: .5rem 0; border-left: 3px solid #a3e635;
+    }
+    .output-box .label { color: #64748b; font-size: .72rem; margin-bottom: .2rem; }
+
+    .compare {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: .8rem 0;
+    }
+    .compare .old, .compare .new {
+      border-radius: 8px; padding: .8rem 1rem; font-size: .8rem;
+    }
+    .compare .old { background: #fef2f2; border: 1px solid #fecaca; }
+    .compare .new { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .compare .tag { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .3rem; }
+    .compare .old .tag { color: #b91c1c; }
+    .compare .new .tag { color: #15803d; }
+
+    @media (max-width: 600px) {
+      main { padding: 1rem .8rem 2rem; }
+      .section-card { padding: 1.2rem 1rem; }
+      nav.navbar .links { display: none; }
+      .compare { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <span class="logo" style="display: inline-flex; align-items: center; gap: 8px;">
+      <span style="background-color: white; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center;">
+        <img src="https://geo.mapid.io/static/media/logo_mapid_black.c5290e8ff135e196ce653f502d693dcf.svg" alt="MAPID Logo" style="height: 18px;" />
+      </span>
+      MAPID Academy — Modern JavaScript
+    </span>
+    <div class="links">
+      <a href="../index.html" style="font-weight: bold; color: var(--putih);">🏠 Beranda</a>
+      <a href="#intro">Intro</a>
+      <a href="#letconst">let/const</a>
+      <a href="#arrow">Arrow</a>
+      <a href="#destructuring">Destructuring</a>
+      <a href="#spread">Spread/Rest</a>
+      <a href="#ternary">Ternary</a>
+      <a href="#optional">Optional</a>
+      <a href="#array">Array Methods</a>
+      <a href="#object">Object</a>
+      <a href="#module">Module</a>
+      <a href="#async">Async</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <header class="hero">
+      <h1>🚀 Modern JavaScript (ES6+)</h1>
+      <p>MAPID Academy &mdash; WebGIS Development Bootcamp 2026</p>
+      <p>Sesi 9 &bull; Code the Map, Decode the Future</p>
+      <div style="margin-top: 1.2rem; margin-bottom: 0.5rem;">
+        <a href="../index.html" style="display: inline-block; background-color: #fff; color: #115e59; text-decoration: none; padding: 0.5rem 1.2rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🏠 Kembali ke Beranda</a>
+      </div>
+      <div class="pills">
+        <span>Arrow Function</span>
+        <span>Destructuring</span>
+        <span>Spread &amp; Rest</span>
+        <span>Optional Chaining</span>
+        <span>map / filter / reduce</span>
+        <span>Modules</span>
+        <span>async/await</span>
+      </div>
+    </header>
+
+
+    <!-- SECTION 1 — INTRO -->
+    <section class="section-card" id="intro">
+      <h2>1. Apa itu Modern JavaScript? <span class="badge-sesi">Sesi 9</span></h2>
+
+      <p><strong>Modern JavaScript</strong> mengacu pada fitur-fitur yang diperkenalkan sejak <strong>ES6 (ECMAScript 2015)</strong> dan versi setelahnya. Fitur ini membuat kode lebih <strong>singkat, mudah dibaca, dan aman</strong>.</p>
+
+      <div class="info-box teal">
+        💡 <strong>ECMAScript (ES)</strong> adalah standar resmi bahasa JavaScript. <strong>ES6 (2015)</strong> adalah update terbesar yang mengubah cara kita menulis JS. Versi setelahnya (ES2016, ES2017, ...) menambahkan fitur baru setiap tahun.
+      </div>
+
+      <h3>Kenapa Belajar Modern JavaScript?</h3>
+      <table>
+        <thead><tr><th>Manfaat</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td>Kode lebih <strong>singkat</strong></td><td>Arrow function, destructuring</td></tr>
+          <tr><td>Lebih <strong>mudah dibaca</strong></td><td>Template literal, async/await</td></tr>
+          <tr><td>Lebih <strong>aman</strong> dari error</td><td>Optional chaining, nullish coalescing</td></tr>
+          <tr><td><strong>Standar industri</strong></td><td>Hampir semua kode &amp; library modern memakainya</td></tr>
+          <tr><td>Wajib untuk <strong>framework</strong></td><td>React, Vue, Node.js semua pakai ES6+</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">
+        📌 <strong>Prasyarat:</strong> Materi ini lanjutan dari <a href="../Sesi 7 JavaScript/materi_javascript.html" style="color:#0d9488;">Sesi 7 &amp; 8 (JavaScript Dasar, DOM, Fetch)</a>. Pastikan kamu sudah paham variable, function, array, object, dan loop terlebih dahulu.
+      </div>
+    </section>
+
+
+    <!-- SECTION 2 — LET & CONST -->
+    <section class="section-card" id="letconst">
+      <h2>2. let &amp; const — Block Scope <span class="badge-es">ES6</span></h2>
+
+      <p>Di JavaScript lama, hanya ada <code>var</code>. ES6 memperkenalkan <code>let</code> dan <code>const</code> yang lebih aman karena memiliki <strong>block scope</strong>.</p>
+
+      <table>
+        <thead><tr><th>Aspek</th><th><code>var</code> (lama)</th><th><code>let</code> / <code>const</code> (modern)</th></tr></thead>
+        <tbody>
+          <tr><td>Scope</td><td>Function scope</td><td>Block scope <code>{ }</code></td></tr>
+          <tr><td>Re-deklarasi</td><td>✅ Boleh (rawan bug)</td><td>❌ Tidak boleh</td></tr>
+          <tr><td>Hoisting</td><td>✅ (jadi undefined)</td><td>❌ (error jika dipakai duluan)</td></tr>
+          <tr><td>Rekomendasi</td><td>❌ Hindari</td><td>✅ Selalu pakai ini</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// Block scope: let & const hanya hidup di dalam { }</span>
+<span class="kw">if</span> (<span class="num">true</span>) {
+  <span class="kw">let</span> pesan <span class="op">=</span> <span class="str">"Halo"</span>;
+  <span class="obj">console</span>.<span class="fn">log</span>(pesan);  <span class="cm">// "Halo" ✅</span>
+}
+<span class="cm">// console.log(pesan); ← ERROR! pesan tidak ada di luar blok</span>
+
+<span class="cm">// var "bocor" keluar dari blok (sumber bug!)</span>
+<span class="kw">if</span> (<span class="num">true</span>) {
+  <span class="kw">var</span> bocor <span class="op">=</span> <span class="str">"Aku bocor"</span>;
+}
+<span class="obj">console</span>.<span class="fn">log</span>(bocor);  <span class="cm">// "Aku bocor" ← var tidak peduli blok!</span></div>
+
+      <div class="info-box success">
+        ✅ <strong>Aturan praktis:</strong> Default pakai <code>const</code>. Pakai <code>let</code> hanya jika nilai perlu berubah. <strong>Jangan pernah</strong> pakai <code>var</code>.
+      </div>
+    </section>
+
+
+    <!-- SECTION 3 — ARROW FUNCTION -->
+    <section class="section-card" id="arrow">
+      <h2>3. Arrow Function (Mendalam) <span class="badge-es">ES6</span></h2>
+
+      <p>Arrow function adalah cara <strong>singkat</strong> menulis function. Sangat sering dipakai, terutama di dalam array methods dan callback.</p>
+
+      <h3>Evolusi Penulisan Function</h3>
+      <div class="code-block"><span class="cm">// 1. Function declaration (cara lama)</span>
+<span class="kw">function</span> <span class="fn">tambah</span>(a, b) {
+  <span class="kw">return</span> a <span class="op">+</span> b;
+}
+
+<span class="cm">// 2. Arrow function dengan body { }</span>
+<span class="kw">const</span> <span class="fn">tambah</span> <span class="op">=</span> (a, b) <span class="op">=></span> {
+  <span class="kw">return</span> a <span class="op">+</span> b;
+};
+
+<span class="cm">// 3. Arrow function singkat (implicit return — tanpa { } dan return)</span>
+<span class="kw">const</span> <span class="fn">tambah</span> <span class="op">=</span> (a, b) <span class="op">=></span> a <span class="op">+</span> b;
+
+<span class="cm">// 4. Satu parameter — kurung boleh dihilangkan</span>
+<span class="kw">const</span> <span class="fn">kuadrat</span> <span class="op">=</span> n <span class="op">=></span> n <span class="op">*</span> n;
+
+<span class="cm">// 5. Tanpa parameter — kurung wajib kosong</span>
+<span class="kw">const</span> <span class="fn">sapa</span> <span class="op">=</span> () <span class="op">=></span> <span class="str">"Halo Dunia"</span>;
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">tambah</span>(<span class="num">3</span>, <span class="num">4</span>));  <span class="cm">// 7</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">kuadrat</span>(<span class="num">5</span>));   <span class="cm">// 25</span></div>
+
+      <h3>Implicit Return untuk Object</h3>
+      <div class="code-block"><span class="cm">// Jika ingin return OBJECT langsung, bungkus dengan kurung ( )</span>
+<span class="kw">const</span> <span class="fn">buatLokasi</span> <span class="op">=</span> (nama, kota) <span class="op">=></span> ({ nama: nama, kota: kota });
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">buatLokasi</span>(<span class="str">"Monas"</span>, <span class="str">"Jakarta"</span>));
+<span class="cm">// { nama: "Monas", kota: "Jakarta" }</span>
+
+<span class="cm">// Tanpa kurung ( ), { } dianggap body function → error/undefined</span></div>
+
+      <h3>Kapan Pakai Arrow Function?</h3>
+      <div class="compare">
+        <div class="old">
+          <div class="tag">Function biasa</div>
+          <code>arr.forEach(function(x) {<br>&nbsp;&nbsp;console.log(x);<br>});</code>
+        </div>
+        <div class="new">
+          <div class="tag">Arrow (lebih ringkas)</div>
+          <code>arr.forEach(x => {<br>&nbsp;&nbsp;console.log(x);<br>});</code>
+        </div>
+      </div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Catatan:</strong> Arrow function tidak punya <code>this</code> sendiri (mewarisi dari luar). Untuk materi dasar, cukup tahu arrow function sangat cocok untuk <strong>callback</strong> singkat seperti di <code>map</code>, <code>filter</code>, <code>forEach</code>.
+      </div>
+    </section>
+
+
+    <!-- SECTION 4 — DESTRUCTURING -->
+    <section class="section-card" id="destructuring">
+      <h2>4. Destructuring <span class="badge-es">ES6</span></h2>
+
+      <p><strong>Destructuring</strong> adalah cara cepat "membongkar" isi array atau object ke dalam variabel. Sangat berguna untuk data GeoJSON!</p>
+
+      <h3>A. Array Destructuring</h3>
+      <div class="code-block"><span class="cm">// Cara lama</span>
+<span class="kw">const</span> koordinat <span class="op">=</span> [<span class="num">107.61</span>, <span class="op">-</span><span class="num">6.90</span>];
+<span class="kw">const</span> lng <span class="op">=</span> koordinat[<span class="num">0</span>];
+<span class="kw">const</span> lat <span class="op">=</span> koordinat[<span class="num">1</span>];
+
+<span class="cm">// Cara modern — destructuring (urutan sesuai posisi)</span>
+<span class="kw">const</span> [lng, lat] <span class="op">=</span> [<span class="num">107.61</span>, <span class="op">-</span><span class="num">6.90</span>];
+<span class="obj">console</span>.<span class="fn">log</span>(lng);  <span class="cm">// 107.61</span>
+<span class="obj">console</span>.<span class="fn">log</span>(lat);  <span class="cm">// -6.90</span>
+
+<span class="cm">// Contoh nyata di GeoJSON:</span>
+<span class="kw">const</span> feature <span class="op">=</span> { geometry: { coordinates: [<span class="num">107.68</span>, <span class="op">-</span><span class="num">6.90</span>] } };
+<span class="kw">const</span> [bujur, lintang] <span class="op">=</span> feature.<span class="prop">geometry</span>.<span class="prop">coordinates</span>;</div>
+
+      <h3>B. Object Destructuring</h3>
+      <div class="code-block"><span class="kw">const</span> lokasi <span class="op">=</span> {
+  nama: <span class="str">"Apartemen Transit"</span>,
+  kota: <span class="str">"Bandung"</span>,
+  status: <span class="str">"BUKA"</span>
+};
+
+<span class="cm">// Cara lama</span>
+<span class="kw">const</span> nama <span class="op">=</span> lokasi.<span class="prop">nama</span>;
+<span class="kw">const</span> kota <span class="op">=</span> lokasi.<span class="prop">kota</span>;
+
+<span class="cm">// Cara modern — destructuring (nama variabel = nama key)</span>
+<span class="kw">const</span> { nama, kota, status } <span class="op">=</span> lokasi;
+<span class="obj">console</span>.<span class="fn">log</span>(nama);    <span class="cm">// "Apartemen Transit"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(kota);    <span class="cm">// "Bandung"</span>
+
+<span class="cm">// Ganti nama variabel dengan :</span>
+<span class="kw">const</span> { nama: namaLokasi } <span class="op">=</span> lokasi;
+<span class="obj">console</span>.<span class="fn">log</span>(namaLokasi);  <span class="cm">// "Apartemen Transit"</span>
+
+<span class="cm">// Nilai default jika key tidak ada</span>
+<span class="kw">const</span> { telepon <span class="op">=</span> <span class="str">"-"</span> } <span class="op">=</span> lokasi;
+<span class="obj">console</span>.<span class="fn">log</span>(telepon);  <span class="cm">// "-" (karena lokasi tidak punya telepon)</span></div>
+
+      <h3>C. Destructuring di Parameter Function</h3>
+      <div class="code-block"><span class="cm">// Langsung "bongkar" object di parameter</span>
+<span class="kw">function</span> <span class="fn">tampilLokasi</span>({ nama, kota, status }) {
+  <span class="kw">return</span> <span class="str">`${nama} di ${kota} — ${status}`</span>;
+}
+
+<span class="kw">const</span> data <span class="op">=</span> { nama: <span class="str">"Monas"</span>, kota: <span class="str">"Jakarta"</span>, status: <span class="str">"BUKA"</span> };
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">tampilLokasi</span>(data));  <span class="cm">// "Monas di Jakarta — BUKA"</span></div>
+
+      <div class="info-box success">
+        ✅ <strong>Sangat berguna untuk GeoJSON:</strong> <code>const { NAMA, KABKOT, STATUS } = feature.properties;</code> langsung mengambil 3 properti sekaligus dalam satu baris.
+      </div>
+    </section>
+
+
+    <!-- SECTION 5 — SPREAD & REST -->
+    <section class="section-card" id="spread">
+      <h2>5. Spread &amp; Rest Operator (...) <span class="badge-es">ES6</span></h2>
+
+      <p>Tanda tiga titik <code>...</code> punya 2 fungsi tergantung konteks: <strong>Spread</strong> (memecah) dan <strong>Rest</strong> (mengumpulkan).</p>
+
+      <h3>A. Spread — Memecah / Menyalin</h3>
+      <div class="code-block"><span class="cm">// Menggabungkan array</span>
+<span class="kw">const</span> jakarta <span class="op">=</span> [<span class="str">"Monas"</span>, <span class="str">"Ancol"</span>];
+<span class="kw">const</span> bandung <span class="op">=</span> [<span class="str">"Dago"</span>, <span class="str">"Lembang"</span>];
+<span class="kw">const</span> semua <span class="op">=</span> [<span class="op">...</span>jakarta, <span class="op">...</span>bandung];
+<span class="obj">console</span>.<span class="fn">log</span>(semua);  <span class="cm">// ["Monas", "Ancol", "Dago", "Lembang"]</span>
+
+<span class="cm">// Menyalin array (copy, bukan referensi)</span>
+<span class="kw">const</span> salinan <span class="op">=</span> [<span class="op">...</span>jakarta];
+
+<span class="cm">// Menggabungkan / menyalin object</span>
+<span class="kw">const</span> lokasi <span class="op">=</span> { nama: <span class="str">"Monas"</span>, kota: <span class="str">"Jakarta"</span> };
+<span class="kw">const</span> lokasiLengkap <span class="op">=</span> { <span class="op">...</span>lokasi, status: <span class="str">"BUKA"</span> };
+<span class="obj">console</span>.<span class="fn">log</span>(lokasiLengkap);
+<span class="cm">// { nama: "Monas", kota: "Jakarta", status: "BUKA" }</span>
+
+<span class="cm">// Update sebagian property (override)</span>
+<span class="kw">const</span> updated <span class="op">=</span> { <span class="op">...</span>lokasi, kota: <span class="str">"Bandung"</span> };
+<span class="cm">// { nama: "Monas", kota: "Bandung" }</span></div>
+
+      <h3>B. Rest — Mengumpulkan Sisa</h3>
+      <div class="code-block"><span class="cm">// Rest di destructuring array</span>
+<span class="kw">const</span> [pertama, <span class="op">...</span>sisanya] <span class="op">=</span> [<span class="str">"TJ"</span>, <span class="str">"MRT"</span>, <span class="str">"LRT"</span>, <span class="str">"KRL"</span>];
+<span class="obj">console</span>.<span class="fn">log</span>(pertama);  <span class="cm">// "TJ"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(sisanya);  <span class="cm">// ["MRT", "LRT", "KRL"]</span>
+
+<span class="cm">// Rest di parameter function (jumlah argumen bebas)</span>
+<span class="kw">function</span> <span class="fn">jumlahkan</span>(<span class="op">...</span>angka) {
+  <span class="kw">return</span> angka.<span class="fn">reduce</span>((total, n) <span class="op">=></span> total <span class="op">+</span> n, <span class="num">0</span>);
+}
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">jumlahkan</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>));        <span class="cm">// 6</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">jumlahkan</span>(<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>)); <span class="cm">// 100</span></div>
+
+      <div class="info-box teal">
+        💡 <strong>Cara mengingat:</strong> <code>...</code> di sisi <strong>kanan</strong> (saat membuat array/object) = <strong>Spread</strong> (memecah). <code>...</code> di sisi <strong>kiri</strong> (saat destructuring/parameter) = <strong>Rest</strong> (mengumpulkan).
+      </div>
+    </section>
+
+
+    <!-- SECTION 6 — DEFAULT PARAM + TERNARY + SHORT CIRCUIT -->
+    <section class="section-card" id="ternary">
+      <h2>6. Default Parameter, Ternary &amp; Short-circuit <span class="badge-es">ES6</span></h2>
+
+      <h3>A. Default Parameter</h3>
+      <div class="code-block"><span class="cm">// Beri nilai default jika argumen tidak dikirim</span>
+<span class="kw">function</span> <span class="fn">sapa</span>(nama <span class="op">=</span> <span class="str">"Tamu"</span>, kota <span class="op">=</span> <span class="str">"Indonesia"</span>) {
+  <span class="kw">return</span> <span class="str">`Halo ${nama} dari ${kota}`</span>;
+}
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">sapa</span>(<span class="str">"Rifqi"</span>, <span class="str">"Bandung"</span>));  <span class="cm">// "Halo Rifqi dari Bandung"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">sapa</span>(<span class="str">"Andi"</span>));            <span class="cm">// "Halo Andi dari Indonesia"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">sapa</span>());                  <span class="cm">// "Halo Tamu dari Indonesia"</span></div>
+
+      <h3>B. Ternary Operator (if/else singkat)</h3>
+      <div class="code-block"><span class="cm">// Struktur: kondisi ? nilai_jika_true : nilai_jika_false</span>
+
+<span class="kw">const</span> nilai <span class="op">=</span> <span class="num">85</span>;
+
+<span class="cm">// Cara lama</span>
+<span class="kw">let</span> hasil;
+<span class="kw">if</span> (nilai <span class="op">>=</span> <span class="num">70</span>) {
+  hasil <span class="op">=</span> <span class="str">"Lulus"</span>;
+} <span class="kw">else</span> {
+  hasil <span class="op">=</span> <span class="str">"Tidak Lulus"</span>;
+}
+
+<span class="cm">// Cara modern — ternary (1 baris)</span>
+<span class="kw">const</span> hasil <span class="op">=</span> nilai <span class="op">>=</span> <span class="num">70</span> <span class="op">?</span> <span class="str">"Lulus"</span> : <span class="str">"Tidak Lulus"</span>;
+<span class="obj">console</span>.<span class="fn">log</span>(hasil);  <span class="cm">// "Lulus"</span>
+
+<span class="cm">// Contoh WebGIS: badge status</span>
+<span class="kw">const</span> status <span class="op">=</span> <span class="str">"BUKA"</span>;
+<span class="kw">const</span> warna <span class="op">=</span> status <span class="op">===</span> <span class="str">"BUKA"</span> <span class="op">?</span> <span class="str">"green"</span> : <span class="str">"red"</span>;</div>
+
+      <h3>C. Short-circuit (|| dan &&)</h3>
+      <div class="code-block"><span class="cm">// || (OR) — pakai nilai cadangan jika kiri "falsy" (kosong/null/undefined)</span>
+<span class="kw">const</span> nama <span class="op">=</span> <span class="str">""</span>;
+<span class="kw">const</span> tampil <span class="op">=</span> nama <span class="op">||</span> <span class="str">"Tanpa Nama"</span>;
+<span class="obj">console</span>.<span class="fn">log</span>(tampil);  <span class="cm">// "Tanpa Nama"</span>
+
+<span class="cm">// Sangat berguna untuk data API yang kadang kosong:</span>
+<span class="kw">const</span> telepon <span class="op">=</span> data.<span class="prop">TELEPON</span> <span class="op">||</span> <span class="str">"Tidak tersedia"</span>;
+
+<span class="cm">// && (AND) — jalankan kanan hanya jika kiri "truthy"</span>
+<span class="kw">const</span> user <span class="op">=</span> { nama: <span class="str">"Rifqi"</span> };
+user <span class="op">&&</span> <span class="obj">console</span>.<span class="fn">log</span>(user.<span class="prop">nama</span>);  <span class="cm">// "Rifqi" (karena user ada)</span></div>
+    </section>
+
+
+    <!-- SECTION 7 — OPTIONAL CHAINING + NULLISH -->
+    <section class="section-card purple" id="optional">
+      <h2>7. Optional Chaining &amp; Nullish Coalescing <span class="badge-es">ES2020</span></h2>
+
+      <h3>A. Optional Chaining (?.)</h3>
+      <p>Mencegah error saat mengakses property dari object yang mungkin <code>undefined</code>/<code>null</code>. Sangat sering dipakai untuk data API!</p>
+
+      <div class="code-block"><span class="kw">const</span> feature <span class="op">=</span> {
+  properties: { NAMA: <span class="str">"Monas"</span> }
+  <span class="cm">// catatan: tidak ada "geometry"</span>
+};
+
+<span class="cm">// ❌ Cara lama — ERROR jika geometry tidak ada</span>
+<span class="cm">// console.log(feature.geometry.coordinates);</span>
+<span class="cm">// → TypeError: Cannot read properties of undefined</span>
+
+<span class="cm">// ✅ Optional chaining — aman, return undefined jika tidak ada</span>
+<span class="obj">console</span>.<span class="fn">log</span>(feature.<span class="prop">geometry</span><span class="op">?.</span><span class="prop">coordinates</span>);  <span class="cm">// undefined (tidak error)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(feature.<span class="prop">properties</span><span class="op">?.</span><span class="prop">NAMA</span>);       <span class="cm">// "Monas"</span>
+
+<span class="cm">// Bisa berlapis & dengan method/array</span>
+<span class="obj">console</span>.<span class="fn">log</span>(data<span class="op">?.</span><span class="prop">features</span><span class="op">?.</span>[<span class="num">0</span>]<span class="op">?.</span><span class="prop">properties</span><span class="op">?.</span><span class="prop">NAMA</span>);</div>
+
+      <h3>B. Nullish Coalescing (??)</h3>
+      <p>Mirip <code>||</code>, tapi hanya memberi nilai cadangan jika kiri benar-benar <code>null</code> atau <code>undefined</code> (bukan <code>0</code> atau <code>""</code>).</p>
+
+      <div class="code-block"><span class="cm">// Perbedaan || vs ??</span>
+<span class="kw">const</span> jumlah <span class="op">=</span> <span class="num">0</span>;
+
+<span class="obj">console</span>.<span class="fn">log</span>(jumlah <span class="op">||</span> <span class="num">10</span>);  <span class="cm">// 10 ← salah! 0 dianggap falsy</span>
+<span class="obj">console</span>.<span class="fn">log</span>(jumlah <span class="op">??</span> <span class="num">10</span>);  <span class="cm">// 0  ← benar! 0 itu nilai valid</span>
+
+<span class="cm">// ?? hanya ganti jika null / undefined</span>
+<span class="kw">const</span> rating <span class="op">=</span> <span class="num">0</span>;
+<span class="kw">const</span> tampil <span class="op">=</span> rating <span class="op">??</span> <span class="str">"Belum dinilai"</span>;
+<span class="obj">console</span>.<span class="fn">log</span>(tampil);  <span class="cm">// 0 (rating valid, tetap dipakai)</span></div>
+
+      <div class="info-box purple">
+        🛡️ <strong>Kombinasi pamungkas untuk data API:</strong><br>
+        <code>const nama = feature?.properties?.NAMA ?? "Tanpa Nama";</code><br>
+        Aman dari error <strong>dan</strong> punya nilai cadangan. Ini pola yang sangat sering dipakai di WebGIS.
+      </div>
+    </section>
+
+
+    <!-- SECTION 8 — ARRAY METHODS -->
+    <section class="section-card green" id="array">
+      <h2>8. Array Methods Modern <span class="badge-es">ES6+</span></h2>
+
+      <p>Inti dari mengolah data di JavaScript modern. Semua menerima <strong>callback</strong> (biasanya arrow function) dan <strong>tidak mengubah</strong> array asli (kecuali <code>sort</code>).</p>
+
+      <table>
+        <thead><tr><th>Method</th><th>Fungsi</th><th>Mengembalikan</th></tr></thead>
+        <tbody>
+          <tr><td><code>map()</code></td><td>Ubah setiap item</td><td>Array baru (ukuran sama)</td></tr>
+          <tr><td><code>filter()</code></td><td>Saring item sesuai kondisi</td><td>Array baru (lebih kecil)</td></tr>
+          <tr><td><code>find()</code></td><td>Cari 1 item pertama yang cocok</td><td>1 item (atau undefined)</td></tr>
+          <tr><td><code>reduce()</code></td><td>Gabungkan jadi 1 nilai</td><td>1 nilai (angka/object/dll)</td></tr>
+          <tr><td><code>some()</code></td><td>Cek apakah ADA yang cocok</td><td>true / false</td></tr>
+          <tr><td><code>every()</code></td><td>Cek apakah SEMUA cocok</td><td>true / false</td></tr>
+          <tr><td><code>sort()</code></td><td>Urutkan array</td><td>Array terurut (ubah asli!)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>A. map() — Transformasi Data</h3>
+      <div class="code-block"><span class="kw">const</span> angka <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>];
+
+<span class="kw">const</span> kuadrat <span class="op">=</span> angka.<span class="fn">map</span>(n <span class="op">=></span> n <span class="op">*</span> n);
+<span class="obj">console</span>.<span class="fn">log</span>(kuadrat);  <span class="cm">// [1, 4, 9, 16]</span>
+
+<span class="cm">// Contoh WebGIS: ambil hanya nama dari array lokasi</span>
+<span class="kw">const</span> lokasi <span class="op">=</span> [
+  { nama: <span class="str">"Monas"</span>, kota: <span class="str">"Jakarta"</span> },
+  { nama: <span class="str">"Dago"</span>, kota: <span class="str">"Bandung"</span> }
+];
+<span class="kw">const</span> namaSaja <span class="op">=</span> lokasi.<span class="fn">map</span>(loc <span class="op">=></span> loc.<span class="prop">nama</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(namaSaja);  <span class="cm">// ["Monas", "Dago"]</span></div>
+
+      <h3>B. filter() — Menyaring Data</h3>
+      <div class="code-block"><span class="kw">const</span> angka <span class="op">=</span> [<span class="num">5</span>, <span class="num">12</span>, <span class="num">8</span>, <span class="num">30</span>, <span class="num">3</span>];
+<span class="kw">const</span> besar <span class="op">=</span> angka.<span class="fn">filter</span>(n <span class="op">=></span> n <span class="op">></span> <span class="num">10</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(besar);  <span class="cm">// [12, 30]</span>
+
+<span class="cm">// Contoh WebGIS: hanya lokasi yang BUKA</span>
+<span class="kw">const</span> bukaSaja <span class="op">=</span> lokasi.<span class="fn">filter</span>(loc <span class="op">=></span> loc.<span class="prop">status</span> <span class="op">===</span> <span class="str">"BUKA"</span>);</div>
+
+      <h3>C. find() — Mencari Satu Item</h3>
+      <div class="code-block"><span class="kw">const</span> lokasi <span class="op">=</span> [
+  { id: <span class="num">1</span>, nama: <span class="str">"Monas"</span> },
+  { id: <span class="num">2</span>, nama: <span class="str">"Ancol"</span> }
+];
+
+<span class="kw">const</span> hasil <span class="op">=</span> lokasi.<span class="fn">find</span>(loc <span class="op">=></span> loc.<span class="prop">id</span> <span class="op">===</span> <span class="num">2</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(hasil);  <span class="cm">// { id: 2, nama: "Ancol" }</span></div>
+
+      <h3>D. reduce() — Menggabungkan Jadi Satu Nilai</h3>
+      <div class="code-block"><span class="cm">// Struktur: reduce((akumulator, item) => ..., nilaiAwal)</span>
+<span class="kw">const</span> angka <span class="op">=</span> [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+
+<span class="kw">const</span> total <span class="op">=</span> angka.<span class="fn">reduce</span>((acc, n) <span class="op">=></span> acc <span class="op">+</span> n, <span class="num">0</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(total);  <span class="cm">// 60</span>
+
+<span class="cm">// Langkah: acc=0+10 → 10, acc=10+20 → 30, acc=30+30 → 60</span></div>
+
+      <h3>E. some() &amp; every()</h3>
+      <div class="code-block"><span class="kw">const</span> nilai <span class="op">=</span> [<span class="num">80</span>, <span class="num">90</span>, <span class="num">65</span>];
+
+<span class="obj">console</span>.<span class="fn">log</span>(nilai.<span class="fn">some</span>(n <span class="op">=></span> n <span class="op">&lt;</span> <span class="num">70</span>));   <span class="cm">// true  — ada yang di bawah 70</span>
+<span class="obj">console</span>.<span class="fn">log</span>(nilai.<span class="fn">every</span>(n <span class="op">=></span> n <span class="op">>=</span> <span class="num">70</span>)); <span class="cm">// false — tidak semua &gt;= 70</span></div>
+
+      <h3>F. Method Chaining (Menggabungkan)</h3>
+      <div class="code-block"><span class="cm">// Kekuatan asli array methods: bisa dirangkai!</span>
+<span class="kw">const</span> lokasi <span class="op">=</span> [
+  { nama: <span class="str">"Monas"</span>, kota: <span class="str">"Jakarta"</span>, status: <span class="str">"BUKA"</span> },
+  { nama: <span class="str">"Dago"</span>, kota: <span class="str">"Bandung"</span>, status: <span class="str">"TUTUP"</span> },
+  { nama: <span class="str">"Ancol"</span>, kota: <span class="str">"Jakarta"</span>, status: <span class="str">"BUKA"</span> }
+];
+
+<span class="kw">const</span> hasil <span class="op">=</span> lokasi
+  .<span class="fn">filter</span>(loc <span class="op">=></span> loc.<span class="prop">status</span> <span class="op">===</span> <span class="str">"BUKA"</span>)   <span class="cm">// hanya yang BUKA</span>
+  .<span class="fn">map</span>(loc <span class="op">=></span> loc.<span class="prop">nama</span>);                   <span class="cm">// ambil namanya saja</span>
+
+<span class="obj">console</span>.<span class="fn">log</span>(hasil);  <span class="cm">// ["Monas", "Ancol"]</span></div>
+
+      <div class="info-box success">
+        ✅ <strong>Inti pengolahan data WebGIS:</strong> Ambil GeoJSON → <code>filter()</code> lokasi sesuai kriteria → <code>map()</code> jadi format yang dibutuhkan → tampilkan ke DOM. Method chaining membuat kode sangat ringkas.
+      </div>
+    </section>
+
+
+    <!-- SECTION 9 — OBJECT -->
+    <section class="section-card" id="object">
+      <h2>9. Object Methods &amp; Shorthand <span class="badge-es">ES6+</span></h2>
+
+      <h3>A. Property Shorthand</h3>
+      <div class="code-block"><span class="kw">const</span> nama <span class="op">=</span> <span class="str">"Monas"</span>;
+<span class="kw">const</span> kota <span class="op">=</span> <span class="str">"Jakarta"</span>;
+
+<span class="cm">// Cara lama</span>
+<span class="kw">const</span> lokasi <span class="op">=</span> { nama: nama, kota: kota };
+
+<span class="cm">// Cara modern — jika nama key = nama variabel, cukup tulis sekali</span>
+<span class="kw">const</span> lokasi <span class="op">=</span> { nama, kota };
+<span class="obj">console</span>.<span class="fn">log</span>(lokasi);  <span class="cm">// { nama: "Monas", kota: "Jakarta" }</span></div>
+
+      <h3>B. Object.keys / values / entries</h3>
+      <div class="code-block"><span class="kw">const</span> lokasi <span class="op">=</span> { nama: <span class="str">"Monas"</span>, kota: <span class="str">"Jakarta"</span>, status: <span class="str">"BUKA"</span> };
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="obj">Object</span>.<span class="fn">keys</span>(lokasi));    <span class="cm">// ["nama", "kota", "status"]</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="obj">Object</span>.<span class="fn">values</span>(lokasi));  <span class="cm">// ["Monas", "Jakarta", "BUKA"]</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="obj">Object</span>.<span class="fn">entries</span>(lokasi)); <span class="cm">// [["nama","Monas"], ["kota","Jakarta"], ...]</span>
+
+<span class="cm">// Loop semua property object</span>
+<span class="obj">Object</span>.<span class="fn">entries</span>(lokasi).<span class="fn">forEach</span>((<span class="op">[</span>key, value<span class="op">]</span>) <span class="op">=></span> {
+  <span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`${key}: ${value}`</span>);
+});
+<span class="cm">// nama: Monas</span>
+<span class="cm">// kota: Jakarta</span>
+<span class="cm">// status: BUKA</span></div>
+
+      <div class="info-box teal">
+        💡 <code>Object.entries()</code> + destructuring <code>[key, value]</code> sangat berguna untuk menampilkan <strong>semua properti</strong> sebuah feature GeoJSON secara otomatis (misal di popup peta).
+      </div>
+    </section>
+
+
+    <!-- SECTION 10 — MODULES -->
+    <section class="section-card blue" id="module">
+      <h2>10. Modules (import / export) <span class="badge-es">ES6</span></h2>
+
+      <p>Module memungkinkan kita memecah kode menjadi <strong>file-file terpisah</strong> yang saling terhubung. Membuat kode lebih rapi dan mudah dikelola.</p>
+
+      <h3>A. Named Export</h3>
+      <div class="code-block"><span class="cm">// === file: utils.js ===</span>
+<span class="kw">export</span> <span class="kw">const</span> PI <span class="op">=</span> <span class="num">3.14</span>;
+
+<span class="kw">export</span> <span class="kw">function</span> <span class="fn">hitungJarak</span>(a, b) {
+  <span class="kw">return</span> <span class="obj">Math</span>.<span class="fn">abs</span>(a <span class="op">-</span> b);
+}
+
+<span class="cm">// === file: main.js ===</span>
+<span class="kw">import</span> { PI, hitungJarak } <span class="kw">from</span> <span class="str">"./utils.js"</span>;
+
+<span class="obj">console</span>.<span class="fn">log</span>(PI);                  <span class="cm">// 3.14</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">hitungJarak</span>(<span class="num">10</span>, <span class="num">3</span>));  <span class="cm">// 7</span></div>
+
+      <h3>B. Default Export</h3>
+      <div class="code-block"><span class="cm">// === file: peta.js ===</span>
+<span class="kw">export</span> <span class="kw">default</span> <span class="kw">function</span> <span class="fn">buatPeta</span>() {
+  <span class="kw">return</span> <span class="str">"Peta dibuat!"</span>;
+}
+
+<span class="cm">// === file: main.js ===</span>
+<span class="cm">// default export — nama saat import bebas, tanpa { }</span>
+<span class="kw">import</span> buatPeta <span class="kw">from</span> <span class="str">"./peta.js"</span>;
+
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="fn">buatPeta</span>());  <span class="cm">// "Peta dibuat!"</span></div>
+
+      <div class="code-block"><span class="cm">// Di HTML, script module ditandai type="module"</span>
+<span class="cm">&lt;script type="module" src="main.js"&gt;&lt;/script&gt;</span></div>
+
+      <div class="info-box">
+        📦 Library modern seperti <strong>Leaflet</strong>, <strong>Firebase</strong>, dan framework seperti <strong>React</strong> semuanya memakai sistem module ini. Kamu sudah melihatnya di config Firebase: <code>import { initializeApp } from "..."</code>.
+      </div>
+    </section>
+
+
+    <!-- SECTION 11 — ASYNC RECAP + PROMISE.ALL -->
+    <section class="section-card purple" id="async">
+      <h2>11. Promise &amp; async/await (Lanjutan) <span class="badge-es">ES6+</span></h2>
+
+      <p>Di Sesi 8 kita sudah pakai <code>async/await</code> untuk fetch. Berikut pemahaman lebih dalam tentang <strong>Promise</strong> yang ada di baliknya.</p>
+
+      <h3>A. Apa itu Promise?</h3>
+      <p><strong>Promise</strong> adalah "janji" hasil dari operasi asynchronous. Punya 3 status: <strong>pending</strong> (menunggu), <strong>fulfilled</strong> (berhasil), <strong>rejected</strong> (gagal).</p>
+
+      <div class="code-block"><span class="cm">// fetch() mengembalikan sebuah Promise</span>
+<span class="kw">const</span> promise <span class="op">=</span> <span class="fn">fetch</span>(url);
+<span class="obj">console</span>.<span class="fn">log</span>(promise);  <span class="cm">// Promise { &lt;pending&gt; }</span>
+
+<span class="cm">// .then() = saat berhasil, .catch() = saat gagal</span>
+<span class="fn">fetch</span>(url)
+  .<span class="fn">then</span>(response <span class="op">=></span> response.<span class="fn">json</span>())
+  .<span class="fn">then</span>(data <span class="op">=></span> <span class="obj">console</span>.<span class="fn">log</span>(data))
+  .<span class="fn">catch</span>(error <span class="op">=></span> <span class="obj">console</span>.<span class="fn">error</span>(error));</div>
+
+      <h3>B. async/await (Cara Modern)</h3>
+      <div class="code-block"><span class="kw">async function</span> <span class="fn">ambilLokasi</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(url);
+    <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> response.<span class="fn">json</span>();
+
+    <span class="cm">// destructuring + optional chaining + array methods (gabungan ES6+!)</span>
+    <span class="kw">const</span> nama <span class="op">=</span> data<span class="op">?.</span><span class="prop">features</span>
+      <span class="op">?.</span><span class="fn">filter</span>(f <span class="op">=></span> f.<span class="prop">properties</span><span class="op">?.</span><span class="prop">NAMA</span>)
+      .<span class="fn">map</span>(f <span class="op">=></span> f.<span class="prop">properties</span>.<span class="prop">NAMA</span>);
+
+    <span class="obj">console</span>.<span class="fn">log</span>(nama);
+  } <span class="kw">catch</span> (error) {
+    <span class="obj">console</span>.<span class="fn">error</span>(<span class="str">"Gagal:"</span>, error);
+  }
+}</div>
+
+      <h3>C. Promise.all — Beberapa Request Sekaligus</h3>
+      <div class="code-block"><span class="cm">// Jalankan beberapa fetch BERSAMAAN (lebih cepat!)</span>
+<span class="kw">async function</span> <span class="fn">ambilSemua</span>() {
+  <span class="kw">const</span> [lokasi, cuaca] <span class="op">=</span> <span class="kw">await</span> <span class="obj">Promise</span>.<span class="fn">all</span>([
+    <span class="fn">fetch</span>(urlLokasi).<span class="fn">then</span>(r <span class="op">=></span> r.<span class="fn">json</span>()),
+    <span class="fn">fetch</span>(urlCuaca).<span class="fn">then</span>(r <span class="op">=></span> r.<span class="fn">json</span>())
+  ]);
+
+  <span class="obj">console</span>.<span class="fn">log</span>(lokasi, cuaca);  <span class="cm">// kedua data sudah siap</span>
+}
+
+<span class="cm">// Tanpa Promise.all: harus menunggu satu per satu (lebih lambat)</span></div>
+
+      <div class="info-box success">
+        ✅ <strong>Rangkuman:</strong> Modern JavaScript membuat kode WebGIS lebih ringkas dan aman. Gabungan <code>async/await</code> + <code>destructuring</code> + <code>optional chaining</code> + <code>array methods</code> adalah pola standar untuk mengambil dan mengolah data peta dari API.
+      </div>
+    </section>
+
+
+    <!-- SECTION 12 — RANGKUMAN -->
+    <section class="section-card green" id="rangkuman">
+      <h2>12. Rangkuman Modern JavaScript</h2>
+
+      <table>
+        <thead><tr><th>Fitur</th><th>Gunanya</th><th>Contoh Singkat</th></tr></thead>
+        <tbody>
+          <tr><td><code>let</code> / <code>const</code></td><td>Variabel block scope</td><td><code>const x = 1;</code></td></tr>
+          <tr><td>Arrow function</td><td>Function singkat</td><td><code>n =&gt; n * 2</code></td></tr>
+          <tr><td>Template literal</td><td>String + variabel</td><td><code>`Halo ${nama}`</code></td></tr>
+          <tr><td>Destructuring</td><td>Bongkar array/object</td><td><code>const {nama} = obj;</code></td></tr>
+          <tr><td>Spread / Rest</td><td>Pecah / kumpulkan</td><td><code>[...a, ...b]</code></td></tr>
+          <tr><td>Default param</td><td>Nilai default argumen</td><td><code>(x = 0) =&gt; ...</code></td></tr>
+          <tr><td>Ternary</td><td>if/else singkat</td><td><code>a ? b : c</code></td></tr>
+          <tr><td>Optional chaining</td><td>Akses aman</td><td><code>obj?.prop</code></td></tr>
+          <tr><td>Nullish (??)</td><td>Default jika null</td><td><code>x ?? "default"</code></td></tr>
+          <tr><td>map / filter / reduce</td><td>Olah array</td><td><code>arr.map(...)</code></td></tr>
+          <tr><td>import / export</td><td>Pisah file (module)</td><td><code>import x from ...</code></td></tr>
+          <tr><td>async / await</td><td>Kode async rapi</td><td><code>await fetch(...)</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Referensi Belajar</h3>
+      <table>
+        <thead><tr><th>Resource</th><th>Link</th><th>Untuk</th></tr></thead>
+        <tbody>
+          <tr><td>MDN — JavaScript</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">developer.mozilla.org</a></td><td>Dokumentasi resmi</td></tr>
+          <tr><td>JavaScript.info</td><td><a href="https://javascript.info/" target="_blank">javascript.info</a></td><td>Tutorial JS modern lengkap</td></tr>
+          <tr><td>W3Schools ES6</td><td><a href="https://www.w3schools.com/js/js_es6.asp" target="_blank">w3schools.com/js/js_es6</a></td><td>Referensi fitur ES6</td></tr>
+          <tr><td>Array Methods</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank">MDN — Array</a></td><td>Semua method array</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 <strong style="color:rgba(255,255,255,.9);">MAPID Academy</strong> — WebGIS Development Bootcamp &nbsp;|&nbsp; <em>Code the Map, Decode the Future</em></p>
+    <p style="margin-top:.35rem; font-size:.78rem;">File ini mencakup materi Sesi 9 (Modern JavaScript / ES6+), lanjutan dari Sesi 7 &amp; 8.</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.code-block').forEach(function(codeBlock) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.innerText = '📋 Copy';
+      codeBlock.appendChild(btn);
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var tempNode = codeBlock.cloneNode(true);
+        var buttonInTemp = tempNode.querySelector('.copy-btn');
+        if (buttonInTemp) buttonInTemp.remove();
+        var textToCopy = tempNode.innerText;
+        navigator.clipboard.writeText(textToCopy).then(function() {
+          btn.innerText = '✅ Copied!';
+          setTimeout(function() { btn.innerText = '📋 Copy'; }, 2000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
