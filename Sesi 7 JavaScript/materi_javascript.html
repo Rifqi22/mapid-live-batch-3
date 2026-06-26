@@ -204,8 +204,8 @@
     <div class="links">
       <a href="../index.html" style="font-weight: bold; color: var(--putih);">🏠 Beranda</a>
       <a href="#dasar">Dasar JS</a>
-      <a href="#tipedata">Tipe Data</a>
       <a href="#variable">Variable</a>
+      <a href="#tipedata">Tipe Data</a>
       <a href="#operator">Operator</a>
       <a href="#percabangan">Percabangan</a>
       <a href="#perulangan">Perulangan</a>
@@ -299,95 +299,9 @@
     </section>
 
 
-    <!-- SECTION 2 — TIPE DATA -->
-    <section class="section-card" id="tipedata">
-      <h2>2. Tipe Data <span class="badge-sesi">Sesi 7</span></h2>
-
-      <p><strong>Tipe data</strong> adalah jenis nilai yang bisa disimpan dan digunakan dalam program. JavaScript memiliki beberapa tipe data dasar:</p>
-
-      <table>
-        <thead><tr><th>Tipe Data</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Number</strong></td><td>Angka (bulat maupun desimal)</td><td><code>42</code>, <code>3.14</code>, <code>-10</code></td></tr>
-          <tr><td><strong>String</strong></td><td>Teks (diapit tanda kutip)</td><td><code>"Halo"</code>, <code>'Jakarta'</code>, <code>`WebGIS`</code></td></tr>
-          <tr><td><strong>Boolean</strong></td><td>Nilai benar atau salah</td><td><code>true</code>, <code>false</code></td></tr>
-          <tr><td><strong>Null</strong></td><td>Sengaja dikosongkan (tidak ada nilai)</td><td><code>null</code></td></tr>
-          <tr><td><strong>Undefined</strong></td><td>Variabel yang belum diberi nilai</td><td><code>undefined</code></td></tr>
-          <tr><td><strong>Array</strong></td><td>Kumpulan data dalam satu variabel (berurutan)</td><td><code>[1, 2, 3]</code></td></tr>
-          <tr><td><strong>Object</strong></td><td>Data berpasangan key-value</td><td><code>{ nama: "Rifqi", umur: 21 }</code></td></tr>
-        </tbody>
-      </table>
-
-      <div class="code-block"><span class="cm">// === NUMBER ===</span>
-<span class="kw">const</span> umur <span class="op">=</span> <span class="num">21</span>;
-<span class="kw">const</span> suhu <span class="op">=</span> <span class="num">28.5</span>;
-<span class="kw">const</span> negatif <span class="op">=</span> <span class="num">-10</span>;
-
-<span class="cm">// === STRING ===</span>
-<span class="kw">const</span> nama <span class="op">=</span> <span class="str">"Rifqi"</span>;           <span class="cm">// petik dua</span>
-<span class="kw">const</span> kota <span class="op">=</span> <span class="str">'Jakarta'</span>;         <span class="cm">// petik satu</span>
-<span class="kw">const</span> pesan <span class="op">=</span> <span class="str">`Halo, ${nama}!`</span>;  <span class="cm">// template literal (backtick) — bisa sisipkan variabel!</span>
-
-<span class="cm">// === BOOLEAN ===</span>
-<span class="kw">const</span> sudahLulus <span class="op">=</span> <span class="num">true</span>;
-<span class="kw">const</span> hujan <span class="op">=</span> <span class="num">false</span>;
-
-<span class="cm">// === NULL vs UNDEFINED ===</span>
-<span class="kw">let</span> dataPeta <span class="op">=</span> <span class="num">null</span>;       <span class="cm">// sengaja dikosongkan (data belum diambil)</span>
-<span class="kw">let</span> koordinat;              <span class="cm">// undefined — belum diberi nilai sama sekali</span>
-
-<span class="cm">// === ARRAY ===</span>
-<span class="kw">const</span> transportasi <span class="op">=</span> [<span class="str">"Transjakarta"</span>, <span class="str">"MRT"</span>, <span class="str">"LRT"</span>, <span class="str">"KRL"</span>];
-<span class="kw">const</span> angka <span class="op">=</span> [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
-
-<span class="obj">console</span>.<span class="fn">log</span>(transportasi[<span class="num">0</span>]);  <span class="cm">// "Transjakarta" — index dimulai dari 0!</span>
-<span class="obj">console</span>.<span class="fn">log</span>(transportasi[<span class="num">3</span>]);  <span class="cm">// "KRL"</span>
-<span class="obj">console</span>.<span class="fn">log</span>(transportasi.<span class="prop">length</span>); <span class="cm">// 4 — jumlah item</span>
-
-<span class="cm">// === OBJECT ===</span>
-<span class="kw">const</span> mahasiswa <span class="op">=</span> {
-  nama: <span class="str">"Rifqi"</span>,
-  umur: <span class="num">21</span>,
-  jurusan: <span class="str">"Ilmu Informasi Geografi"</span>,
-  aktif: <span class="num">true</span>
-};
-
-<span class="obj">console</span>.<span class="fn">log</span>(mahasiswa.<span class="prop">nama</span>);     <span class="cm">// "Rifqi" — akses dengan titik (dot notation)</span>
-<span class="obj">console</span>.<span class="fn">log</span>(mahasiswa[<span class="str">"jurusan"</span>]); <span class="cm">// "Ilmu Informasi Geografi" — bracket notation</span></div>
-
-      <div class="output-box">
-        <div class="label">Output console:</div>
-        Transjakarta<br>KRL<br>4<br>Rifqi<br>Ilmu Informasi Geografi
-      </div>
-
-      <h3>Mengecek Tipe Data: typeof</h3>
-      <div class="code-block"><span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">42</span>);          <span class="cm">// "number"</span>
-<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="str">"Halo"</span>);      <span class="cm">// "string"</span>
-<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">true</span>);       <span class="cm">// "boolean"</span>
-<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">null</span>);       <span class="cm">// "object" ← ini bug lama JS, seharusnya "null"</span>
-<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">undefined</span>);  <span class="cm">// "undefined"</span>
-<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> [<span class="num">1</span>,<span class="num">2</span>]);      <span class="cm">// "object" ← array termasuk object di JS</span></div>
-
-      <h3>Template Literal (Backtick)</h3>
-      <p>Cara modern menyisipkan variabel ke dalam string — menggunakan backtick <code>`</code> dan <code>${}</code>:</p>
-      <div class="code-block"><span class="kw">const</span> nama <span class="op">=</span> <span class="str">"Rifqi"</span>;
-<span class="kw">const</span> umur <span class="op">=</span> <span class="num">21</span>;
-
-<span class="cm">// Cara lama: concatenation (+)</span>
-<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Nama saya "</span> <span class="op">+</span> nama <span class="op">+</span> <span class="str">", umur "</span> <span class="op">+</span> umur <span class="op">+</span> <span class="str">" tahun."</span>);
-
-<span class="cm">// Cara modern: template literal (lebih rapi!)</span>
-<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Nama saya ${nama}, umur ${umur} tahun.`</span>);</div>
-
-      <div class="info-box success">
-        ✅ <strong>Tips:</strong> Selalu gunakan <strong>template literal</strong> (backtick) untuk menggabungkan string dengan variabel. Lebih mudah dibaca dan tidak rawan error tanda kutip.
-      </div>
-    </section>
-
-
-    <!-- SECTION 3 — VARIABLE -->
+    <!-- SECTION 2 — VARIABLE -->
     <section class="section-card" id="variable">
-      <h2>3. Variable <span class="badge-sesi">Sesi 7</span></h2>
+      <h2>2. Variable <span class="badge-sesi">Sesi 7</span></h2>
 
       <p><strong>Variable</strong> adalah tempat menyimpan data. Seperti "kotak berlabel" yang berisi nilai tertentu.</p>
 
@@ -427,6 +341,142 @@ rute.<span class="fn">push</span>(<span class="str">"LRT"</span>);   <span class
 
       <div class="info-box">
         💡 <strong>Best practice:</strong> Default pakai <code>const</code>. Hanya pakai <code>let</code> kalau nilainya memang perlu diubah. Jangan pernah pakai <code>var</code>.
+      </div>
+    </section>
+
+
+    <!-- SECTION 3 — TIPE DATA -->
+    <section class="section-card" id="tipedata">
+      <h2>3. Tipe Data <span class="badge-sesi">Sesi 7</span></h2>
+
+      <p><strong>Tipe data</strong> adalah jenis nilai yang bisa disimpan dalam sebuah variable. Di JavaScript, tipe data dibagi menjadi <strong>2 kelompok besar</strong>:</p>
+
+      <table>
+        <thead><tr><th>Kelompok</th><th>Penjelasan</th><th>Termasuk</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Primitif</strong></td><td>Menyimpan <strong>satu nilai tunggal</strong>, sederhana</td><td>Number, String, Boolean, Null, Undefined</td></tr>
+          <tr><td><strong>Non-Primitif</strong><br>(Reference / Object)</td><td>Menyimpan <strong>banyak nilai</strong> / kumpulan data</td><td>Object, Array, Function</td></tr>
+        </tbody>
+      </table>
+
+      <!-- A. PRIMITIF -->
+      <h3>A. Tipe Data Primitif</h3>
+      <p>Tipe data dasar yang menyimpan <strong>satu nilai saja</strong>. Disimpan langsung berdasarkan <strong>nilainya</strong> (by value).</p>
+
+      <table>
+        <thead><tr><th>Tipe Data</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Number</strong></td><td>Angka (bulat maupun desimal)</td><td><code>42</code>, <code>3.14</code>, <code>-10</code></td></tr>
+          <tr><td><strong>String</strong></td><td>Teks (diapit tanda kutip)</td><td><code>"Halo"</code>, <code>'Jakarta'</code>, <code>`WebGIS`</code></td></tr>
+          <tr><td><strong>Boolean</strong></td><td>Nilai benar atau salah</td><td><code>true</code>, <code>false</code></td></tr>
+          <tr><td><strong>Null</strong></td><td>Sengaja dikosongkan (tidak ada nilai)</td><td><code>null</code></td></tr>
+          <tr><td><strong>Undefined</strong></td><td>Variabel yang belum diberi nilai</td><td><code>undefined</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// === NUMBER ===</span>
+<span class="kw">const</span> umur <span class="op">=</span> <span class="num">21</span>;
+<span class="kw">const</span> suhu <span class="op">=</span> <span class="num">28.5</span>;
+<span class="kw">const</span> negatif <span class="op">=</span> <span class="num">-10</span>;
+
+<span class="cm">// === STRING ===</span>
+<span class="kw">const</span> nama <span class="op">=</span> <span class="str">"Rifqi"</span>;           <span class="cm">// petik dua</span>
+<span class="kw">const</span> kota <span class="op">=</span> <span class="str">'Jakarta'</span>;         <span class="cm">// petik satu</span>
+<span class="kw">const</span> pesan <span class="op">=</span> <span class="str">`Halo, ${nama}!`</span>;  <span class="cm">// template literal (backtick) — bisa sisipkan variabel!</span>
+
+<span class="cm">// === BOOLEAN ===</span>
+<span class="kw">const</span> sudahLulus <span class="op">=</span> <span class="num">true</span>;
+<span class="kw">const</span> hujan <span class="op">=</span> <span class="num">false</span>;
+
+<span class="cm">// === NULL vs UNDEFINED ===</span>
+<span class="kw">let</span> dataPeta <span class="op">=</span> <span class="num">null</span>;       <span class="cm">// sengaja dikosongkan (data belum diambil)</span>
+<span class="kw">let</span> koordinat;              <span class="cm">// undefined — belum diberi nilai sama sekali</span></div>
+
+      <div class="info-box">
+        📌 <strong>Catatan:</strong> Sebenarnya ada 2 tipe primitif lain yang jarang dipakai pemula: <strong>BigInt</strong> (angka sangat besar) dan <strong>Symbol</strong> (nilai unik). Untuk sekarang, cukup fokus pada 5 tipe di atas.
+      </div>
+
+      <!-- B. NON-PRIMITIF -->
+      <h3>B. Tipe Data Non-Primitif (Object / Reference)</h3>
+      <p>Tipe data yang bisa menyimpan <strong>banyak nilai sekaligus</strong>. Disimpan berdasarkan <strong>referensi/alamat memori</strong> (by reference), bukan nilainya langsung.</p>
+
+      <table>
+        <thead><tr><th>Tipe Data</th><th>Penjelasan</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Array</strong></td><td>Kumpulan data berurutan (pakai index)</td><td><code>[1, 2, 3]</code></td></tr>
+          <tr><td><strong>Object</strong></td><td>Data berpasangan key-value</td><td><code>{ nama: "Rifqi", umur: 21 }</code></td></tr>
+          <tr><td><strong>Function</strong></td><td>Blok kode yang bisa dipanggil</td><td><code>function() {}</code>, <code>() =&gt; {}</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cm">// === ARRAY === (kumpulan data berurutan)</span>
+<span class="kw">const</span> transportasi <span class="op">=</span> [<span class="str">"Transjakarta"</span>, <span class="str">"MRT"</span>, <span class="str">"LRT"</span>, <span class="str">"KRL"</span>];
+<span class="kw">const</span> angka <span class="op">=</span> [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+
+<span class="obj">console</span>.<span class="fn">log</span>(transportasi[<span class="num">0</span>]);  <span class="cm">// "Transjakarta" — index dimulai dari 0!</span>
+<span class="obj">console</span>.<span class="fn">log</span>(transportasi[<span class="num">3</span>]);  <span class="cm">// "KRL"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(transportasi.<span class="prop">length</span>); <span class="cm">// 4 — jumlah item</span>
+
+<span class="cm">// === OBJECT === (data key-value)</span>
+<span class="kw">const</span> mahasiswa <span class="op">=</span> {
+  nama: <span class="str">"Rifqi"</span>,
+  umur: <span class="num">21</span>,
+  jurusan: <span class="str">"Ilmu Informasi Geografi"</span>,
+  aktif: <span class="num">true</span>
+};
+
+<span class="obj">console</span>.<span class="fn">log</span>(mahasiswa.<span class="prop">nama</span>);     <span class="cm">// "Rifqi" — akses dengan titik (dot notation)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(mahasiswa[<span class="str">"jurusan"</span>]); <span class="cm">// "Ilmu Informasi Geografi" — bracket notation</span></div>
+
+      <div class="output-box">
+        <div class="label">Output console:</div>
+        Transjakarta<br>KRL<br>4<br>Rifqi<br>Ilmu Informasi Geografi
+      </div>
+
+      <!-- Perbedaan by value vs by reference -->
+      <h3>Perbedaan Penting: by Value vs by Reference</h3>
+      <p>Inilah beda utama kedua kelompok. Primitif disalin <strong>nilainya</strong>, non-primitif disalin <strong>referensinya</strong>:</p>
+      <div class="code-block"><span class="cm">// PRIMITIF — disalin berdasarkan NILAI (by value)</span>
+<span class="kw">let</span> a <span class="op">=</span> <span class="num">10</span>;
+<span class="kw">let</span> b <span class="op">=</span> a;       <span class="cm">// b menyalin NILAI dari a (10)</span>
+b <span class="op">=</span> <span class="num">20</span>;
+<span class="obj">console</span>.<span class="fn">log</span>(a);   <span class="cm">// 10 — a TIDAK ikut berubah</span>
+<span class="obj">console</span>.<span class="fn">log</span>(b);   <span class="cm">// 20</span>
+
+<span class="cm">// NON-PRIMITIF — disalin berdasarkan REFERENSI (by reference)</span>
+<span class="kw">let</span> arr1 <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+<span class="kw">let</span> arr2 <span class="op">=</span> arr1;   <span class="cm">// arr2 menunjuk ke array yang SAMA</span>
+arr2.<span class="fn">push</span>(<span class="num">4</span>);
+<span class="obj">console</span>.<span class="fn">log</span>(arr1); <span class="cm">// [1, 2, 3, 4] — arr1 IKUT berubah!</span>
+<span class="obj">console</span>.<span class="fn">log</span>(arr2); <span class="cm">// [1, 2, 3, 4]</span></div>
+
+      <div class="info-box warning">
+        ⚠️ <strong>Hati-hati:</strong> Karena non-primitif disimpan by reference, menyalin array/object dengan <code>=</code> tidak membuat salinan baru — keduanya menunjuk data yang sama. (Cara menyalin yang benar akan dipelajari di Modern JavaScript dengan spread operator <code>[...arr]</code>.)
+      </div>
+
+      <!-- typeof -->
+      <h3>Mengecek Tipe Data: typeof</h3>
+      <div class="code-block"><span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">42</span>);          <span class="cm">// "number"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="str">"Halo"</span>);      <span class="cm">// "string"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">true</span>);       <span class="cm">// "boolean"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">null</span>);       <span class="cm">// "object" ← ini bug lama JS, seharusnya "null"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">undefined</span>);  <span class="cm">// "undefined"</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> [<span class="num">1</span>,<span class="num">2</span>]);      <span class="cm">// "object" ← array termasuk object di JS</span></div>
+
+      <!-- Template Literal -->
+      <h3>Template Literal (Backtick)</h3>
+      <p>Cara modern menyisipkan variabel ke dalam string — menggunakan backtick <code>`</code> dan <code>${}</code>:</p>
+      <div class="code-block"><span class="kw">const</span> nama <span class="op">=</span> <span class="str">"Rifqi"</span>;
+<span class="kw">const</span> umur <span class="op">=</span> <span class="num">21</span>;
+
+<span class="cm">// Cara lama: concatenation (+)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">"Nama saya "</span> <span class="op">+</span> nama <span class="op">+</span> <span class="str">", umur "</span> <span class="op">+</span> umur <span class="op">+</span> <span class="str">" tahun."</span>);
+
+<span class="cm">// Cara modern: template literal (lebih rapi!)</span>
+<span class="obj">console</span>.<span class="fn">log</span>(<span class="str">`Nama saya ${nama}, umur ${umur} tahun.`</span>);</div>
+
+      <div class="info-box success">
+        ✅ <strong>Tips:</strong> Selalu gunakan <strong>template literal</strong> (backtick) untuk menggabungkan string dengan variabel. Lebih mudah dibaca dan tidak rawan error tanda kutip.
       </div>
     </section>
 
